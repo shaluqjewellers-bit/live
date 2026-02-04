@@ -347,7 +347,8 @@ body::before{
       <span class="sep">•</span>
       <span id="marketETA">--</span>
       <span class="sep">•</span>
-      <span id="clock">--:-- UAE</span>
+      <!-- ONLY CHANGE: added USA + London labels -->
+      <span id="clock">--:-- UAE • --:-- USA • --:-- LON</span>
     </div>
   </div>
 </div>
@@ -411,12 +412,27 @@ function getDubaiDate(){
   return new Date(utc + (4 * 60 * 60000));
 }
 
-/* ===== Clock (Dubai time) ===== */
+/* ===== Clock (Dubai + USA(New York) + London) ===== */
 function tickClock(){
-  const d=getDubaiDate();
-  const hh=String(d.getHours()).padStart(2,"0");
-  const mm=String(d.getMinutes()).padStart(2,"0");
-  document.getElementById("clock").textContent = `${hh}:${mm} UAE`;
+  const now = new Date();
+
+  // UAE (Dubai)
+  const d = getDubaiDate();
+  const hh = String(d.getHours()).padStart(2,"0");
+  const mm = String(d.getMinutes()).padStart(2,"0");
+
+  // USA (New York) - auto handles DST
+  const ny = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
+  const nyhh = String(ny.getHours()).padStart(2,"0");
+  const nymm = String(ny.getMinutes()).padStart(2,"0");
+
+  // London - auto handles DST
+  const lon = new Date(now.toLocaleString("en-GB", { timeZone: "Europe/London" }));
+  const lonhh = String(lon.getHours()).padStart(2,"0");
+  const lonmm = String(lon.getMinutes()).padStart(2,"0");
+
+  document.getElementById("clock").textContent =
+    `${hh}:${mm} UAE • ${nyhh}:${nymm} USA • ${lonhh}:${lonmm} LON`;
 }
 tickClock();
 setInterval(tickClock, 10000);
@@ -551,5 +567,3 @@ setInterval(loadGoldHeadlines, 10 * 60 * 1000);
 
 </body>
 </html>
-
-
