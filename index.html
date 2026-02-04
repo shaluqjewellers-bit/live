@@ -41,7 +41,6 @@ body{
 
 /* =========================================================
    ✅ (A) SUBTLE GOLD AMBIENT GLOW (BACKGROUND)
-   Very soft, slow, luxury showroom feel
    ========================================================= */
 body::before{
   content:"";
@@ -64,7 +63,7 @@ body::before{
 }
 
 /* Put all content above the ambient glow */
-.hero, .divider, .rates, .ticker { position:relative; z-index:1; }
+.hero, .divider, .rates, .news-bar, .ticker { position:relative; z-index:1; }
 
 /* ===== HEADER ===== */
 .hero{
@@ -108,13 +107,10 @@ body::before{
   animation:goldFlow 10s linear infinite;
   position:relative;
   display:inline-block;
-  overflow:hidden; /* so the micro-shine stays clean */
+  overflow:hidden;
 }
 
-/* =========================================================
-   ✅ (B) MICRO-SHINE ON BRAND NAME (ULTRA SLOW)
-   A gentle sweep once every ~25s (Rolex-style)
-   ========================================================= */
+/* ===== Micro-shine sweep ===== */
 .brand-name::after{
   content:"";
   position:absolute;
@@ -168,9 +164,7 @@ body::before{
 }
 .sep{opacity:.45}
 
-/* =========================================================
-   ✅ (C) ELEGANT DIVIDER LINE (BETWEEN HEADER & RATES)
-   ========================================================= */
+/* ===== Divider ===== */
 .divider{
   height:2px;
   width:min(1280px, 92vw);
@@ -211,7 +205,7 @@ body::before{
   border-bottom:1px solid var(--border);
 }
 
-/* ===== TV WIDGET ALIGNMENT (KEEP SAME) ===== */
+/* ===== TV WIDGET ALIGNMENT ===== */
 .tv-box{position:relative;height:calc(100% - 52px)}
 .tv-inner{position:absolute;inset:0}
 .tv-inner iframe{
@@ -224,6 +218,37 @@ body::before{
   border:0;
 }
 
+/* =========================================================
+   ✅ GOLD NEWS BAR (ABOVE TICKER)
+   ========================================================= */
+.news-bar{
+  position:fixed;
+  left:0; right:0;
+  bottom:64px;               /* sits right above the ticker */
+  padding:10px 14px 8px;
+  background:rgba(0,0,0,.35);
+  border-top:1px solid rgba(255,179,0,.12);
+  backdrop-filter: blur(10px);
+}
+.news-title{
+  text-align:center;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:2px;
+  color:var(--gold);
+  text-shadow:0 0 10px rgba(255,179,0,.35);
+  margin-bottom:8px;
+}
+.news-box{
+  max-width:1700px;
+  margin:0 auto;
+  height:120px;
+  background:rgba(0,0,0,.45);
+  border:1px solid rgba(255,179,0,.25);
+  border-radius:14px;
+  overflow:hidden;
+}
+
 /* ===== TICKER ===== */
 .ticker{
   position:fixed;bottom:0;left:0;right:0;
@@ -234,7 +259,7 @@ body::before{
 .marquee{display:flex;width:100%;overflow:hidden}
 .marquee-group{
   display:flex;gap:50px;white-space:nowrap;
-  animation:scroll 200s linear infinite; /* slow */
+  animation:scroll 200s linear infinite;
 }
 .item{font-size:18px;font-weight:700;display:flex;gap:12px;align-items:center}
 .badge{
@@ -249,17 +274,15 @@ body::before{
 @keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
 @keyframes shine{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
 @keyframes goldFlow{0%{background-position:0%}100%{background-position:300%}}
+@keyframes brandSweep{0%{left:-75%;opacity:0}8%{opacity:.65}18%{left:120%;opacity:0}100%{left:120%;opacity:0}}
 
 @media(max-width:1100px){
   .rates{grid-template-columns:1fr}
   .brand-name{font-size:44px}
 }
 
-/* =========================================================
-   ✅ MOBILE OPTIMIZATION (REMOVE BIG GAP) - unchanged
-   ========================================================= */
+/* ===== MOBILE OPTIMIZATION ===== */
 @media (max-width: 768px){
-
   body{ overflow-y:auto; }
 
   .hero{ padding:16px 10px 12px; }
@@ -281,10 +304,9 @@ body::before{
   }
   .dot{ width:12px; height:12px; }
 
-  /* stack + tighter spacing */
   .rates{
     grid-template-columns:1fr;
-    margin:12px auto 78px;
+    margin:12px auto 170px; /* leave space for news + ticker */
     padding:10px;
     gap:12px;
   }
@@ -295,6 +317,10 @@ body::before{
   .tv-inner iframe{
     transform:translate(-50%,-50%) scale(1.00)!important;
   }
+
+  .news-bar{ bottom:54px; }
+  .news-box{ height:100px; }
+  .news-title{ font-size:12px; }
 
   .ticker{ height:54px; }
   .item{ font-size:14px; }
@@ -328,7 +354,7 @@ body::before{
   </div>
 </div>
 
-<!-- ✅ Elegant Divider Line -->
+<!-- Divider -->
 <div class="divider"></div>
 
 <!-- RATES -->
@@ -344,16 +370,24 @@ body::before{
   </div>
 </div>
 
+<!-- ✅ GOLD NEWS (ABOVE TICKER) -->
+<div class="news-bar">
+  <div class="news-title">GOLD MARKET NEWS</div>
+  <div class="news-box">
+    <div id="goldNews"></div>
+  </div>
+</div>
+
 <!-- TICKER -->
 <div class="ticker">
   <div class="marquee">
     <div class="marquee-group" id="g1">
-      <div class="item"><span class="badge">DUBAI</span> Office M02, Saeed Mohammed Building, Deira Gold Souk Dubai</div>
+      <div class="item"><span class="badge">DUBAI</span> Office M02, Saeed Mohammed Building, Deira Gold Souk</div>
       <div class="item"><span class="badge">CALL</span> +971 54 786 9940</div>
       <div class="item"><span class="badge">VISIT</span> www.shaluqjewellers.com</div>
-      <div class="item"><span class="badge">FUJAIRAH</span> (Retail Store) Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
+      <div class="item"><span class="badge">FUJAIRAH</span> (Retail Store) Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank</div>
       <div class="item"><span class="badge">CONTACT</span> +971 92 439 539</div>
-      <div class="item"><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
+      <div class="item"><span class="badge">SHALUQ</span> Where Luxury Meets Affection</div>
     </div>
 
     <div class="marquee-group" id="g2"></div>
@@ -375,7 +409,25 @@ function addTV(symbol,id){
 addTV("OANDA:XAUUSD","gold");
 addTV("OANDA:XAGUSD","silver");
 
-/* ===== Dubai time helper (GST = UTC+4) ===== */
+/* ===== TradingView Gold News (Timeline Widget) ===== */
+(function(){
+  const s = document.createElement("script");
+  s.src = "https://s3.tradingview.com/external-embedding/embed-widget-timeline.js";
+  s.async = true;
+  s.innerHTML = JSON.stringify({
+    feedMode: "symbol",
+    symbol: "OANDA:XAUUSD",
+    colorTheme: "dark",
+    isTransparent: true,
+    displayMode: "regular",
+    width: "100%",
+    height: "120",
+    locale: "en"
+  });
+  document.getElementById("goldNews").appendChild(s);
+})();
+
+/* ===== Dubai time helper (UAE = UTC+4) ===== */
 function getDubaiDate(){
   const now = new Date();
   const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
@@ -393,8 +445,8 @@ tickClock();
 setInterval(tickClock, 10000);
 
 /* ===== Dubai winter market hours:
-   OPEN 03:00 GST
-   CLOSE 01:00 GST (next day)
+   OPEN 03:00 UAE
+   CLOSE 01:00 UAE (next day)
    Closed only 01:00–03:00
 */
 function updateDubaiMarket(){
@@ -441,6 +493,3 @@ setInterval(updateDubaiMarket, 60000);
 
 </body>
 </html>
-
-
-
