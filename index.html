@@ -34,8 +34,6 @@ body{
   background:radial-gradient(1200px 600px at 50% 0%,#0b1633 0%,var(--bg) 55%,#02030a 100%);
   color:#fff;
   font-family:"ClarityCity",Arial,sans-serif;
-
-  /* ✅ TV stays clean, mobile can scroll */
   overflow-x:hidden;
   overflow-y:hidden;
 }
@@ -175,36 +173,21 @@ body{
 }
 
 /* =========================================================
-   ✅ MOBILE OPTIMIZATION (ONLY ADDITION)
-   - allow scroll
-   - stack cards
-   - smaller header & pill
-   - remove heavy zoom/crop on widgets for phones
+   ✅ MOBILE OPTIMIZATION (UPDATED to REMOVE BIG GAP)
+   Only change: reduce card + widget heights and spacing
    ========================================================= */
 @media (max-width: 768px){
 
-  /* allow vertical scroll on mobile */
-  body{
-    overflow-y:auto;
-  }
+  body{ overflow-y:auto; }
 
-  /* header smaller */
   .hero{ padding:16px 10px 12px; }
   .hero-inner{ gap:12px; }
-
   .logo-wrap{ width:72px; height:72px; border-radius:18px; }
   .logo-wrap img{ width:52px; }
 
-  .brand-name{
-    font-size:30px;
-    letter-spacing:3px;
-  }
-  .brand-sub{
-    font-size:14px;
-    margin-top:6px;
-  }
+  .brand-name{ font-size:30px; letter-spacing:3px; }
+  .brand-sub{ font-size:14px; margin-top:6px; }
 
-  /* market pill smaller + wrap */
   .marketpill{
     font-size:14px;
     padding:10px 14px;
@@ -216,23 +199,23 @@ body{
   }
   .dot{ width:12px; height:12px; }
 
-  /* stack gold and silver */
+  /* stack + tighter spacing */
   .rates{
     grid-template-columns:1fr;
-    margin:12px auto 88px;
+    margin:12px auto 78px;   /* smaller bottom gap */
     padding:10px;
+    gap:12px;                /* tighter between gold & silver */
   }
 
-  /* smaller cards */
-  .card{ min-height:520px; }
-  .tv-box{ height:460px; }
+  /* ✅ KEY FIX: reduce height so no empty space */
+  .card{ min-height:auto; }  /* remove forced height */
+  .tv-box{ height:330px; }   /* was 460px -> big empty gap */
 
-  /* IMPORTANT: make widget fit on phone (no crop) */
+  /* widget fit for mobile */
   .tv-inner iframe{
     transform:translate(-50%,-50%) scale(1.00)!important;
   }
 
-  /* ticker smaller on mobile */
   .ticker{ height:54px; }
   .item{ font-size:14px; }
   .badge{ padding:5px 10px; border-radius:14px; }
@@ -338,18 +321,14 @@ function updateDubaiMarket(){
 
   let isOpen, diffMinutes;
 
-  // closed window: 01:00–03:00
   if (h >= 1 && h < 3){
     isOpen = false;
-    diffMinutes = ((3 - h) * 60) - m; // until 03:00
+    diffMinutes = ((3 - h) * 60) - m;
   } else {
     isOpen = true;
-
-    // if 03:00–23:59 -> close at 01:00 next day
     if (h >= 3){
-      diffMinutes = ((25 - h) * 60) - m; // until 01:00 next day
+      diffMinutes = ((25 - h) * 60) - m;
     } else {
-      // 00:00–00:59 -> close at 01:00 same day
       diffMinutes = (60 - m);
     }
   }
