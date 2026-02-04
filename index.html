@@ -12,7 +12,7 @@
 @font-face{font-family:"ClarityCity";src:url("ClarityCity-SemiBold.ttf") format("truetype");font-weight:600}
 @font-face{font-family:"ClarityCity";src:url("ClarityCity-Bold.ttf") format("truetype");font-weight:800}
 
-/* ✅ FIX: keep global CSS INSIDE <style> only */
+/* ===== GLOBAL RESET ===== */
 html, body{
   width:100%;
   height:100%;
@@ -34,7 +34,10 @@ body{
   background:radial-gradient(1200px 600px at 50% 0%,#0b1633 0%,var(--bg) 55%,#02030a 100%);
   color:#fff;
   font-family:"ClarityCity",Arial,sans-serif;
-  overflow:hidden;
+
+  /* ✅ TV stays clean, mobile can scroll */
+  overflow-x:hidden;
+  overflow-y:hidden;
 }
 
 /* ===== HEADER ===== */
@@ -84,7 +87,7 @@ body{
   color:#cfd8ff;
 }
 
-/* ===== MARKET BAR (BIG) ===== */
+/* ===== MARKET BAR ===== */
 .marketbar{display:flex;justify-content:center;margin-top:12px}
 .marketpill{
   display:flex;align-items:center;gap:16px;
@@ -127,7 +130,7 @@ body{
   border-bottom:1px solid var(--border);
 }
 
-/* ===== TV WIDGET ALIGNMENT ===== */
+/* ===== TV WIDGET ALIGNMENT (KEEP SAME) ===== */
 .tv-box{position:relative;height:calc(100% - 52px)}
 .tv-inner{position:absolute;inset:0}
 .tv-inner iframe{
@@ -135,7 +138,9 @@ body{
   left:50%!important;
   top:50%!important;
   transform:translate(calc(-50% + 80px), calc(-50% + 40px)) scale(1.10)!important;
-  width:100%!important;height:100%!important;border:0;
+  width:100%!important;
+  height:100%!important;
+  border:0;
 }
 
 /* ===== TICKER ===== */
@@ -148,7 +153,7 @@ body{
 .marquee{display:flex;width:100%;overflow:hidden}
 .marquee-group{
   display:flex;gap:50px;white-space:nowrap;
-  animation:scroll 200s linear infinite; /* slower */
+  animation:scroll 200s linear infinite; /* slow */
 }
 .item{font-size:18px;font-weight:700;display:flex;gap:12px;align-items:center}
 .badge{
@@ -168,11 +173,76 @@ body{
   .rates{grid-template-columns:1fr}
   .brand-name{font-size:44px}
 }
+
+/* =========================================================
+   ✅ MOBILE OPTIMIZATION (ONLY ADDITION)
+   - allow scroll
+   - stack cards
+   - smaller header & pill
+   - remove heavy zoom/crop on widgets for phones
+   ========================================================= */
+@media (max-width: 768px){
+
+  /* allow vertical scroll on mobile */
+  body{
+    overflow-y:auto;
+  }
+
+  /* header smaller */
+  .hero{ padding:16px 10px 12px; }
+  .hero-inner{ gap:12px; }
+
+  .logo-wrap{ width:72px; height:72px; border-radius:18px; }
+  .logo-wrap img{ width:52px; }
+
+  .brand-name{
+    font-size:30px;
+    letter-spacing:3px;
+  }
+  .brand-sub{
+    font-size:14px;
+    margin-top:6px;
+  }
+
+  /* market pill smaller + wrap */
+  .marketpill{
+    font-size:14px;
+    padding:10px 14px;
+    gap:10px;
+    max-width:95vw;
+    flex-wrap:wrap;
+    justify-content:center;
+    text-align:center;
+  }
+  .dot{ width:12px; height:12px; }
+
+  /* stack gold and silver */
+  .rates{
+    grid-template-columns:1fr;
+    margin:12px auto 88px;
+    padding:10px;
+  }
+
+  /* smaller cards */
+  .card{ min-height:520px; }
+  .tv-box{ height:460px; }
+
+  /* IMPORTANT: make widget fit on phone (no crop) */
+  .tv-inner iframe{
+    transform:translate(-50%,-50%) scale(1.00)!important;
+  }
+
+  /* ticker smaller on mobile */
+  .ticker{ height:54px; }
+  .item{ font-size:14px; }
+  .badge{ padding:5px 10px; border-radius:14px; }
+}
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
 <div class="hero">
   <div class="hero-inner">
     <div class="logo-wrap"><img src="logo.png" alt="Logo"></div>
@@ -182,6 +252,7 @@ body{
     </div>
   </div>
 
+  <!-- Market Countdown Pill -->
   <div class="marketbar">
     <div class="marketpill">
       <span class="dot" id="statusDot"></span>
@@ -194,6 +265,7 @@ body{
   </div>
 </div>
 
+<!-- RATES -->
 <div class="rates">
   <div class="card">
     <div class="card-title">GOLD (XAUUSD)</div>
@@ -206,6 +278,7 @@ body{
   </div>
 </div>
 
+<!-- TICKER -->
 <div class="ticker">
   <div class="marquee">
     <div class="marquee-group" id="g1">
@@ -216,6 +289,7 @@ body{
       <div class="item"><span class="badge">CONTACT</span> +971 92 439 539</div>
       <div class="item"><span class="badge">SHALUQ</span> Where Luxury Meets Affection</div>
     </div>
+
     <div class="marquee-group" id="g2"></div>
   </div>
 </div>
@@ -235,14 +309,14 @@ function addTV(symbol,id){
 addTV("OANDA:XAUUSD","gold");
 addTV("OANDA:XAGUSD","silver");
 
-/* ===== Dubai time (GST = UTC+4) ===== */
+/* ===== Dubai time helper (GST = UTC+4) ===== */
 function getDubaiDate(){
   const now = new Date();
   const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
   return new Date(utc + (4 * 60 * 60000));
 }
 
-/* ===== Clock ===== */
+/* ===== Clock (Dubai time) ===== */
 function tickClock(){
   const d=getDubaiDate();
   const hh=String(d.getHours()).padStart(2,"0");
@@ -252,10 +326,10 @@ function tickClock(){
 tickClock();
 setInterval(tickClock, 10000);
 
-/* ===== Dubai winter market hours =====
-OPEN 03:00 GST
-CLOSE 01:00 GST (next day)
-Closed only 01:00–03:00
+/* ===== Dubai winter market hours:
+   OPEN 03:00 GST
+   CLOSE 01:00 GST (next day)
+   Closed only 01:00–03:00
 */
 function updateDubaiMarket(){
   const d = getDubaiDate();
@@ -264,39 +338,41 @@ function updateDubaiMarket(){
 
   let isOpen, diffMinutes;
 
+  // closed window: 01:00–03:00
   if (h >= 1 && h < 3){
     isOpen = false;
     diffMinutes = ((3 - h) * 60) - m; // until 03:00
   } else {
     isOpen = true;
 
+    // if 03:00–23:59 -> close at 01:00 next day
     if (h >= 3){
       diffMinutes = ((25 - h) * 60) - m; // until 01:00 next day
     } else {
-      diffMinutes = (60 - m); // 00:00–00:59 -> until 01:00
+      // 00:00–00:59 -> close at 01:00 same day
+      diffMinutes = (60 - m);
     }
   }
 
   const hrs = Math.floor(diffMinutes / 60);
   const mins = diffMinutes % 60;
 
-  const topEl = document.getElementById("marketTop");
-  const etaEl = document.getElementById("marketETA");
-  const dotEl = document.getElementById("statusDot");
+  const top = document.getElementById("marketTop");
+  const eta = document.getElementById("marketETA");
+  const dot = document.getElementById("statusDot");
 
   if (isOpen){
-    topEl.textContent = "Market Open";
-    etaEl.textContent = `Closes in ${hrs}h ${mins}m`;
-    dotEl.style.background = "var(--open)";
-    dotEl.style.boxShadow = "0 0 12px var(--open)";
+    top.textContent = "Market Open";
+    eta.textContent = `Closes in ${hrs}h ${mins}m`;
+    dot.style.background = "var(--open)";
+    dot.style.boxShadow = "0 0 12px var(--open)";
   } else {
-    topEl.textContent = "Market Closed";
-    etaEl.textContent = `Opens in ${hrs}h ${mins}m`;
-    dotEl.style.background = "var(--closed)";
-    dotEl.style.boxShadow = "0 0 12px var(--closed)";
+    top.textContent = "Market Closed";
+    eta.textContent = `Opens in ${hrs}h ${mins}m`;
+    dot.style.background = "var(--closed)";
+    dot.style.boxShadow = "0 0 12px var(--closed)";
   }
 }
-
 updateDubaiMarket();
 setInterval(updateDubaiMarket, 60000);
 </script>
