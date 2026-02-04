@@ -36,7 +36,35 @@ body{
   font-family:"ClarityCity",Arial,sans-serif;
   overflow-x:hidden;
   overflow-y:hidden;
+  position:relative;
 }
+
+/* =========================================================
+   ✅ (A) SUBTLE GOLD AMBIENT GLOW (BACKGROUND)
+   Very soft, slow, luxury showroom feel
+   ========================================================= */
+body::before{
+  content:"";
+  position:fixed;
+  inset:-20%;
+  pointer-events:none;
+  z-index:0;
+  opacity:.28;
+  filter: blur(35px);
+  background:
+    radial-gradient(900px 420px at 20% 15%, rgba(255,179,0,.22), transparent 62%),
+    radial-gradient(1000px 520px at 85% 25%, rgba(255,211,106,.16), transparent 70%),
+    radial-gradient(850px 480px at 55% 85%, rgba(255,179,0,.12), transparent 70%);
+  animation:ambientGlow 34s ease-in-out infinite;
+}
+@keyframes ambientGlow{
+  0%   { transform:translate3d(-1.5%, -1.5%, 0) scale(1.02); opacity:.22; }
+  50%  { transform:translate3d( 1.5%,  1.0%, 0) scale(1.06); opacity:.32; }
+  100% { transform:translate3d(-1.5%, -1.5%, 0) scale(1.02); opacity:.22; }
+}
+
+/* Put all content above the ambient glow */
+.hero, .divider, .rates, .ticker { position:relative; z-index:1; }
 
 /* ===== HEADER ===== */
 .hero{
@@ -78,7 +106,43 @@ body{
   -webkit-background-clip:text;
   text-shadow:0 0 18px rgba(255,179,0,.45), 0 0 35px rgba(255,179,0,.25);
   animation:goldFlow 10s linear infinite;
+  position:relative;
+  display:inline-block;
+  overflow:hidden; /* so the micro-shine stays clean */
 }
+
+/* =========================================================
+   ✅ (B) MICRO-SHINE ON BRAND NAME (ULTRA SLOW)
+   A gentle sweep once every ~25s (Rolex-style)
+   ========================================================= */
+.brand-name::after{
+  content:"";
+  position:absolute;
+  top:-25%;
+  left:-70%;
+  width:55%;
+  height:160%;
+  pointer-events:none;
+  transform:skewX(-18deg);
+  background:linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,.22) 35%,
+    rgba(255,255,255,.55) 50%,
+    rgba(255,255,255,.22) 65%,
+    rgba(255,255,255,0) 100%
+  );
+  mix-blend-mode:screen;
+  opacity:.65;
+  animation:brandSweep 25s ease-in-out infinite;
+}
+@keyframes brandSweep{
+  0%   { left:-75%; opacity:0; }
+  8%   { opacity:.65; }
+  18%  { left:120%; opacity:0; }
+  100% { left:120%; opacity:0; }
+}
+
 .brand-sub{
   margin-top:10px;
   font-size:18px;
@@ -103,6 +167,25 @@ body{
   animation:blink 1.4s infinite;
 }
 .sep{opacity:.45}
+
+/* =========================================================
+   ✅ (C) ELEGANT DIVIDER LINE (BETWEEN HEADER & RATES)
+   ========================================================= */
+.divider{
+  height:2px;
+  width:min(1280px, 92vw);
+  margin:10px auto 0;
+  border-radius:999px;
+  background:linear-gradient(90deg,
+    rgba(255,179,0,0) 0%,
+    rgba(255,211,106,.35) 15%,
+    rgba(255,179,0,.75) 50%,
+    rgba(255,211,106,.35) 85%,
+    rgba(255,179,0,0) 100%
+  );
+  box-shadow:0 0 22px rgba(255,179,0,.14);
+  opacity:.9;
+}
 
 /* ===== GRID ===== */
 .rates{
@@ -173,8 +256,7 @@ body{
 }
 
 /* =========================================================
-   ✅ MOBILE OPTIMIZATION (UPDATED to REMOVE BIG GAP)
-   Only change: reduce card + widget heights and spacing
+   ✅ MOBILE OPTIMIZATION (REMOVE BIG GAP) - unchanged
    ========================================================= */
 @media (max-width: 768px){
 
@@ -202,16 +284,14 @@ body{
   /* stack + tighter spacing */
   .rates{
     grid-template-columns:1fr;
-    margin:12px auto 78px;   /* smaller bottom gap */
+    margin:12px auto 78px;
     padding:10px;
-    gap:12px;                /* tighter between gold & silver */
+    gap:12px;
   }
 
-  /* ✅ KEY FIX: reduce height so no empty space */
-  .card{ min-height:auto; }  /* remove forced height */
-  .tv-box{ height:330px; }   /* was 460px -> big empty gap */
+  .card{ min-height:auto; }
+  .tv-box{ height:330px; }
 
-  /* widget fit for mobile */
   .tv-inner iframe{
     transform:translate(-50%,-50%) scale(1.00)!important;
   }
@@ -247,6 +327,9 @@ body{
     </div>
   </div>
 </div>
+
+<!-- ✅ Elegant Divider Line -->
+<div class="divider"></div>
 
 <!-- RATES -->
 <div class="rates">
