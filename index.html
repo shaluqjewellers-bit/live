@@ -211,6 +211,24 @@ body::before{
   border:0;
 }
 
+/* ===== CLOSED OVERLAY (shows when market closed) ===== */
+.closed-overlay{
+  position:absolute;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:.5px;
+  color:rgba(255,255,255,.92);
+  background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.72));
+  border-top:1px solid rgba(255,179,0,.18);
+}
+.market-closed .tv-inner{ display:none; }
+.market-closed .closed-overlay{ display:flex; }
+
 /* ===== TICKER (NEWS + INFO IN SAME BAR) ===== */
 .ticker{
   position:fixed;bottom:0;left:0;right:0;
@@ -318,12 +336,18 @@ body::before{
 <div class="rates">
   <div class="card">
     <div class="card-title">GOLD (XAUUSD)</div>
-    <div class="tv-box"><div class="tv-inner"><div id="gold"></div></div></div>
+    <div class="tv-box">
+      <div class="closed-overlay">Market Closed</div>
+      <div class="tv-inner"><div id="gold"></div></div>
+    </div>
   </div>
 
   <div class="card">
     <div class="card-title">SILVER (XAGUSD)</div>
-    <div class="tv-box"><div class="tv-inner"><div id="silver"></div></div></div>
+    <div class="tv-box">
+      <div class="closed-overlay">Market Closed</div>
+      <div class="tv-inner"><div id="silver"></div></div>
+    </div>
   </div>
 </div>
 
@@ -376,47 +400,88 @@ function tickClock(){
 tickClock();
 setInterval(tickClock, 10000);
 
-/* ===== Dubai winter market hours:
-   OPEN 03:00 UAE
-   CLOSE 01:00 UAE (next day)
-   Closed only 01:00–03:00
+/* ===== MARKET HOURS (Dubai time)
+   Open: 03:00
+   Close: 02:00 (next day)
+   Daily gap: 02:00–03:00 CLOSED
+   Weekend closure: Saturday 02:00 → Sunday 03:00 CLOSED
 */
 function updateDubaiMarket(){
   const d = getDubaiDate();
+  const day = d.getDay(); // 0=Sun, 6=Sat
   const h = d.getHours();
   const m = d.getMinutes();
-
-  let isOpen, diffMinutes;
-
-  if (h >= 1 && h < 3){
-    isOpen = false;
-    diffMinutes = ((3 - h) * 60) - m;
-  } else {
-    isOpen = true;
-    if (h >= 3){
-      diffMinutes = ((25 - h) * 60) - m;
-    } else {
-      diffMinutes = (60 - m);
-    }
-  }
-
-  const hrs = Math.floor(diffMinutes / 60);
-  const mins = diffMinutes % 60;
 
   const top = document.getElementById("marketTop");
   const eta = document.getElementById("marketETA");
   const dot = document.getElementById("statusDot");
 
+  // Closed daily from 02:00 to 03:00
+  const dailyGapClosed = (h === 2);
+
+  // Weekend closure: Sat 02:00 -> Sun 03:00
+  const weekendClosed =
+    (day === 6 && (h >= 2)) ||  // Saturday from 02:00 onward
+    (day === 0 && (h < 3));     // Sunday until 03:00
+
+  const isOpen = !(dailyGapClosed || weekendClosed);
+
   if (isOpen){
+    // Next close is at 02:00 (today if before 02:00, else next day)
+    const close = new Date(d);
+    close.setSeconds(0, 0);
+
+    if (h < 2){
+      close.setHours(2, 0, 0, 0);
+    } else {
+      close.setDate(close.getDate() + 1);
+      close.setHours(2, 0, 0, 0);
+    }
+
+    const diffMinutes = Math.max(0, Math.round((close.getTime() - d.getTime()) / 60000));
+    const hrs = Math.floor(diffMinutes / 60);
+    const mins = diffMinutes % 60;
+
     top.textContent = "Market Open";
     eta.textContent = `Closes in ${hrs}h ${mins}m`;
     dot.style.background = "var(--open)";
     dot.style.boxShadow = "0 0 12px var(--open)";
+    document.body.classList.remove("market-closed");
+
   } else {
+    // Next open time
+    const open = new Date(d);
+    open.setSeconds(0, 0);
+
+    if (weekendClosed){
+      // Next open is Sunday 03:00
+      if (day === 6){
+        // Saturday -> Sunday 03:00
+        open.setDate(open.getDate() + 1);
+        open.setHours(3, 0, 0, 0);
+      } else {
+        // Sunday before 03:00 -> today 03:00
+        open.setHours(3, 0, 0, 0);
+      }
+    } else {
+      // Normal daily gap (02:00–03:00) -> opens today 03:00
+      open.setHours(3, 0, 0, 0);
+    }
+
+    const diffMinutes = Math.max(0, Math.round((open.getTime() - d.getTime()) / 60000));
+    const days = Math.floor(diffMinutes / (60 * 24));
+    const rem = diffMinutes % (60 * 24);
+    const hrs = Math.floor(rem / 60);
+    const mins = rem % 60;
+
     top.textContent = "Market Closed";
-    eta.textContent = `Opens in ${hrs}h ${mins}m`;
+    eta.textContent = days > 0
+      ? `Opens in ${days}d ${hrs}h ${mins}m`
+      : `Opens in ${hrs}h ${mins}m`;
+
     dot.style.background = "var(--closed)";
     dot.style.boxShadow = "0 0 12px var(--closed)";
+    document.body.classList.add("market-closed");
   }
 }
 updateDubaiMarket();
