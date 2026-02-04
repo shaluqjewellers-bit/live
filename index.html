@@ -13,12 +13,7 @@
 @font-face{font-family:"ClarityCity";src:url("ClarityCity-Bold.ttf") format("truetype");font-weight:800}
 
 /* ===== GLOBAL RESET ===== */
-html, body{
-  width:100%;
-  height:100%;
-  margin:0;
-  padding:0;
-}
+html, body{width:100%;height:100%;margin:0;padding:0;}
 body{ min-height:100vh; }
 
 :root{
@@ -39,9 +34,7 @@ body{
   position:relative;
 }
 
-/* =========================================================
-   ✅ (A) SUBTLE GOLD AMBIENT GLOW (BACKGROUND)
-   ========================================================= */
+/* ===== SUBTLE GOLD AMBIENT GLOW ===== */
 body::before{
   content:"";
   position:fixed;
@@ -63,7 +56,7 @@ body::before{
 }
 
 /* Put all content above the ambient glow */
-.hero, .divider, .rates, .news-bar, .ticker { position:relative; z-index:1; }
+.hero, .divider, .rates, .ticker { position:relative; z-index:1; }
 
 /* ===== HEADER ===== */
 .hero{
@@ -110,7 +103,7 @@ body::before{
   overflow:hidden;
 }
 
-/* ===== Micro-shine sweep ===== */
+/* ===== MICRO SHINE ===== */
 .brand-name::after{
   content:"";
   position:absolute;
@@ -164,7 +157,7 @@ body::before{
 }
 .sep{opacity:.45}
 
-/* ===== Divider ===== */
+/* ===== DIVIDER ===== */
 .divider{
   height:2px;
   width:min(1280px, 92vw);
@@ -205,7 +198,7 @@ body::before{
   border-bottom:1px solid var(--border);
 }
 
-/* ===== TV WIDGET ALIGNMENT ===== */
+/* ===== TV WIDGET ALIGNMENT (KEEP SAME) ===== */
 .tv-box{position:relative;height:calc(100% - 52px)}
 .tv-inner{position:absolute;inset:0}
 .tv-inner iframe{
@@ -218,38 +211,7 @@ body::before{
   border:0;
 }
 
-/* =========================================================
-   ✅ GOLD NEWS BAR (ABOVE TICKER)
-   ========================================================= */
-.news-bar{
-  position:fixed;
-  left:0; right:0;
-  bottom:64px;               /* sits right above the ticker */
-  padding:10px 14px 8px;
-  background:rgba(0,0,0,.35);
-  border-top:1px solid rgba(255,179,0,.12);
-  backdrop-filter: blur(10px);
-}
-.news-title{
-  text-align:center;
-  font-size:13px;
-  font-weight:800;
-  letter-spacing:2px;
-  color:var(--gold);
-  text-shadow:0 0 10px rgba(255,179,0,.35);
-  margin-bottom:8px;
-}
-.news-box{
-  max-width:1700px;
-  margin:0 auto;
-  height:120px;
-  background:rgba(0,0,0,.45);
-  border:1px solid rgba(255,179,0,.25);
-  border-radius:14px;
-  overflow:hidden;
-}
-
-/* ===== TICKER ===== */
+/* ===== TICKER (NEWS + INFO IN SAME BAR) ===== */
 .ticker{
   position:fixed;bottom:0;left:0;right:0;
   height:64px;background:#000c;
@@ -259,7 +221,7 @@ body::before{
 .marquee{display:flex;width:100%;overflow:hidden}
 .marquee-group{
   display:flex;gap:50px;white-space:nowrap;
-  animation:scroll 200s linear infinite;
+  animation:scroll 240s linear infinite; /* slower = easier to read */
 }
 .item{font-size:18px;font-weight:700;display:flex;gap:12px;align-items:center}
 .badge{
@@ -274,7 +236,6 @@ body::before{
 @keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
 @keyframes shine{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
 @keyframes goldFlow{0%{background-position:0%}100%{background-position:300%}}
-@keyframes brandSweep{0%{left:-75%;opacity:0}8%{opacity:.65}18%{left:120%;opacity:0}100%{left:120%;opacity:0}}
 
 @media(max-width:1100px){
   .rates{grid-template-columns:1fr}
@@ -306,7 +267,7 @@ body::before{
 
   .rates{
     grid-template-columns:1fr;
-    margin:12px auto 170px; /* leave space for news + ticker */
+    margin:12px auto 78px;
     padding:10px;
     gap:12px;
   }
@@ -317,10 +278,6 @@ body::before{
   .tv-inner iframe{
     transform:translate(-50%,-50%) scale(1.00)!important;
   }
-
-  .news-bar{ bottom:54px; }
-  .news-box{ height:100px; }
-  .news-title{ font-size:12px; }
 
   .ticker{ height:54px; }
   .item{ font-size:14px; }
@@ -370,18 +327,14 @@ body::before{
   </div>
 </div>
 
-<!-- ✅ GOLD NEWS (ABOVE TICKER) -->
-<div class="news-bar">
-  <div class="news-title">GOLD MARKET NEWS</div>
-  <div class="news-box">
-    <div id="goldNews"></div>
-  </div>
-</div>
-
-<!-- TICKER -->
+<!-- TICKER (NEWS + YOUR TEXT IN SAME LINE) -->
 <div class="ticker">
   <div class="marquee">
     <div class="marquee-group" id="g1">
+      <!-- News placeholders (auto replaced) -->
+      <div class="item"><span class="badge">NEWS</span> Loading Gold Headlines...</div>
+
+      <!-- Your existing info items -->
       <div class="item"><span class="badge">DUBAI</span> Office M02, Saeed Mohammed Building, Deira Gold Souk</div>
       <div class="item"><span class="badge">CALL</span> +971 54 786 9940</div>
       <div class="item"><span class="badge">VISIT</span> www.shaluqjewellers.com</div>
@@ -395,9 +348,6 @@ body::before{
 </div>
 
 <script>
-/* ===== Seamless ticker duplicate ===== */
-document.getElementById("g2").innerHTML = document.getElementById("g1").innerHTML;
-
 /* ===== TradingView Symbol Info ===== */
 function addTV(symbol,id){
   const s=document.createElement("script");
@@ -408,24 +358,6 @@ function addTV(symbol,id){
 }
 addTV("OANDA:XAUUSD","gold");
 addTV("OANDA:XAGUSD","silver");
-
-/* ===== TradingView Gold News (Timeline Widget) ===== */
-(function(){
-  const s = document.createElement("script");
-  s.src = "https://s3.tradingview.com/external-embedding/embed-widget-timeline.js";
-  s.async = true;
-  s.innerHTML = JSON.stringify({
-    feedMode: "symbol",
-    symbol: "OANDA:XAUUSD",
-    colorTheme: "dark",
-    isTransparent: true,
-    displayMode: "regular",
-    width: "100%",
-    height: "120",
-    locale: "en"
-  });
-  document.getElementById("goldNews").appendChild(s);
-})();
 
 /* ===== Dubai time helper (UAE = UTC+4) ===== */
 function getDubaiDate(){
@@ -489,6 +421,65 @@ function updateDubaiMarket(){
 }
 updateDubaiMarket();
 setInterval(updateDubaiMarket, 60000);
+
+/* ===== Ticker duplicate rebuild (for seamless loop) ===== */
+function rebuildTicker(){
+  document.getElementById("g2").innerHTML = document.getElementById("g1").innerHTML;
+}
+
+/* ===== Load GOLD Headlines into same ticker (space saving) =====
+   NOTE: Browser blocks RSS by CORS, so we use rss2json proxy.
+*/
+async function loadGoldHeadlines(){
+  const g1 = document.getElementById("g1");
+
+  try{
+    const rssUrl = "https://www.tradingview.com/rss/news/?category=commodities";
+    const api = "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(rssUrl);
+
+    const res = await fetch(api, { cache: "no-store" });
+    const data = await res.json();
+
+    // remove old injected news items (keep your info items)
+    const oldNews = g1.querySelectorAll("[data-news='1']");
+    oldNews.forEach(n => n.remove());
+
+    // remove loading placeholder if exists
+    const loading = g1.querySelector("[data-loading='1']");
+    if (loading) loading.remove();
+
+    // If first item still "Loading..." from initial HTML, remove it once we load
+    const first = g1.querySelector(".item");
+    if(first && first.textContent.includes("Loading Gold Headlines")) first.remove();
+
+    const items = (data.items || []).slice(0, 6);
+    if(items.length === 0){
+      g1.insertAdjacentHTML("afterbegin",
+        `<div class="item" data-news="1"><span class="badge">NEWS</span> No headlines right now</div>`
+      );
+    } else {
+      const html = items.map(x => {
+        const title = (x.title || "").replace(/<[^>]*>/g,"").trim();
+        return `<div class="item" data-news="1"><span class="badge">NEWS</span> ${title}</div>`;
+      }).join("");
+      g1.insertAdjacentHTML("afterbegin", html);
+    }
+
+    rebuildTicker();
+  } catch(e){
+    // fallback: keep ticker running even if news fails
+    const first = g1.querySelector(".item");
+    if(first && first.textContent.includes("Loading Gold Headlines")){
+      first.innerHTML = `<span class="badge">NEWS</span> Headlines unavailable`;
+    }
+    rebuildTicker();
+  }
+}
+
+// initial build + refresh every 10 minutes
+rebuildTicker();
+loadGoldHeadlines();
+setInterval(loadGoldHeadlines, 10 * 60 * 1000);
 </script>
 
 </body>
