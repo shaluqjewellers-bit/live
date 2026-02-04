@@ -12,327 +12,138 @@
 @font-face{font-family:"ClarityCity";src:url("ClarityCity-SemiBold.ttf") format("truetype");font-weight:600}
 @font-face{font-family:"ClarityCity";src:url("ClarityCity-Bold.ttf") format("truetype");font-weight:800}
 
-/* ===== GLOBAL RESET ===== */
-html, body{width:100%;height:100%;margin:0;padding:0;}
-body{ min-height:100vh; }
-
-:root{
-  --bg:#05070c;
-  --gold:#ffd36a;
-  --gold2:#ffb300;
-  --border:#1b2a4a;
-  --open:#26d68a;
-  --closed:#ff5c5c;
-}
-
+/* ===== RESET ===== */
+html,body{margin:0;padding:0;width:100%;height:100%}
 body{
-  background:radial-gradient(1200px 600px at 50% 0%,#0b1633 0%,var(--bg) 55%,#02030a 100%);
-  color:#fff;
   font-family:"ClarityCity",Arial,sans-serif;
+  background:#05070c;
+  color:#fff;
   overflow-x:hidden;
-  overflow-y:hidden;
-  position:relative;
 }
-
-/* ===== SUBTLE GOLD AMBIENT GLOW ===== */
-body::before{
-  content:"";
-  position:fixed;
-  inset:-20%;
-  pointer-events:none;
-  z-index:0;
-  opacity:.28;
-  filter: blur(35px);
-  background:
-    radial-gradient(900px 420px at 20% 15%, rgba(255,179,0,.22), transparent 62%),
-    radial-gradient(1000px 520px at 85% 25%, rgba(255,211,106,.16), transparent 70%),
-    radial-gradient(850px 480px at 55% 85%, rgba(255,179,0,.12), transparent 70%);
-  animation:ambientGlow 34s ease-in-out infinite;
-}
-@keyframes ambientGlow{
-  0%   { transform:translate3d(-1.5%, -1.5%, 0) scale(1.02); opacity:.22; }
-  50%  { transform:translate3d( 1.5%,  1.0%, 0) scale(1.06); opacity:.32; }
-  100% { transform:translate3d(-1.5%, -1.5%, 0) scale(1.02); opacity:.22; }
-}
-
-/* Put all content above the ambient glow */
-.hero, .divider, .rates, .ticker { position:relative; z-index:1; }
 
 /* ===== HEADER ===== */
-.hero{
-  padding:22px 14px 16px;
-  border-bottom:1px solid rgba(255,179,0,.15);
-}
-.hero-inner{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:22px;
-}
+.hero{padding:20px;border-bottom:1px solid rgba(255,179,0,.2)}
+.hero-inner{display:flex;align-items:center;justify-content:center;gap:18px}
 .logo-wrap{
-  width:110px;height:110px;
-  border-radius:26px;
-  display:grid;place-items:center;
+  width:90px;height:90px;border-radius:20px;
   background:#070b14;
-  border:1px solid rgba(255,211,106,.25);
-  box-shadow:0 0 25px rgba(255,179,0,.35), inset 0 0 18px rgba(255,255,255,.08);
-  position:relative;overflow:hidden;
+  display:grid;place-items:center;
+  border:1px solid rgba(255,179,0,.3)
 }
-.logo-wrap::after{
-  content:"";
-  position:absolute;inset:-50%;
-  background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);
-  animation:shine 6s infinite;
-}
-.logo-wrap img{width:82px}
-
-.brand{text-align:center}
+.logo-wrap img{width:65px}
 .brand-name{
-  font-size:58px;
+  font-size:46px;
   font-weight:800;
-  letter-spacing:7px;
-  color:transparent;
-  background:linear-gradient(90deg,#fff4cc,#ffd36a,#ffffff,#ffb300,#fff4cc);
-  background-size:300% 100%;
-  background-clip:text;
+  letter-spacing:4px;
+  background:linear-gradient(90deg,#fff4cc,#ffd36a,#ffb300);
   -webkit-background-clip:text;
-  text-shadow:0 0 18px rgba(255,179,0,.45), 0 0 35px rgba(255,179,0,.25);
-  animation:goldFlow 10s linear infinite;
-  position:relative;
-  display:inline-block;
-  overflow:hidden;
+  color:transparent
 }
-
-/* ===== MICRO SHINE ===== */
-.brand-name::after{
-  content:"";
-  position:absolute;
-  top:-25%;
-  left:-70%;
-  width:55%;
-  height:160%;
-  pointer-events:none;
-  transform:skewX(-18deg);
-  background:linear-gradient(
-    90deg,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,.22) 35%,
-    rgba(255,255,255,.55) 50%,
-    rgba(255,255,255,.22) 65%,
-    rgba(255,255,255,0) 100%
-  );
-  mix-blend-mode:screen;
-  opacity:.65;
-  animation:brandSweep 25s ease-in-out infinite;
-}
-@keyframes brandSweep{
-  0%   { left:-75%; opacity:0; }
-  8%   { opacity:.65; }
-  18%  { left:120%; opacity:0; }
-  100% { left:120%; opacity:0; }
-}
-
-.brand-sub{
-  margin-top:10px;
-  font-size:18px;
-  color:#cfd8ff;
-}
+.brand-sub{font-size:16px;color:#cfd8ff;margin-top:6px}
 
 /* ===== MARKET BAR ===== */
 .marketbar{display:flex;justify-content:center;margin-top:12px}
 .marketpill{
-  display:flex;align-items:center;gap:16px;
-  padding:16px 28px;border-radius:999px;
-  background:rgba(0,0,0,.45);
+  background:#000c;
   border:1px solid rgba(255,179,0,.35);
-  backdrop-filter: blur(12px);
-  font-weight:800;
-  font-size:22px;
+  padding:12px 20px;
+  border-radius:999px;
+  display:flex;align-items:center;gap:12px;
+  font-weight:700
 }
 .dot{
-  width:16px;height:16px;border-radius:50%;
-  background:var(--open);
-  box-shadow:0 0 14px var(--open);
-  animation:blink 1.4s infinite;
-}
-.sep{opacity:.45}
-
-/* ===== DIVIDER ===== */
-.divider{
-  height:2px;
-  width:min(1280px, 92vw);
-  margin:10px auto 0;
-  border-radius:999px;
-  background:linear-gradient(90deg,
-    rgba(255,179,0,0) 0%,
-    rgba(255,211,106,.35) 15%,
-    rgba(255,179,0,.75) 50%,
-    rgba(255,211,106,.35) 85%,
-    rgba(255,179,0,0) 100%
-  );
-  box-shadow:0 0 22px rgba(255,179,0,.14);
-  opacity:.9;
+  width:14px;height:14px;border-radius:50%;
+  background:#26d68a;
+  box-shadow:0 0 10px #26d68a
 }
 
 /* ===== GRID ===== */
 .rates{
-  max-width:1700px;
-  margin:20px auto 90px;
-  padding:14px;
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:16px;
+  padding:16px;
+  max-width:1400px;
+  margin:auto
 }
 .card{
-  background:linear-gradient(180deg,#0f1830,#060a14);
-  border:1px solid var(--border);
+  background:#0b1228;
+  border:1px solid #1b2a4a;
   border-radius:18px;
   overflow:hidden;
-  min-height:680px;
+  min-height:620px
 }
 .card-title{
   text-align:center;
-  padding:14px;
-  font-size:20px;
+  padding:12px;
   font-weight:800;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid #1b2a4a
 }
 
-/* ===== TV WIDGET ALIGNMENT (KEEP SAME) ===== */
-.tv-box{position:relative;height:calc(100% - 52px)}
+/* ===== TV WIDGET ===== */
+.tv-box{position:relative;height:calc(100% - 50px)}
 .tv-inner{position:absolute;inset:0}
 .tv-inner iframe{
   position:absolute!important;
   left:50%!important;
   top:50%!important;
-  transform:translate(calc(-50% + 80px), calc(-50% + 40px)) scale(1.10)!important;
   width:100%!important;
   height:100%!important;
+  transform-origin:center center!important;
+  transform:translate(-50%,-50%) scale(1.05)!important;
   border:0;
 }
 
-/* ===== CLOSED OVERLAY (shows when market closed) ===== */
+/* ===== CLOSED OVERLAY ===== */
 .closed-overlay{
   position:absolute;
   inset:0;
   display:none;
   align-items:center;
   justify-content:center;
-  text-align:center;
   font-size:22px;
   font-weight:800;
-  letter-spacing:.5px;
-  color:rgba(255,255,255,.92);
-  background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.72));
-  border-top:1px solid rgba(255,179,0,.18);
+  background:rgba(0,0,0,.7)
 }
-.market-closed .tv-inner{ display:none; }
-.market-closed .closed-overlay{ display:flex; }
+.market-closed .tv-inner{display:none}
+.market-closed .closed-overlay{display:flex}
 
-/* ===== TICKER (NEWS + INFO IN SAME BAR) ===== */
-.ticker{
-  position:fixed;bottom:0;left:0;right:0;
-  height:64px;background:#000c;
-  border-top:1px solid rgba(255,179,0,.2);
-  overflow:hidden;backdrop-filter: blur(10px);
-}
-.marquee{display:flex;width:100%;overflow:hidden}
-.marquee-group{
-  display:flex;gap:50px;white-space:nowrap;
-  animation:scroll 240s linear infinite; /* slower = easier to read */
-}
-.item{font-size:18px;font-weight:700;display:flex;gap:12px;align-items:center}
-.badge{
-  padding:6px 12px;border-radius:16px;
-  background:rgba(255,179,0,.15);
-  color:var(--gold);
-  border:1px solid rgba(255,179,0,.3);
-}
-
-/* ===== ANIMATIONS ===== */
-@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
-@keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
-@keyframes shine{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
-@keyframes goldFlow{0%{background-position:0%}100%{background-position:300%}}
-
-@media(max-width:1100px){
+/* ===== MOBILE FIX ===== */
+@media(max-width:768px){
+  body{overflow-y:auto}
   .rates{grid-template-columns:1fr}
-  .brand-name{font-size:44px}
-}
+  .card{min-height:auto}
+  .tv-box{height:340px}
 
-/* ===== MOBILE OPTIMIZATION ===== */
-@media (max-width: 768px){
-  body{ overflow-y:auto; }
-
-  .hero{ padding:16px 10px 12px; }
-  .hero-inner{ gap:12px; }
-  .logo-wrap{ width:72px; height:72px; border-radius:18px; }
-  .logo-wrap img{ width:52px; }
-
-  .brand-name{ font-size:30px; letter-spacing:3px; }
-  .brand-sub{ font-size:14px; margin-top:6px; }
-
-  .marketpill{
-    font-size:14px;
-    padding:10px 14px;
-    gap:10px;
-    max-width:95vw;
-    flex-wrap:wrap;
-    justify-content:center;
-    text-align:center;
-  }
-  .dot{ width:12px; height:12px; }
-
-  .rates{
-    grid-template-columns:1fr;
-    margin:12px auto 78px;
-    padding:10px;
-    gap:12px;
-  }
-
-  .card{ min-height:auto; }
-  .tv-box{ height:330px; }
-
+  /* 🔥 THIS FIXES DAY’S RANGE CUT OFF 🔥 */
   .tv-inner iframe{
-    transform:translate(-50%,-50%) scale(1.00)!important;
+    transform:translate(-50%,-50%) scale(0.88)!important;
   }
-
-  .ticker{ height:54px; }
-  .item{ font-size:14px; }
-  .badge{ padding:5px 10px; border-radius:14px; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="hero">
   <div class="hero-inner">
-    <div class="logo-wrap"><img src="logo.png" alt="Logo"></div>
-    <div class="brand">
+    <div class="logo-wrap"><img src="logo.png"></div>
+    <div>
       <div class="brand-name">SHALUQ JEWELLERS</div>
       <div class="brand-sub">Live Gold & Silver Prices</div>
     </div>
   </div>
 
-  <!-- Market Countdown Pill -->
   <div class="marketbar">
     <div class="marketpill">
       <span class="dot" id="statusDot"></span>
-      <span id="marketTop">Market</span>
-      <span class="sep">•</span>
-      <span id="marketETA">--</span>
-      <span class="sep">•</span>
+      <span id="marketTop">Market</span> •
+      <span id="marketETA">--</span> •
       <span id="clock">--:-- UAE</span>
     </div>
   </div>
 </div>
 
-<!-- Divider -->
-<div class="divider"></div>
-
-<!-- RATES -->
 <div class="rates">
   <div class="card">
     <div class="card-title">GOLD (XAUUSD)</div>
@@ -351,200 +162,67 @@ body::before{
   </div>
 </div>
 
-<!-- TICKER (NEWS + YOUR TEXT IN SAME LINE) -->
-<div class="ticker">
-  <div class="marquee">
-    <div class="marquee-group" id="g1">
-      <!-- News placeholders (auto replaced) -->
-      <div class="item"><span class="badge">NEWS</span> Loading Gold Headlines...</div>
-
-      <!-- Your existing info items -->
-      <div class="item"><span class="badge">DUBAI</span> Office M02, Saeed Mohammed Building, Deira Gold Souk</div>
-      <div class="item"><span class="badge">CALL</span> +971 54 786 9940</div>
-      <div class="item"><span class="badge">VISIT</span> www.shaluqjewellers.com</div>
-      <div class="item"><span class="badge">FUJAIRAH</span> (Retail Store) Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank</div>
-      <div class="item"><span class="badge">CONTACT</span> +971 92 439 539</div>
-      <div class="item"><span class="badge">SHALUQ</span> Where Luxury Meets Affection</div>
-    </div>
-
-    <div class="marquee-group" id="g2"></div>
-  </div>
-</div>
-
 <script>
-/* ===== TradingView Symbol Info ===== */
+/* ===== TradingView ===== */
 function addTV(symbol,id){
   const s=document.createElement("script");
   s.src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js";
   s.async=true;
-  s.innerHTML=JSON.stringify({symbol:symbol,colorTheme:"dark",isTransparent:true,locale:"en"});
+  s.innerHTML=JSON.stringify({symbol,colorTheme:"dark",isTransparent:true});
   document.getElementById(id).appendChild(s);
 }
 addTV("OANDA:XAUUSD","gold");
 addTV("OANDA:XAGUSD","silver");
 
-/* ===== Dubai time helper (UAE = UTC+4) ===== */
+/* ===== Dubai Time ===== */
 function getDubaiDate(){
-  const now = new Date();
-  const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-  return new Date(utc + (4 * 60 * 60000));
+  const now=new Date();
+  return new Date(now.getTime()+((4*60)-now.getTimezoneOffset())*60000);
 }
 
-/* ===== Clock (Dubai time) ===== */
+/* ===== Clock ===== */
 function tickClock(){
   const d=getDubaiDate();
-  const hh=String(d.getHours()).padStart(2,"0");
-  const mm=String(d.getMinutes()).padStart(2,"0");
-  document.getElementById("clock").textContent = `${hh}:${mm} UAE`;
+  clock.textContent=`${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")} UAE`;
 }
-tickClock();
-setInterval(tickClock, 10000);
+tickClock();setInterval(tickClock,10000);
 
-/* ===== MARKET HOURS (Dubai time)
-   Open: 03:00
-   Close: 02:00 (next day)
-   Daily gap: 02:00–03:00 CLOSED
-   Weekend closure: Saturday 02:00 → Sunday 03:00 CLOSED
+/* ===== MARKET LOGIC =====
+Open: 03:00
+Close: 02:00
+Daily gap: 02–03
+Weekend: Sat 02 → Sun 03 CLOSED
 */
 function updateDubaiMarket(){
-  const d = getDubaiDate();
-  const day = d.getDay(); // 0=Sun, 6=Sat
-  const h = d.getHours();
-  const m = d.getMinutes();
+  const d=getDubaiDate(),day=d.getDay(),h=d.getHours(),m=d.getMinutes();
+  const dailyGap=(h===2);
+  const weekend=(day===6&&h>=2)||(day===0&&h<3);
+  const isOpen=!(dailyGap||weekend);
 
-  const top = document.getElementById("marketTop");
-  const eta = document.getElementById("marketETA");
-  const dot = document.getElementById("statusDot");
-
-  // Closed daily from 02:00 to 03:00
-  const dailyGapClosed = (h === 2);
-
-  // Weekend closure: Sat 02:00 -> Sun 03:00
-  const weekendClosed =
-    (day === 6 && (h >= 2)) ||  // Saturday from 02:00 onward
-    (day === 0 && (h < 3));     // Sunday until 03:00
-
-  const isOpen = !(dailyGapClosed || weekendClosed);
-
-  if (isOpen){
-    // Next close is at 02:00 (today if before 02:00, else next day)
-    const close = new Date(d);
-    close.setSeconds(0, 0);
-
-    if (h < 2){
-      close.setHours(2, 0, 0, 0);
-    } else {
-      close.setDate(close.getDate() + 1);
-      close.setHours(2, 0, 0, 0);
-    }
-
-    const diffMinutes = Math.max(0, Math.round((close.getTime() - d.getTime()) / 60000));
-    const hrs = Math.floor(diffMinutes / 60);
-    const mins = diffMinutes % 60;
-
-    top.textContent = "Market Open";
-    eta.textContent = `Closes in ${hrs}h ${mins}m`;
-    dot.style.background = "var(--open)";
-    dot.style.boxShadow = "0 0 12px var(--open)";
+  if(isOpen){
+    const close=new Date(d);
+    if(h<2) close.setHours(2,0,0,0);
+    else{close.setDate(close.getDate()+1);close.setHours(2,0,0,0);}
+    const diff=Math.max(0,(close-d)/60000|0);
+    marketTop.textContent="Market Open";
+    marketETA.textContent=`Closes in ${Math.floor(diff/60)}h ${diff%60}m`;
+    statusDot.style.background="#26d68a";
     document.body.classList.remove("market-closed");
-
-  } else {
-    // Next open time
-    const open = new Date(d);
-    open.setSeconds(0, 0);
-
-    if (weekendClosed){
-      // Next open is Sunday 03:00
-      if (day === 6){
-        // Saturday -> Sunday 03:00
-        open.setDate(open.getDate() + 1);
-        open.setHours(3, 0, 0, 0);
-      } else {
-        // Sunday before 03:00 -> today 03:00
-        open.setHours(3, 0, 0, 0);
-      }
-    } else {
-      // Normal daily gap (02:00–03:00) -> opens today 03:00
-      open.setHours(3, 0, 0, 0);
-    }
-
-    const diffMinutes = Math.max(0, Math.round((open.getTime() - d.getTime()) / 60000));
-    const days = Math.floor(diffMinutes / (60 * 24));
-    const rem = diffMinutes % (60 * 24);
-    const hrs = Math.floor(rem / 60);
-    const mins = rem % 60;
-
-    top.textContent = "Market Closed";
-    eta.textContent = days > 0
-      ? `Opens in ${days}d ${hrs}h ${mins}m`
-      : `Opens in ${hrs}h ${mins}m`;
-
-    dot.style.background = "var(--closed)";
-    dot.style.boxShadow = "0 0 12px var(--closed)";
+  }else{
+    const open=new Date(d);
+    if(weekend){
+      if(day===6){open.setDate(open.getDate()+1);open.setHours(3,0,0,0);}
+      else open.setHours(3,0,0,0);
+    }else open.setHours(3,0,0,0);
+    const diff=Math.max(0,(open-d)/60000|0);
+    marketTop.textContent="Market Closed";
+    marketETA.textContent=`Opens in ${Math.floor(diff/60)}h ${diff%60}m`;
+    statusDot.style.background="#ff5c5c";
     document.body.classList.add("market-closed");
   }
 }
 updateDubaiMarket();
-setInterval(updateDubaiMarket, 60000);
-
-/* ===== Ticker duplicate rebuild (for seamless loop) ===== */
-function rebuildTicker(){
-  document.getElementById("g2").innerHTML = document.getElementById("g1").innerHTML;
-}
-
-/* ===== Load GOLD Headlines into same ticker (space saving) =====
-   NOTE: Browser blocks RSS by CORS, so we use rss2json proxy.
-*/
-async function loadGoldHeadlines(){
-  const g1 = document.getElementById("g1");
-
-  try{
-    const rssUrl = "https://www.tradingview.com/rss/news/?category=commodities";
-    const api = "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(rssUrl);
-
-    const res = await fetch(api, { cache: "no-store" });
-    const data = await res.json();
-
-    // remove old injected news items (keep your info items)
-    const oldNews = g1.querySelectorAll("[data-news='1']");
-    oldNews.forEach(n => n.remove());
-
-    // remove loading placeholder if exists
-    const loading = g1.querySelector("[data-loading='1']");
-    if (loading) loading.remove();
-
-    // If first item still "Loading..." from initial HTML, remove it once we load
-    const first = g1.querySelector(".item");
-    if(first && first.textContent.includes("Loading Gold Headlines")) first.remove();
-
-    const items = (data.items || []).slice(0, 6);
-    if(items.length === 0){
-      g1.insertAdjacentHTML("afterbegin",
-        `<div class="item" data-news="1"><span class="badge">NEWS</span> No headlines right now</div>`
-      );
-    } else {
-      const html = items.map(x => {
-        const title = (x.title || "").replace(/<[^>]*>/g,"").trim();
-        return `<div class="item" data-news="1"><span class="badge">NEWS</span> ${title}</div>`;
-      }).join("");
-      g1.insertAdjacentHTML("afterbegin", html);
-    }
-
-    rebuildTicker();
-  } catch(e){
-    // fallback: keep ticker running even if news fails
-    const first = g1.querySelector(".item");
-    if(first && first.textContent.includes("Loading Gold Headlines")){
-      first.innerHTML = `<span class="badge">NEWS</span> Headlines unavailable`;
-    }
-    rebuildTicker();
-  }
-}
-
-// initial build + refresh every 10 minutes
-rebuildTicker();
-loadGoldHeadlines();
-setInterval(loadGoldHeadlines, 10 * 60 * 1000);
+setInterval(updateDubaiMarket,60000);
 </script>
 
 </body>
