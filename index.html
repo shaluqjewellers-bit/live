@@ -323,7 +323,7 @@ body::before{
       <span class="sep">•</span>
       <span id="marketETA">--</span>
       <span class="sep">•</span>
-      <span id="clock">--:-- GST</span>
+      <span id="clock">--:-- UAE</span>
     </div>
   </div>
 </div>
@@ -387,7 +387,7 @@ function tickClock(){
   const d=getDubaiDate();
   const hh=String(d.getHours()).padStart(2,"0");
   const mm=String(d.getMinutes()).padStart(2,"0");
-  document.getElementById("clock").textContent = `${hh}:${mm} GST`;
+  document.getElementById("clock").textContent = `${hh}:${mm} UAE`;
 }
 tickClock();
 setInterval(tickClock, 10000);
@@ -441,3 +441,4 @@ setInterval(updateDubaiMarket, 60000);
 
 </body>
 </html>
+
