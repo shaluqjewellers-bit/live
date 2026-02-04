@@ -1,8 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHALUQ JEWELLERS – Live Gold & Silver</title>
+<link rel="icon" href="logo.png">
+
+<style>
+/* ===== FONT ===== */
+@font-face{font-family:"ClarityCity";src:url("ClarityCity-Regular.ttf") format("truetype");font-weight:400}
+@font-face{font-family:"ClarityCity";src:url("ClarityCity-SemiBold.ttf") format("truetype");font-weight:600}
+@font-face{font-family:"ClarityCity";src:url("ClarityCity-Bold.ttf") format("truetype");font-weight:800}
+
+/* ✅ FIX: keep global CSS INSIDE <style> only */
+html, body{
+  width:100%;
+  height:100%;
+  margin:0;
+  padding:0;
+}
+body{ min-height:100vh; }
+
+:root{
+  --bg:#05070c;
+  --gold:#ffd36a;
+  --gold2:#ffb300;
+  --border:#1b2a4a;
+  --open:#26d68a;
+  --closed:#ff5c5c;
+}
+
+body{
+  background:radial-gradient(1200px 600px at 50% 0%,#0b1633 0%,var(--bg) 55%,#02030a 100%);
+  color:#fff;
+  font-family:"ClarityCity",Arial,sans-serif;
+  overflow:hidden;
+}
+
+/* ===== HEADER ===== */
+.hero{
+  padding:22px 14px 16px;
+  border-bottom:1px solid rgba(255,179,0,.15);
+}
+.hero-inner{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:22px;
+}
+.logo-wrap{
+  width:110px;height:110px;
+  border-radius:26px;
+  display:grid;place-items:center;
+  background:#070b14;
+  border:1px solid rgba(255,211,106,.25);
+  box-shadow:0 0 25px rgba(255,179,0,.35), inset 0 0 18px rgba(255,255,255,.08);
+  position:relative;overflow:hidden;
+}
+.logo-wrap::after{
+  content:"";
+  position:absolute;inset:-50%;
+  background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);
+  animation:shine 6s infinite;
+}
+.logo-wrap img{width:82px}
+
+.brand{text-align:center}
+.brand-name{
+  font-size:58px;
+  font-weight:800;
+  letter-spacing:7px;
+  color:transparent;
+  background:linear-gradient(90deg,#fff4cc,#ffd36a,#ffffff,#ffb300,#fff4cc);
+  background-size:300% 100%;
+  background-clip:text;
+  -webkit-background-clip:text;
+  text-shadow:0 0 18px rgba(255,179,0,.45), 0 0 35px rgba(255,179,0,.25);
+  animation:goldFlow 10s linear infinite;
+}
+.brand-sub{
+  margin-top:10px;
+  font-size:18px;
+  color:#cfd8ff;
+}
+
+/* ===== MARKET BAR (BIG) ===== */
+.marketbar{display:flex;justify-content:center;margin-top:12px}
+.marketpill{
+  display:flex;align-items:center;gap:16px;
+  padding:16px 28px;border-radius:999px;
+  background:rgba(0,0,0,.45);
+  border:1px solid rgba(255,179,0,.35);
+  backdrop-filter: blur(12px);
+  font-weight:800;
+  font-size:22px;
+}
+.dot{
+  width:16px;height:16px;border-radius:50%;
+  background:var(--open);
+  box-shadow:0 0 14px var(--open);
+  animation:blink 1.4s infinite;
+}
+.sep{opacity:.45}
+
+/* ===== GRID ===== */
+.rates{
+  max-width:1700px;
+  margin:20px auto 90px;
+  padding:14px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.card{
+  background:linear-gradient(180deg,#0f1830,#060a14);
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  min-height:680px;
+}
+.card-title{
+  text-align:center;
+  padding:14px;
+  font-size:20px;
+  font-weight:800;
+  border-bottom:1px solid var(--border);
+}
+
+/* ===== TV WIDGET ALIGNMENT ===== */
+.tv-box{position:relative;height:calc(100% - 52px)}
+.tv-inner{position:absolute;inset:0}
+.tv-inner iframe{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  transform:translate(calc(-50% + 80px), calc(-50% + 40px)) scale(1.10)!important;
+  width:100%!important;height:100%!important;border:0;
+}
+
+/* ===== TICKER ===== */
+.ticker{
+  position:fixed;bottom:0;left:0;right:0;
+  height:64px;background:#000c;
+  border-top:1px solid rgba(255,179,0,.2);
+  overflow:hidden;backdrop-filter: blur(10px);
+}
+.marquee{display:flex;width:100%;overflow:hidden}
+.marquee-group{
+  display:flex;gap:50px;white-space:nowrap;
+  animation:scroll 200s linear infinite; /* slower */
+}
+.item{font-size:18px;font-weight:700;display:flex;gap:12px;align-items:center}
+.badge{
+  padding:6px 12px;border-radius:16px;
+  background:rgba(255,179,0,.15);
+  color:var(--gold);
+  border:1px solid rgba(255,179,0,.3);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+@keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes shine{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@keyframes goldFlow{0%{background-position:0%}100%{background-position:300%}}
+
+@media(max-width:1100px){
+  .rates{grid-template-columns:1fr}
+  .brand-name{font-size:44px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="logo-wrap"><img src="logo.png" alt="Logo"></div>
+    <div class="brand">
+      <div class="brand-name">SHALUQ JEWELLERS</div>
+      <div class="brand-sub">Live Gold & Silver Prices</div>
+    </div>
+  </div>
+
+  <div class="marketbar">
+    <div class="marketpill">
+      <span class="dot" id="statusDot"></span>
+      <span id="marketTop">Market</span>
+      <span class="sep">•</span>
+      <span id="marketETA">--</span>
+      <span class="sep">•</span>
+      <span id="clock">--:-- GST</span>
+    </div>
+  </div>
+</div>
+
+<div class="rates">
+  <div class="card">
+    <div class="card-title">GOLD (XAUUSD)</div>
+    <div class="tv-box"><div class="tv-inner"><div id="gold"></div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">SILVER (XAGUSD)</div>
+    <div class="tv-box"><div class="tv-inner"><div id="silver"></div></div></div>
+  </div>
+</div>
+
+<div class="ticker">
+  <div class="marquee">
+    <div class="marquee-group" id="g1">
+      <div class="item"><span class="badge">DUBAI</span> Office M02, Saeed Mohammed Building, Deira Gold Souk</div>
+      <div class="item"><span class="badge">CALL</span> +971 54 786 9940</div>
+      <div class="item"><span class="badge">VISIT</span> www.shaluqjewellers.com</div>
+      <div class="item"><span class="badge">FUJAIRAH</span> (Retail Store) Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank</div>
+      <div class="item"><span class="badge">CONTACT</span> +971 92 439 539</div>
+      <div class="item"><span class="badge">SHALUQ</span> Where Luxury Meets Affection</div>
+    </div>
+    <div class="marquee-group" id="g2"></div>
+  </div>
+</div>
+
 <script>
-/* Seamless ticker duplicate */
+/* ===== Seamless ticker duplicate ===== */
 document.getElementById("g2").innerHTML = document.getElementById("g1").innerHTML;
 
-/* TradingView Symbol Info */
+/* ===== TradingView Symbol Info ===== */
 function addTV(symbol,id){
   const s=document.createElement("script");
   s.src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js";
@@ -13,26 +235,27 @@ function addTV(symbol,id){
 addTV("OANDA:XAUUSD","gold");
 addTV("OANDA:XAGUSD","silver");
 
-/* Dubai time helper (GST = UTC+4) */
+/* ===== Dubai time (GST = UTC+4) ===== */
 function getDubaiDate(){
   const now = new Date();
   const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
   return new Date(utc + (4 * 60 * 60000));
 }
 
-/* Clock (Dubai time) */
+/* ===== Clock ===== */
 function tickClock(){
   const d=getDubaiDate();
   const hh=String(d.getHours()).padStart(2,"0");
   const mm=String(d.getMinutes()).padStart(2,"0");
   document.getElementById("clock").textContent = `${hh}:${mm} GST`;
 }
-tickClock(); setInterval(tickClock, 10000);
+tickClock();
+setInterval(tickClock, 10000);
 
-/* Dubai winter market hours:
-   OPEN 03:00 GST
-   CLOSE 01:00 GST (next day)
-   Closed only 01:00–03:00
+/* ===== Dubai winter market hours =====
+OPEN 03:00 GST
+CLOSE 01:00 GST (next day)
+Closed only 01:00–03:00
 */
 function updateDubaiMarket(){
   const d = getDubaiDate();
@@ -41,42 +264,42 @@ function updateDubaiMarket(){
 
   let isOpen, diffMinutes;
 
-  // closed window: 01:00–03:00
   if (h >= 1 && h < 3){
     isOpen = false;
     diffMinutes = ((3 - h) * 60) - m; // until 03:00
   } else {
     isOpen = true;
 
-    // if 03:00–23:59 -> close at 01:00 next day
     if (h >= 3){
       diffMinutes = ((25 - h) * 60) - m; // until 01:00 next day
     } else {
-      // 00:00–00:59 -> close at 01:00 same day
-      diffMinutes = (60 - m);
+      diffMinutes = (60 - m); // 00:00–00:59 -> until 01:00
     }
   }
 
   const hrs = Math.floor(diffMinutes / 60);
   const mins = diffMinutes % 60;
 
-  const top = document.getElementById("marketTop");
-  const eta = document.getElementById("marketETA");
-  const dot = document.getElementById("statusDot");
+  const topEl = document.getElementById("marketTop");
+  const etaEl = document.getElementById("marketETA");
+  const dotEl = document.getElementById("statusDot");
 
   if (isOpen){
-    top.textContent = "Market Open";
-    eta.textContent = `Closes in ${hrs}h ${mins}m`;
-    dot.style.background = "var(--open)";
-    dot.style.boxShadow = "0 0 12px var(--open)";
+    topEl.textContent = "Market Open";
+    etaEl.textContent = `Closes in ${hrs}h ${mins}m`;
+    dotEl.style.background = "var(--open)";
+    dotEl.style.boxShadow = "0 0 12px var(--open)";
   } else {
-    top.textContent = "Market Closed";
-    eta.textContent = `Opens in ${hrs}h ${mins}m`;
-    dot.style.background = "var(--closed)";
-    dot.style.boxShadow = "0 0 12px var(--closed)";
+    topEl.textContent = "Market Closed";
+    etaEl.textContent = `Opens in ${hrs}h ${mins}m`;
+    dotEl.style.background = "var(--closed)";
+    dotEl.style.boxShadow = "0 0 12px var(--closed)";
   }
 }
 
 updateDubaiMarket();
 setInterval(updateDubaiMarket, 60000);
 </script>
+
+</body>
+</html>
