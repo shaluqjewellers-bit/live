@@ -250,12 +250,72 @@ body::before{
   animation:scroll 120s linear infinite;
 }
 .item{font-size:18px;font-weight:700;display:flex;gap:12px;align-items:center}
+
+/* ✅ Clickable news styling */
+.item a.news-link{
+  color:#fff;
+  text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.22);
+  padding-bottom:1px;
+  transition:opacity .15s ease, border-color .15s ease;
+}
+.item a.news-link:hover{
+  opacity:.9;
+  border-bottom-color: rgba(255,211,106,.75);
+}
+
+/* ✅ Timestamp styling */
+.news-time{
+  font-size:14px;
+  font-weight:800;
+  color:#cfd8ff;
+  opacity:.9;
+  letter-spacing:.3px;
+}
+
 .badge{
   padding:6px 12px;border-radius:16px;
   background:rgba(255,179,0,.15);
   color:var(--gold);
   border:1px solid rgba(255,179,0,.3);
 }
+
+/* ===== FULLSCREEN KIOSK BUTTON ===== */
+.kiosk-btn{
+  position:fixed;
+  top:14px;
+  right:14px;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,179,0,.38);
+  background:rgba(0,0,0,.45);
+  backdrop-filter: blur(10px);
+  color:#fff;
+  font-family:"ClarityCity",Arial,sans-serif;
+  font-weight:900;
+  letter-spacing:.3px;
+  cursor:pointer;
+  user-select:none;
+  box-shadow:0 0 20px rgba(255,179,0,.12);
+}
+.kiosk-btn:active{ transform:translateY(1px); }
+.kiosk-ic{
+  width:12px;height:12px;border-radius:50%;
+  background:rgba(255,211,106,.9);
+  box-shadow:0 0 12px rgba(255,179,0,.55);
+}
+.kiosk-hint{
+  font-size:12px;
+  font-weight:800;
+  opacity:.7;
+}
+
+/* Optional: when in kiosk mode, reduce extra margins for more screen space */
+body.kiosk .rates{ margin-top:12px; }
 
 /* ===== ANIMATIONS ===== */
 @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
@@ -323,11 +383,22 @@ body::before{
   .ticker{ height:54px; }
   .item{ font-size:14px; }
   .badge{ padding:5px 10px; border-radius:14px; }
+
+  .news-time{ font-size:12px; }
+  .kiosk-btn{ top:10px; right:10px; padding:9px 12px; }
+  .kiosk-hint{ display:none; }
 }
 </style>
 </head>
 
 <body>
+
+<!-- ✅ FULLSCREEN KIOSK BUTTON -->
+<button class="kiosk-btn" id="kioskBtn" type="button" aria-label="Enter fullscreen kiosk mode">
+  <span class="kiosk-ic" aria-hidden="true"></span>
+  <span id="kioskLabel">KIOSK</span>
+  <span class="kiosk-hint" id="kioskHint">Fullscreen</span>
+</button>
 
 <!-- HEADER -->
 <div class="hero">
@@ -347,7 +418,6 @@ body::before{
       <span class="sep">•</span>
       <span id="marketETA">--</span>
       <span class="sep">•</span>
-      <!-- ONLY CHANGE: added USA + London labels -->
       <span id="clock">--:-- UAE • --:-- USA • --:-- LON</span>
     </div>
   </div>
@@ -386,13 +456,10 @@ body::before{
       <div class="item"><span class="badge">VISIT</span> www.shaluqjewellers.com</div>
       <div class="item"><span class="badge">FUJAIRAH</span> (Retail Store) Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
       <div class="item"><span class="badge">FOR FUJAIRAH CALL</span> +971 92 439 539</div>
-      <div class="item">
-  <span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection
-</div>
+      <div class="item"><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
 
-<!-- SPACER FOR CLEAN SEPARATION -->
-<div class="item" aria-hidden="true" style="width:80px;"></div>
-
+      <!-- SPACER FOR CLEAN SEPARATION -->
+      <div class="item" aria-hidden="true" style="width:80px;"></div>
     </div>
 
     <div class="marquee-group" id="g2"></div>
@@ -526,7 +593,34 @@ function rebuildTicker(){
   document.getElementById("g2").innerHTML = document.getElementById("g1").innerHTML;
 }
 
-/* ===== Load GOLD Headlines into same ticker =====
+/* ===== Utilities: safe text, time formatting, relative time ===== */
+function stripHtml(s){
+  return String(s || "").replace(/<[^>]*>/g,"").trim();
+}
+function formatDubaiTime(dateObj){
+  // Show "HH:MM UAE"
+  const d = new Date(dateObj);
+  // Convert to Dubai time for display
+  const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+  const dubai = new Date(utc + (4 * 60 * 60000));
+  const hh = String(dubai.getHours()).padStart(2,"0");
+  const mm = String(dubai.getMinutes()).padStart(2,"0");
+  return `${hh}:${mm} UAE`;
+}
+function relTimeFromNow(dateObj){
+  const now = new Date();
+  const then = new Date(dateObj);
+  const diff = Math.max(0, Math.round((now.getTime() - then.getTime())/1000)); // seconds
+  const m = Math.floor(diff/60);
+  const h = Math.floor(m/60);
+  const d = Math.floor(h/24);
+  if (d >= 1) return `${d}d ago`;
+  if (h >= 1) return `${h}h ago`;
+  if (m >= 1) return `${m}m ago`;
+  return `just now`;
+}
+
+/* ===== Load GOLD Headlines into same ticker (CLICKABLE + TIMESTAMPS) =====
    NOTE: Browser blocks RSS by CORS, so we use rss2json proxy.
 */
 async function loadGoldHeadlines(){
@@ -548,24 +642,100 @@ async function loadGoldHeadlines(){
     if(first && first.textContent.includes("Loading Gold Headlines")) first.remove();
 
     const items = (data.items || []).slice(0, 6);
+
     if(items.length === 0){
       g1.insertAdjacentHTML("afterbegin",
         `<div class="item" data-news="1"><span class="badge">NEWS</span> No headlines right now</div>`
       );
     } else {
       const html = items.map(x => {
-        const title = (x.title || "").replace(/<[^>]*>/g,"").trim();
-        return `<div class="item" data-news="1"><span class="badge">NEWS</span> ${title}</div>`;
+        const title = stripHtml(x.title);
+        const link = x.link || "#";
+
+        // rss2json gives pubDate like "2025-..." or "Mon, ...", handle both
+        const pub = x.pubDate ? new Date(x.pubDate) : null;
+        const timeLabel = pub && !isNaN(pub.getTime()) ? `${relTimeFromNow(pub)} • ${formatDubaiTime(pub)}` : "Latest";
+
+        // Open in new tab + prevent ticker drag selection issues
+        return `
+          <div class="item" data-news="1">
+            <span class="badge">NEWS</span>
+            <a class="news-link" href="${link}" target="_blank" rel="noopener noreferrer">${title}</a>
+            <span class="news-time">${timeLabel}</span>
+          </div>
+        `;
       }).join("");
       g1.insertAdjacentHTML("afterbegin", html);
     }
 
     rebuildTicker();
   } catch(e){
+    // If feed fails, keep your static ticker and ensure loop works
     rebuildTicker();
   }
 }
 
+/* ===== FULLSCREEN KIOSK MODE ===== */
+const kioskBtn = document.getElementById("kioskBtn");
+const kioskLabel = document.getElementById("kioskLabel");
+const kioskHint  = document.getElementById("kioskHint");
+
+function isFullscreen(){
+  return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+}
+
+async function enterFullscreen(){
+  const el = document.documentElement;
+  if (el.requestFullscreen) return el.requestFullscreen();
+  if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen(); // Safari
+  if (el.msRequestFullscreen) return el.msRequestFullscreen(); // old Edge
+  throw new Error("Fullscreen not supported");
+}
+async function exitFullscreen(){
+  if (document.exitFullscreen) return document.exitFullscreen();
+  if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
+  if (document.msExitFullscreen) return document.msExitFullscreen();
+}
+
+async function toggleKiosk(){
+  try{
+    if (!isFullscreen()){
+      await enterFullscreen();
+      document.body.classList.add("kiosk");
+    } else {
+      await exitFullscreen();
+      document.body.classList.remove("kiosk");
+    }
+    updateKioskUI();
+  } catch(err){
+    // If fullscreen blocked (e.g., not triggered by user gesture), show a clear hint
+    kioskHint.textContent = "Blocked";
+    setTimeout(() => kioskHint.textContent = isFullscreen() ? "Exit" : "Fullscreen", 1500);
+  }
+}
+
+function updateKioskUI(){
+  if (isFullscreen()){
+    kioskLabel.textContent = "EXIT";
+    kioskHint.textContent = "Kiosk";
+  } else {
+    kioskLabel.textContent = "KIOSK";
+    kioskHint.textContent = "Fullscreen";
+  }
+}
+
+kioskBtn.addEventListener("click", toggleKiosk);
+
+// Keep button state correct when user presses ESC
+["fullscreenchange","webkitfullscreenchange","msfullscreenchange"].forEach(ev=>{
+  document.addEventListener(ev, ()=>{
+    if (!isFullscreen()) document.body.classList.remove("kiosk");
+    updateKioskUI();
+  });
+});
+updateKioskUI();
+
+/* ===== Run ticker duplication + news ===== */
 rebuildTicker();
 loadGoldHeadlines();
 setInterval(loadGoldHeadlines, 10 * 60 * 1000);
@@ -573,4 +743,3 @@ setInterval(loadGoldHeadlines, 10 * 60 * 1000);
 
 </body>
 </html>
-
