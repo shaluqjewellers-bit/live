@@ -280,7 +280,7 @@ body::before{
   border:1px solid rgba(255,179,0,.3);
 }
 
-/* ===== FULLSCREEN KIOSK BUTTON ===== */
+/* ===== FULLSCREEN BUTTON ===== */
 .kiosk-btn{
   position:fixed;
   top:14px;
@@ -333,8 +333,18 @@ body.kiosk .rates{ margin-top:12px; }
 @media (max-width: 768px){
   body{ overflow-y:auto; }
 
-  /* ✅ prevent logo going outside screen */
-  .hero{ padding:16px 10px 12px; }
+  /* ✅ make header the anchor so the button can sit ABOVE logo (left side) without disturbing brand */
+  .hero{ padding:16px 10px 12px; position:relative; }
+
+  /* ✅ Move FULL SCREEN button to left side, above logo (mobile only) */
+  .kiosk-btn{
+    position:absolute;
+    top:8px;
+    left:10px;
+    right:auto;
+    padding:9px 12px;
+  }
+
   .hero-inner{
     gap:12px;
     justify-content:center;
@@ -385,7 +395,8 @@ body.kiosk .rates{ margin-top:12px; }
   .badge{ padding:5px 10px; border-radius:14px; }
 
   .news-time{ font-size:12px; }
-  .kiosk-btn{ top:10px; right:10px; padding:9px 12px; }
+
+  /* keep hint hidden on mobile like before */
   .kiosk-hint{ display:none; }
 }
 </style>
@@ -393,10 +404,10 @@ body.kiosk .rates{ margin-top:12px; }
 
 <body>
 
-<!-- ✅ FULLSCREEN KIOSK BUTTON -->
-<button class="kiosk-btn" id="kioskBtn" type="button" aria-label="Enter fullscreen kiosk mode">
+<!-- ✅ FULLSCREEN BUTTON -->
+<button class="kiosk-btn" id="kioskBtn" type="button" aria-label="Toggle fullscreen">
   <span class="kiosk-ic" aria-hidden="true"></span>
-  <span id="kioskLabel">KIOSK</span>
+  <span id="kioskLabel">FULL SCREEN</span>
   <span class="kiosk-hint" id="kioskHint">Fullscreen</span>
 </button>
 
@@ -656,7 +667,6 @@ async function loadGoldHeadlines(){
         const pub = x.pubDate ? new Date(x.pubDate) : null;
         const timeLabel = pub && !isNaN(pub.getTime()) ? `${relTimeFromNow(pub)} • ${formatDubaiTime(pub)}` : "Latest";
 
-        // Open in new tab + prevent ticker drag selection issues
         return `
           <div class="item" data-news="1">
             <span class="badge">NEWS</span>
@@ -670,12 +680,11 @@ async function loadGoldHeadlines(){
 
     rebuildTicker();
   } catch(e){
-    // If feed fails, keep your static ticker and ensure loop works
     rebuildTicker();
   }
 }
 
-/* ===== FULLSCREEN KIOSK MODE ===== */
+/* ===== FULLSCREEN MODE ===== */
 const kioskBtn = document.getElementById("kioskBtn");
 const kioskLabel = document.getElementById("kioskLabel");
 const kioskHint  = document.getElementById("kioskHint");
@@ -708,7 +717,6 @@ async function toggleKiosk(){
     }
     updateKioskUI();
   } catch(err){
-    // If fullscreen blocked (e.g., not triggered by user gesture), show a clear hint
     kioskHint.textContent = "Blocked";
     setTimeout(() => kioskHint.textContent = isFullscreen() ? "Exit" : "Fullscreen", 1500);
   }
@@ -717,9 +725,9 @@ async function toggleKiosk(){
 function updateKioskUI(){
   if (isFullscreen()){
     kioskLabel.textContent = "EXIT";
-    kioskHint.textContent = "Kiosk";
+    kioskHint.textContent = "Fullscreen";
   } else {
-    kioskLabel.textContent = "KIOSK";
+    kioskLabel.textContent = "FULL SCREEN";
     kioskHint.textContent = "Fullscreen";
   }
 }
