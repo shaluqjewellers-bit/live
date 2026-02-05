@@ -280,7 +280,7 @@ body::before{
   border:1px solid rgba(255,179,0,.3);
 }
 
-/* ===== FULLSCREEN BUTTON (DESKTOP/TABLET DEFAULT) ===== */
+/* ===== FULLSCREEN BUTTON (BASE) ===== */
 .kiosk-btn{
   position:fixed;
   top:14px;
@@ -317,6 +317,11 @@ body::before{
 /* Optional: when in kiosk mode, reduce extra margins for more screen space */
 body.kiosk .rates{ margin-top:12px; }
 
+/* ✅ Hide FULL SCREEN on desktop/TV (so it never disturbs brand) */
+@media (min-width: 769px){
+  .kiosk-btn{ display:none !important; }
+}
+
 /* ===== ANIMATIONS ===== */
 @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
 @keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
@@ -341,6 +346,7 @@ body.kiosk .rates{ margin-top:12px; }
 
   /* ✅ put button in reserved strip (top-left) */
   .kiosk-btn{
+    display:flex !important;     /* override desktop hide */
     position:absolute;
     top:10px;
     left:10px;
@@ -410,7 +416,7 @@ body.kiosk .rates{ margin-top:12px; }
 
 <body>
 
-<!-- ✅ FULLSCREEN BUTTON -->
+<!-- ✅ FULLSCREEN BUTTON (MOBILE ONLY) -->
 <button class="kiosk-btn" id="kioskBtn" type="button" aria-label="Toggle fullscreen">
   <span class="kiosk-ic" aria-hidden="true"></span>
   <span id="kioskLabel">FULL SCREEN</span>
@@ -552,12 +558,9 @@ function updateDubaiMarket(){
 
   const isOpen = !(dailyGapClosed || weekendClosed);
 
-  // Compute next close/open times as Date objects
   function getNextClose(nowDubai){
     const close = new Date(nowDubai);
     close.setMilliseconds(0);
-
-    // If current time is before 02:00 (same day close), else close at next day 02:00
     if (nowDubai.getHours() < 2){
       close.setHours(2, 0, 0, 0);
     } else {
@@ -572,22 +575,18 @@ function updateDubaiMarket(){
     open.setMilliseconds(0);
 
     if (weekendClosed){
-      // Saturday after 02:00 -> Sunday 03:00
       if (day === 6){
         open.setDate(open.getDate() + 1);
         open.setHours(3, 0, 0, 0);
       } else {
-        // Sunday before 03:00 -> today 03:00
         open.setHours(3, 0, 0, 0);
       }
     } else {
-      // Daily gap -> today 03:00
       open.setHours(3, 0, 0, 0);
     }
     return open;
   }
 
-  // Start/stop per-second ticker safely (only when open or closed)
   if (marketTickTimer) clearInterval(marketTickTimer);
 
   if (isOpen){
@@ -598,10 +597,9 @@ function updateDubaiMarket(){
     dot.style.boxShadow = "0 0 12px var(--open)";
     document.body.classList.remove("market-closed");
 
-    // ✅ Update ETA every second with seconds included
     function tick(){
       const nowDubai = getDubaiDate();
-      let diff = Math.max(0, Math.floor((closeAt.getTime() - nowDubai.getTime()) / 1000)); // seconds
+      let diff = Math.max(0, Math.floor((closeAt.getTime() - nowDubai.getTime()) / 1000));
       const hrs = Math.floor(diff / 3600);
       diff %= 3600;
       const mins = Math.floor(diff / 60);
@@ -619,10 +617,9 @@ function updateDubaiMarket(){
     dot.style.boxShadow = "0 0 12px var(--closed)";
     document.body.classList.add("market-closed");
 
-    // ✅ Update ETA every second with seconds included
     function tick(){
       const nowDubai = getDubaiDate();
-      let diff = Math.max(0, Math.floor((openAt.getTime() - nowDubai.getTime()) / 1000)); // seconds
+      let diff = Math.max(0, Math.floor((openAt.getTime() - nowDubai.getTime()) / 1000));
 
       const days = Math.floor(diff / 86400);
       diff %= 86400;
@@ -640,8 +637,6 @@ function updateDubaiMarket(){
   }
 }
 updateDubaiMarket();
-
-// Re-evaluate market open/closed boundaries every 30s (lightweight) + keep seconds ticking in between
 setInterval(updateDubaiMarket, 30000);
 
 /* ===== Ticker duplicate rebuild (for seamless loop) ===== */
@@ -654,9 +649,7 @@ function stripHtml(s){
   return String(s || "").replace(/<[^>]*>/g,"").trim();
 }
 function formatDubaiTime(dateObj){
-  // Show "HH:MM UAE"
   const d = new Date(dateObj);
-  // Convert to Dubai time for display
   const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
   const dubai = new Date(utc + (4 * 60 * 60000));
   const hh = String(dubai.getHours()).padStart(2,"0");
@@ -666,7 +659,7 @@ function formatDubaiTime(dateObj){
 function relTimeFromNow(dateObj){
   const now = new Date();
   const then = new Date(dateObj);
-  const diff = Math.max(0, Math.round((now.getTime() - then.getTime())/1000)); // seconds
+  const diff = Math.max(0, Math.round((now.getTime() - then.getTime())/1000));
   const m = Math.floor(diff/60);
   const h = Math.floor(m/60);
   const d = Math.floor(h/24);
@@ -676,9 +669,7 @@ function relTimeFromNow(dateObj){
   return `just now`;
 }
 
-/* ===== Load GOLD Headlines into same ticker (CLICKABLE + TIMESTAMPS) =====
-   NOTE: Browser blocks RSS by CORS, so we use rss2json proxy.
-*/
+/* ===== Load GOLD Headlines into same ticker (CLICKABLE + TIMESTAMPS) ===== */
 async function loadGoldHeadlines(){
   const g1 = document.getElementById("g1");
 
@@ -689,11 +680,9 @@ async function loadGoldHeadlines(){
     const res = await fetch(api, { cache: "no-store" });
     const data = await res.json();
 
-    // remove old injected news items
     const oldNews = g1.querySelectorAll("[data-news='1']");
     oldNews.forEach(n => n.remove());
 
-    // remove initial loading text item if present
     const first = g1.querySelector(".item");
     if(first && first.textContent.includes("Loading Gold Headlines")) first.remove();
 
@@ -707,8 +696,6 @@ async function loadGoldHeadlines(){
       const html = items.map(x => {
         const title = stripHtml(x.title);
         const link = x.link || "#";
-
-        // rss2json gives pubDate like "2025-..." or "Mon, ...", handle both
         const pub = x.pubDate ? new Date(x.pubDate) : null;
         const timeLabel = pub && !isNaN(pub.getTime()) ? `${relTimeFromNow(pub)} • ${formatDubaiTime(pub)}` : "Latest";
 
@@ -729,7 +716,7 @@ async function loadGoldHeadlines(){
   }
 }
 
-/* ===== FULLSCREEN MODE ===== */
+/* ===== FULLSCREEN MODE (MOBILE BUTTON ONLY) ===== */
 const kioskBtn = document.getElementById("kioskBtn");
 const kioskLabel = document.getElementById("kioskLabel");
 const kioskHint  = document.getElementById("kioskHint");
@@ -741,8 +728,8 @@ function isFullscreen(){
 async function enterFullscreen(){
   const el = document.documentElement;
   if (el.requestFullscreen) return el.requestFullscreen();
-  if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen(); // Safari
-  if (el.msRequestFullscreen) return el.msRequestFullscreen(); // old Edge
+  if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen();
+  if (el.msRequestFullscreen) return el.msRequestFullscreen();
   throw new Error("Fullscreen not supported");
 }
 async function exitFullscreen(){
@@ -770,16 +757,13 @@ async function toggleKiosk(){
 function updateKioskUI(){
   if (isFullscreen()){
     kioskLabel.textContent = "EXIT";
-    kioskHint.textContent = "Fullscreen";
   } else {
     kioskLabel.textContent = "FULL SCREEN";
-    kioskHint.textContent = "Fullscreen";
   }
 }
 
 kioskBtn.addEventListener("click", toggleKiosk);
 
-// Keep button state correct when user presses ESC
 ["fullscreenchange","webkitfullscreenchange","msfullscreenchange"].forEach(ev=>{
   document.addEventListener(ev, ()=>{
     if (!isFullscreen()) document.body.classList.remove("kiosk");
