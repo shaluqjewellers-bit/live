@@ -280,7 +280,7 @@ body::before{
   border:1px solid rgba(255,179,0,.3);
 }
 
-/* ===== FULLSCREEN BUTTON ===== */
+/* ===== FULLSCREEN BUTTON (DESKTOP/TABLET DEFAULT) ===== */
 .kiosk-btn{
   position:fixed;
   top:14px;
@@ -329,21 +329,31 @@ body.kiosk .rates{ margin-top:12px; }
   .brand-name{font-size:44px}
 }
 
-/* ===== MOBILE OPTIMIZATION (FIX LOGO + FIX TICKER + FIX WIDGET CUT OFF) ===== */
+/* ===== MOBILE OPTIMIZATION (NO OVERLAP GUARANTEED) ===== */
 @media (max-width: 768px){
   body{ overflow-y:auto; }
 
-  /* ✅ make header the anchor so the button can sit ABOVE logo (left side) without disturbing brand */
-  .hero{ padding:16px 10px 12px; position:relative; }
+  /* ✅ reserve a top strip for the FULL SCREEN button so it never overlaps logo/brand */
+  .hero{
+    padding:58px 10px 12px;  /* top reserved space */
+    position:relative;
+  }
 
-  /* ✅ Move FULL SCREEN button to left side, above logo (mobile only) */
+  /* ✅ put button in reserved strip (top-left) */
   .kiosk-btn{
     position:absolute;
-    top:8px;
+    top:10px;
     left:10px;
     right:auto;
-    padding:9px 12px;
+    padding:8px 10px;
+    gap:8px;
+    border-radius:999px;
   }
+
+  /* ✅ smaller text so it never eats space */
+  #kioskLabel{ font-size:12px; letter-spacing:.2px; }
+  .kiosk-ic{ width:10px; height:10px; }
+  .kiosk-hint{ display:none; }
 
   .hero-inner{
     gap:12px;
@@ -393,11 +403,7 @@ body.kiosk .rates{ margin-top:12px; }
   .ticker{ height:54px; }
   .item{ font-size:14px; }
   .badge{ padding:5px 10px; border-radius:14px; }
-
   .news-time{ font-size:12px; }
-
-  /* keep hint hidden on mobile like before */
-  .kiosk-hint{ display:none; }
 }
 </style>
 </head>
@@ -527,11 +533,12 @@ setInterval(tickClock, 10000);
    Daily gap: 02:00–03:00 CLOSED
    Weekend closure: Saturday 02:00 → Sunday 03:00 CLOSED
 */
+let marketTickTimer = null;
+
 function updateDubaiMarket(){
   const d = getDubaiDate();
   const day = d.getDay(); // 0=Sun, 6=Sat
   const h = d.getHours();
-  const m = d.getMinutes();
 
   const top = document.getElementById("marketTop");
   const eta = document.getElementById("marketETA");
@@ -545,59 +552,97 @@ function updateDubaiMarket(){
 
   const isOpen = !(dailyGapClosed || weekendClosed);
 
-  if (isOpen){
-    const close = new Date(d);
-    close.setSeconds(0, 0);
+  // Compute next close/open times as Date objects
+  function getNextClose(nowDubai){
+    const close = new Date(nowDubai);
+    close.setMilliseconds(0);
 
-    if (h < 2){
+    // If current time is before 02:00 (same day close), else close at next day 02:00
+    if (nowDubai.getHours() < 2){
       close.setHours(2, 0, 0, 0);
     } else {
       close.setDate(close.getDate() + 1);
       close.setHours(2, 0, 0, 0);
     }
+    return close;
+  }
 
-    const diffMinutes = Math.max(0, Math.round((close.getTime() - d.getTime()) / 60000));
-    const hrs = Math.floor(diffMinutes / 60);
-    const mins = diffMinutes % 60;
-
-    top.textContent = "Market Open";
-    eta.textContent = `Closes in ${hrs}h ${mins}m`;
-    dot.style.background = "var(--open)";
-    dot.style.boxShadow = "0 0 12px var(--open)";
-    document.body.classList.remove("market-closed");
-  } else {
-    const open = new Date(d);
-    open.setSeconds(0, 0);
+  function getNextOpen(nowDubai){
+    const open = new Date(nowDubai);
+    open.setMilliseconds(0);
 
     if (weekendClosed){
+      // Saturday after 02:00 -> Sunday 03:00
       if (day === 6){
-        open.setDate(open.getDate() + 1); // to Sunday
+        open.setDate(open.getDate() + 1);
         open.setHours(3, 0, 0, 0);
       } else {
+        // Sunday before 03:00 -> today 03:00
         open.setHours(3, 0, 0, 0);
       }
     } else {
+      // Daily gap -> today 03:00
       open.setHours(3, 0, 0, 0);
     }
+    return open;
+  }
 
-    const diffMinutes = Math.max(0, Math.round((open.getTime() - d.getTime()) / 60000));
-    const days = Math.floor(diffMinutes / (60 * 24));
-    const rem = diffMinutes % (60 * 24);
-    const hrs = Math.floor(rem / 60);
-    const mins = rem % 60;
+  // Start/stop per-second ticker safely (only when open or closed)
+  if (marketTickTimer) clearInterval(marketTickTimer);
+
+  if (isOpen){
+    const closeAt = getNextClose(d);
+
+    top.textContent = "Market Open";
+    dot.style.background = "var(--open)";
+    dot.style.boxShadow = "0 0 12px var(--open)";
+    document.body.classList.remove("market-closed");
+
+    // ✅ Update ETA every second with seconds included
+    function tick(){
+      const nowDubai = getDubaiDate();
+      let diff = Math.max(0, Math.floor((closeAt.getTime() - nowDubai.getTime()) / 1000)); // seconds
+      const hrs = Math.floor(diff / 3600);
+      diff %= 3600;
+      const mins = Math.floor(diff / 60);
+      const secs = diff % 60;
+      eta.textContent = `Closes in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
+    }
+    tick();
+    marketTickTimer = setInterval(tick, 1000);
+
+  } else {
+    const openAt = getNextOpen(d);
 
     top.textContent = "Market Closed";
-    eta.textContent = days > 0
-      ? `Opens in ${days}d ${hrs}h ${mins}m`
-      : `Opens in ${hrs}h ${mins}m`;
-
     dot.style.background = "var(--closed)";
     dot.style.boxShadow = "0 0 12px var(--closed)";
     document.body.classList.add("market-closed");
+
+    // ✅ Update ETA every second with seconds included
+    function tick(){
+      const nowDubai = getDubaiDate();
+      let diff = Math.max(0, Math.floor((openAt.getTime() - nowDubai.getTime()) / 1000)); // seconds
+
+      const days = Math.floor(diff / 86400);
+      diff %= 86400;
+      const hrs = Math.floor(diff / 3600);
+      diff %= 3600;
+      const mins = Math.floor(diff / 60);
+      const secs = diff % 60;
+
+      eta.textContent = days > 0
+        ? `Opens in ${days}d ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`
+        : `Opens in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
+    }
+    tick();
+    marketTickTimer = setInterval(tick, 1000);
   }
 }
 updateDubaiMarket();
-setInterval(updateDubaiMarket, 60000);
+
+// Re-evaluate market open/closed boundaries every 30s (lightweight) + keep seconds ticking in between
+setInterval(updateDubaiMarket, 30000);
 
 /* ===== Ticker duplicate rebuild (for seamless loop) ===== */
 function rebuildTicker(){
@@ -703,7 +748,7 @@ async function enterFullscreen(){
 async function exitFullscreen(){
   if (document.exitFullscreen) return document.exitFullscreen();
   if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
-  if (document.msExitFullscreen) return document.msExitFullscreen();
+  if (document.msExitFullscreen) return document.msFullscreenElement ? document.msExitFullscreen() : null;
 }
 
 async function toggleKiosk(){
