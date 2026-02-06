@@ -1,605 +1,1158 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#070708" />
-  <title>SHALUQ JEWELLERS – Live Gold & Silver</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHALUQ JEWELLERS – Live Gold & Silver</title>
+<link rel="icon" href="logo.png">
 
-  <!-- Luxury fonts (fast + GitHub Pages friendly) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* =========================
+   STYLE A — BLACK ONYX + SOFT GOLD
+   Luxury refresh + reliability fixes
+   ========================= */
 
-  <style>
-    :root{
-      --bg0:#050506;
-      --bg1:#070708;
-      --card:rgba(13,13,16,.62);
-      --card2:rgba(255,255,255,.04);
-      --text:#F2F2F2;
-      --muted:#B9B9B9;
-      --muted2:#8A8A8A;
-      --gold1:#D4AF37;
-      --gold2:#F6E27A;
-      --line:rgba(255,255,255,.08);
-      --shadow: 0 18px 55px rgba(0,0,0,.55);
-      --shadow2: 0 24px 70px rgba(0,0,0,.65);
-      --r: 18px;
-      --ease: cubic-bezier(.2,.8,.2,1);
-    }
+/* ===== FONT ===== */
+@font-face{font-family:"ClarityCity";src:url("ClarityCity-Regular.ttf") format("truetype");font-weight:400}
+@font-face{font-family:"ClarityCity";src:url("ClarityCity-SemiBold.ttf") format("truetype");font-weight:600}
+@font-face{font-family:"ClarityCity";src:url("ClarityCity-Bold.ttf") format("truetype");font-weight:800}
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(1200px 700px at 20% -10%, rgba(212,175,55,.14), transparent 60%),
-        radial-gradient(900px 600px at 80% 10%, rgba(246,226,122,.10), transparent 55%),
-        linear-gradient(180deg, var(--bg0), var(--bg1) 40%, var(--bg0));
-      overflow-x:hidden;
-    }
-    /* Subtle luxury grain */
-    body::before{
-      content:"";
-      position: fixed; inset:0;
-      pointer-events:none;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E");
-      opacity:.055;
-      mix-blend-mode: overlay;
-    }
+/* ===== GLOBAL RESET ===== */
+html, body{width:100%;height:100%;margin:0;padding:0;}
+body{ min-height:100vh; }
 
-    a{ color:inherit; text-decoration:none; }
-    .wrap{
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 18px 18px 70px;
-      position: relative;
-    }
+:root{
+  --bg:#04050a;          /* onyx */
+  --bg2:#070a12;         /* onyx lift */
+  --glass:rgba(10,12,18,.62);
+  --glass2:rgba(8,10,16,.42);
+  --gold:#ffd36a;
+  --gold2:#ffb300;
+  --gold3:#fff1c6;
+  --border:rgba(255,211,106,.14);
+  --border2:rgba(27,42,74,.60);
+  --open:#26d68a;
+  --closed:#ff5c5c;
+  --text:#ffffff;
+  --muted:#cfd8ff;
+  --shadow:0 18px 55px rgba(0,0,0,.65);
+  --shadow2:0 0 0 1px rgba(255,211,106,.06), 0 18px 55px rgba(0,0,0,.62);
+}
 
-    /* Top bar */
-    .topbar{
-      display:flex;
-      justify-content: flex-end;
-      gap:10px;
-      padding: 10px 0 6px;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.08);
-      color: var(--text);
-      cursor:pointer;
-      transition: transform .35s var(--ease), box-shadow .35s var(--ease), background .25s ease;
-      user-select:none;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .btn:hover{ transform: translateY(-2px); box-shadow: 0 14px 40px rgba(0,0,0,.45); }
-    .btn:active{ transform: translateY(0px) scale(.99); }
-    .btn .dot{
-      width:8px;height:8px;border-radius:999px;
-      background: linear-gradient(135deg, var(--gold1), var(--gold2));
-      box-shadow: 0 0 16px rgba(212,175,55,.25);
-    }
-    .btn small{ color: var(--muted); font-size: 12px; letter-spacing:.18em; text-transform:uppercase; }
+/* ===== BASE ===== */
+body{
+  background:
+    radial-gradient(1200px 600px at 50% 0%, #0b1430 0%, var(--bg) 55%, #02030a 100%),
+    radial-gradient(900px 520px at 82% 18%, rgba(255,211,106,.06), transparent 60%);
+  color:var(--text);
+  font-family:"ClarityCity",Arial,sans-serif;
+  overflow-x:hidden;
+  overflow-y:hidden;
+  position:relative;
+}
 
-    /* Header */
-    header{
-      margin-top: 6px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:18px;
-      padding: 18px 0;
-      border-bottom: 1px solid rgba(255,255,255,.07);
-    }
-    .brand{
-      display:flex; align-items:center; gap:14px;
-      min-width: 260px;
-    }
-    .logo{
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      background: radial-gradient(circle at 30% 30%, rgba(246,226,122,.35), rgba(212,175,55,.12) 40%, rgba(255,255,255,.04) 72%);
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 18px 50px rgba(0,0,0,.55);
-      display:grid; place-items:center;
-      overflow:hidden;
-    }
-    .logo img{ width:100%; height:100%; object-fit:cover; display:block; }
+/* ===== MICRO NOISE (luxury texture) ===== */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:.07;
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-size:140px 140px;
+}
 
-    .titles h1{
-      margin:0;
-      font-family: Cinzel, serif;
-      font-size: 20px;
-      font-weight: 600;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      line-height: 1.1;
-    }
-    .titles p{
-      margin:6px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      letter-spacing:.08em;
-      text-transform: uppercase;
-    }
+/* ===== SUBTLE GOLD AMBIENT GLOW ===== */
+body::before{
+  content:"";
+  position:fixed;
+  inset:-20%;
+  pointer-events:none;
+  z-index:0;
+  opacity:.26;
+  filter: blur(38px);
+  background:
+    radial-gradient(900px 420px at 18% 12%, rgba(255,179,0,.18), transparent 62%),
+    radial-gradient(1000px 520px at 86% 22%, rgba(255,211,106,.12), transparent 70%),
+    radial-gradient(850px 480px at 55% 88%, rgba(255,179,0,.10), transparent 70%);
+  animation:ambientGlow 36s ease-in-out infinite;
+}
+@keyframes ambientGlow{
+  0%   { transform:translate3d(-1.4%, -1.4%, 0) scale(1.02); opacity:.20; }
+  50%  { transform:translate3d( 1.4%,  1.0%, 0) scale(1.06); opacity:.32; }
+  100% { transform:translate3d(-1.4%, -1.4%, 0) scale(1.02); opacity:.20; }
+}
 
-    /* Status row */
-    .statusRow{
-      display:flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 10px;
-      align-items:center;
-    }
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.07);
-      color: var(--text);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-    .chip .label{
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-    }
-    .chip .val{
-      font-variant-numeric: tabular-nums;
-      letter-spacing: .06em;
-      color: #e9e9e9;
-      font-size: 12.5px;
-    }
-    .sep{
-      width: 1px; height: 18px;
-      background: rgba(255,255,255,.09);
-    }
-    .marketDot{
-      width:10px;height:10px;border-radius:999px;
-      background: rgba(255,255,255,.14);
-      box-shadow: 0 0 18px rgba(255,255,255,.08);
-    }
-    .marketDot.open{
-      background: linear-gradient(135deg, var(--gold1), var(--gold2));
-      box-shadow: 0 0 18px rgba(212,175,55,.25);
-    }
+/* Put all content above glow/noise */
+.hero, .divider, .rates, .ticker, .statusbar { position:relative; z-index:1; }
 
-    /* Sections */
-    .grid{
-      display:grid;
-      grid-template-columns: 1.2fr 1.2fr;
-      gap: 14px;
-      margin-top: 18px;
-    }
-    @media (max-width: 900px){
-      header{ flex-direction: column; align-items:flex-start; }
-      .statusRow{ justify-content:flex-start; }
-      .grid{ grid-template-columns: 1fr; }
-    }
+/* ===== TOP STATUS BAR (market open/closed lives here now) ===== */
+.statusbar{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  padding:10px 12px 0;
+}
+.statusbar-inner{
+  width:min(1320px, 94vw);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 16px;
+  border-radius:999px;
+  background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.35));
+  border:1px solid rgba(255,211,106,.22);
+  backdrop-filter: blur(14px);
+  box-shadow:0 10px 34px rgba(0,0,0,.55);
+}
+.sb-left{display:flex;align-items:center;gap:12px;min-width:260px;}
+.sb-mid{display:flex;align-items:center;gap:10px;justify-content:center;flex:1;text-align:center;}
+.sb-right{display:flex;align-items:center;gap:10px;justify-content:flex-end;min-width:260px;}
 
-    .card{
-      position: relative;
-      border-radius: var(--r);
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,.06);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      overflow:hidden;
-      transform: translateY(8px);
-      opacity: 0;
-      transition: transform .55s var(--ease), opacity .55s var(--ease), box-shadow .35s var(--ease);
-    }
-    .card.reveal{ transform: translateY(0); opacity: 1; }
-    .card:hover{ transform: translateY(-4px); box-shadow: var(--shadow2); }
+.dot{
+  width:12px;height:12px;border-radius:50%;
+  background:var(--open);
+  box-shadow:0 0 14px var(--open);
+  animation:blink 1.6s infinite;
+}
+@keyframes blink{0%,100%{opacity:.45}50%{opacity:1}}
 
-    /* Gold hairline border */
-    .card::after{
-      content:"";
-      position:absolute; inset:0;
-      border-radius: var(--r);
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(212,175,55,.55), rgba(255,255,255,.06), rgba(246,226,122,.35));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-              mask-composite: exclude;
-      pointer-events:none;
-      opacity:.85;
-    }
+.sb-title{
+  font-weight:900;
+  letter-spacing:.35px;
+}
+.sb-eta{
+  font-weight:900;
+  color:var(--muted);
+  opacity:.95;
+}
+.sb-clock{
+  font-weight:900;
+  color:#eaf0ff;
+  opacity:.95;
+  letter-spacing:.25px;
+}
+.sb-conn{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 10px;border-radius:999px;
+  background:rgba(255,211,106,.08);
+  border:1px solid rgba(255,211,106,.18);
+  font-weight:900;
+  letter-spacing:.35px;
+  white-space:nowrap;
+}
+.sb-conn i{
+  display:inline-block;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--open);
+  box-shadow:0 0 12px rgba(38,214,138,.55);
+}
+.sb-conn.off i{
+  background:var(--closed);
+  box-shadow:0 0 12px rgba(255,92,92,.55);
+}
 
-    .cardInner{
-      padding: 18px 18px 16px;
-      position:relative;
-      z-index: 1;
-    }
+/* ===== HEADER (brand) ===== */
+.hero{
+  padding:14px 14px 14px;
+  border-bottom:1px solid rgba(255,179,0,.10);
+}
+.hero-inner{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:22px;
+}
 
-    .kicker{
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      margin-bottom: 10px;
-    }
-    .kicker .name{
-      font-family: Cinzel, serif;
-      letter-spacing:.18em;
-      text-transform: uppercase;
-      font-weight: 600;
-      font-size: 14px;
-    }
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing:.08em;
-    }
-    .badge b{
-      color: var(--text);
-      font-weight: 600;
-      letter-spacing:.10em;
-    }
+/* ===== LOGO ===== */
+.logo-wrap{
+  width:110px;height:110px;
+  border-radius:28px;
+  display:grid;place-items:center;
+  background:linear-gradient(180deg, rgba(12,14,20,.92), rgba(6,8,12,.92));
+  border:1px solid rgba(255,211,106,.22);
+  box-shadow:var(--shadow2), inset 0 0 18px rgba(255,255,255,.07);
+  position:relative;overflow:hidden;
+}
+.logo-wrap::after{
+  content:"";
+  position:absolute;inset:-60%;
+  background:linear-gradient(120deg, transparent 38%, rgba(255,255,255,.22) 50%, transparent 62%);
+  animation:shine 7.5s infinite;
+  opacity:.75;
+}
+@keyframes shine{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+.logo-wrap img{
+  width:82px;
+  max-width:78%;
+  height:auto;
+  display:block;
+}
 
-    .priceRow{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap: 14px;
-      padding-top: 6px;
-    }
-    .price{
-      font-variant-numeric: tabular-nums;
-      font-size: 34px;
-      font-weight: 600;
-      letter-spacing: .02em;
-    }
-    .sub{
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      margin-top: 8px;
-    }
+.brand{text-align:center}
+.brand-name{
+  font-size:58px;
+  font-weight:800;
+  letter-spacing:7px;
+  color:transparent;
+  background:linear-gradient(90deg, #fff7dc, #ffd36a, #ffffff, #ffb300, #fff7dc);
+  background-size:320% 100%;
+  background-clip:text;
+  -webkit-background-clip:text;
+  text-shadow:0 0 18px rgba(255,179,0,.38), 0 0 42px rgba(255,179,0,.18);
+  animation:goldFlow 12s linear infinite;
+  position:relative;
+  display:inline-block;
+  overflow:hidden;
+}
+@keyframes goldFlow{0%{background-position:0%}100%{background-position:320%}}
 
-    /* Skeleton loader */
-    .skeleton{
-      height: 18px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(255,255,255,.05), rgba(255,255,255,.11), rgba(255,255,255,.05));
-      background-size: 200% 100%;
-      animation: shimmer 1.2s infinite linear;
-    }
-    @keyframes shimmer{ 0%{background-position:0%} 100%{background-position:200%} }
+.brand-name::after{
+  content:"";
+  position:absolute;
+  top:-25%;
+  left:-70%;
+  width:55%;
+  height:160%;
+  pointer-events:none;
+  transform:skewX(-18deg);
+  background:linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,.18) 35%,
+    rgba(255,255,255,.48) 50%,
+    rgba(255,255,255,.18) 65%,
+    rgba(255,255,255,0) 100%
+  );
+  mix-blend-mode:screen;
+  opacity:.55;
+  animation:brandSweep 26s ease-in-out infinite;
+}
+@keyframes brandSweep{
+  0%   { left:-75%; opacity:0; }
+  8%   { opacity:.55; }
+  18%  { left:120%; opacity:0; }
+  100% { left:120%; opacity:0; }
+}
+.brand-sub{
+  margin-top:10px;
+  font-size:14px;
+  color:#dce4ff;
+  opacity:.92;
+  letter-spacing:2.8px;
+  text-transform:uppercase;
+}
 
-    /* News + Footer */
-    .stack{ margin-top: 14px; }
-    .sectionTitle{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      margin-bottom: 10px;
-    }
-    .sectionTitle h2{
-      margin:0;
-      font-family: Cinzel, serif;
-      font-size: 14px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-    }
-    .newsList{
-      display:grid;
-      gap: 10px;
-    }
-    .newsItem{
-      padding: 12px 12px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.06);
-      color: #e9e9e9;
-      line-height: 1.35;
-    }
-    .newsItem small{
-      display:block;
-      margin-top: 6px;
-      color: var(--muted2);
-      letter-spacing: .10em;
-      text-transform: uppercase;
-      font-size: 11px;
-    }
+/* ===== DIVIDER ===== */
+.divider{
+  height:2px;
+  width:min(1320px, 92vw);
+  margin:10px auto 0;
+  border-radius:999px;
+  background:linear-gradient(90deg,
+    rgba(255,179,0,0) 0%,
+    rgba(255,211,106,.20) 15%,
+    rgba(255,179,0,.62) 50%,
+    rgba(255,211,106,.20) 85%,
+    rgba(255,179,0,0) 100%
+  );
+  box-shadow:0 0 22px rgba(255,179,0,.12);
+  opacity:.92;
+}
 
-    footer{
-      margin-top: 18px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255,255,255,.07);
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 12px;
-    }
-    @media (max-width: 900px){ footer{ grid-template-columns: 1fr; } }
-    .footBlock{
-      padding: 14px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.06);
-    }
-    .footBlock .label{
-      color: var(--muted);
-      letter-spacing:.22em;
-      text-transform: uppercase;
-      font-size: 12px;
-    }
-    .footBlock .value{
-      margin-top: 8px;
-      line-height: 1.35;
-      color: #eaeaea;
-    }
-    .goldLink{
-      display:inline-block;
-      margin-top: 10px;
-      letter-spacing:.18em;
-      text-transform: uppercase;
-      font-size: 12px;
-      color: var(--text);
-      position:relative;
-      padding-bottom: 4px;
-    }
-    .goldLink::after{
-      content:"";
-      position:absolute;
-      left:0; right:0; bottom:0;
-      height:1px;
-      background: linear-gradient(135deg, rgba(212,175,55,.9), rgba(246,226,122,.55));
-      opacity:.75;
-      transform: scaleX(.65);
-      transform-origin:left;
-      transition: transform .35s var(--ease), opacity .25s ease;
-    }
-    .goldLink:hover::after{ transform: scaleX(1); opacity: 1; }
+/* ===== GRID ===== */
+.rates{
+  max-width:1700px;
+  margin:18px auto 96px; /* space for ticker */
+  padding:14px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
 
-    .signature{
-      margin-top: 14px;
-      text-align:center;
-      color: var(--muted2);
-      font-size: 12px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-    .signature b{
-      color: #eaeaea;
-      font-weight: 600;
-      letter-spacing: .18em;
-    }
-  </style>
+/* ===== LUXURY CARD ===== */
+.card{
+  position:relative;
+  background:
+    radial-gradient(900px 420px at 22% 18%, rgba(255,211,106,.09), transparent 58%),
+    linear-gradient(180deg, rgba(14,18,28,.92), rgba(6,8,14,.92));
+  border:1px solid rgba(255,211,106,.18);
+  border-radius:22px;
+  overflow:hidden;
+  min-height:680px;
+  box-shadow:var(--shadow);
+}
+.card::before{
+  /* subtle foil edge */
+  content:"";
+  position:absolute;inset:0;
+  pointer-events:none;
+  border-radius:22px;
+  padding:1px;
+  background:linear-gradient(135deg,
+    rgba(255,211,106,.20),
+    rgba(255,255,255,.04),
+    rgba(255,179,0,.16),
+    rgba(255,255,255,.03)
+  );
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+          mask-composite:exclude;
+  opacity:.80;
+}
+.card::after{
+  /* slow specular sweep (very subtle) */
+  content:"";
+  position:absolute;inset:-60%;
+  pointer-events:none;
+  background:linear-gradient(120deg, transparent 42%, rgba(255,255,255,.09) 50%, transparent 58%);
+  transform:translateX(-30%);
+  animation:cardSheen 14s ease-in-out infinite;
+  opacity:.55;
+}
+@keyframes cardSheen{
+  0%   { transform:translateX(-40%) rotate(0deg); opacity:.0; }
+  15%  { opacity:.55; }
+  40%  { transform:translateX(20%) rotate(0deg); opacity:.0; }
+  100% { transform:translateX(20%) rotate(0deg); opacity:0; }
+}
+
+/* ===== CARD HEADER ===== */
+.card-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:14px 14px;
+  font-size:18px;
+  font-weight:900;
+  border-bottom:1px solid rgba(255,211,106,.12);
+  background:linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.12));
+}
+.ct-left{display:flex;align-items:baseline;gap:10px;}
+.ct-symbol{
+  font-weight:900;
+  letter-spacing:.8px;
+}
+.ct-sub{
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:1.6px;
+  color:rgba(220,228,255,.92);
+  opacity:.92;
+  text-transform:uppercase;
+}
+.ct-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  justify-content:flex-end;
+}
+.pill-mini{
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,211,106,.08);
+  border:1px solid rgba(255,211,106,.18);
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.45px;
+  color:#fff;
+  white-space:nowrap;
+}
+.pill-mini b{ color:var(--gold3); }
+
+/* ===== TV AREA ===== */
+.tv-box{position:relative;height:calc(100% - 52px)}
+.tv-inner{position:absolute;inset:0}
+.tv-inner iframe{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  transform-origin:center center !important;
+  transform:translate(calc(-50% + 80px), calc(-50% + 40px)) scale(1.10)!important;
+  width:100%!important;
+  height:100%!important;
+  border:0;
+}
+
+/* IMPORTANT CHANGE:
+   We no longer hide the widget when market is closed.
+   You asked to keep last visible rate on the widget.
+*/
+.market-closed .tv-inner{ display:block; }
+
+/* ===== TICKER ===== */
+.ticker{
+  position:fixed;bottom:0;left:0;right:0;
+  height:64px;
+  background:linear-gradient(180deg, rgba(0,0,0,.78), rgba(0,0,0,.62));
+  border-top:1px solid rgba(255,179,0,.18);
+  overflow:hidden;
+  backdrop-filter: blur(12px);
+  z-index:5;
+}
+
+/* fade edges (luxury ribbon) */
+.ticker::before,
+.ticker::after{
+  content:"";
+  position:absolute;top:0;bottom:0;width:90px;
+  pointer-events:none;
+  z-index:2;
+}
+.ticker::before{
+  left:0;
+  background:linear-gradient(90deg, rgba(0,0,0,.95), rgba(0,0,0,0));
+}
+.ticker::after{
+  right:0;
+  background:linear-gradient(270deg, rgba(0,0,0,.95), rgba(0,0,0,0));
+}
+
+.marquee{display:flex;width:100%;overflow:hidden;position:relative;z-index:1}
+.marquee-group{
+  display:flex;gap:42px;white-space:nowrap;
+  animation:scroll 120s linear infinite;
+}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+
+.item{
+  font-size:18px;
+  font-weight:800;
+  display:flex;
+  gap:12px;
+  align-items:center
+}
+
+/* badge */
+.badge{
+  padding:6px 12px;border-radius:16px;
+  background:rgba(255,179,0,.12);
+  color:var(--gold3);
+  border:1px solid rgba(255,179,0,.26);
+  letter-spacing:.35px;
+}
+
+/* separators */
+.sep-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,211,106,.38);
+  box-shadow:0 0 10px rgba(255,211,106,.18);
+  opacity:.9;
+}
+
+/* Clickable news styling */
+.item a.news-link{
+  color:#fff;
+  text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.20);
+  padding-bottom:1px;
+  transition:opacity .15s ease, border-color .15s ease;
+}
+.item a.news-link:hover{
+  opacity:.92;
+  border-bottom-color: rgba(255,211,106,.70);
+}
+
+/* Timestamp styling */
+.news-time{
+  font-size:14px;
+  font-weight:900;
+  color:#dbe4ff;
+  opacity:.92;
+  letter-spacing:.3px;
+}
+
+/* ===== FULLSCREEN BUTTON (BASE) ===== */
+.kiosk-btn{
+  position:fixed;
+  top:14px;
+  right:14px;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,179,0,.32);
+  background:rgba(0,0,0,.46);
+  backdrop-filter: blur(12px);
+  color:#fff;
+  font-family:"ClarityCity",Arial,sans-serif;
+  font-weight:900;
+  letter-spacing:.3px;
+  cursor:pointer;
+  user-select:none;
+  box-shadow:0 0 20px rgba(255,179,0,.10);
+}
+.kiosk-btn:active{ transform:translateY(1px); }
+.kiosk-ic{
+  width:12px;height:12px;border-radius:50%;
+  background:rgba(255,211,106,.9);
+  box-shadow:0 0 12px rgba(255,179,0,.55);
+}
+.kiosk-hint{
+  font-size:12px;
+  font-weight:800;
+  opacity:.7;
+}
+
+/* kiosk: a bit tighter for more chart */
+body.kiosk .hero{ padding-bottom:10px; }
+body.kiosk .rates{ margin-top:10px; }
+
+/* Hide FULL SCREEN on desktop/TV */
+@media (min-width: 769px){
+  .kiosk-btn{ display:none !important; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1100px){
+  .rates{grid-template-columns:1fr}
+  .brand-name{font-size:44px}
+  .statusbar-inner{ border-radius:22px; }
+  .sb-left,.sb-right{min-width:180px;}
+}
+
+/* ===== MOBILE OPTIMIZATION ===== */
+@media (max-width: 768px){
+  body{ overflow-y:auto; }
+
+  .statusbar{ padding-top:58px; }
+  .statusbar-inner{
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    border-radius:22px;
+    padding:12px;
+  }
+  .sb-left,.sb-mid,.sb-right{min-width:auto; width:100%; justify-content:center; text-align:center;}
+  .sb-clock{ font-size:12px; }
+
+  /* reserve top strip for fullscreen */
+  .hero{
+    padding:58px 10px 12px;
+    position:relative;
+  }
+  .kiosk-btn{
+    display:flex !important;
+    position:absolute;
+    top:10px;
+    left:10px;
+    right:auto;
+    padding:8px 10px;
+    gap:8px;
+    border-radius:999px;
+  }
+  #kioskLabel{ font-size:12px; letter-spacing:.2px; }
+  .kiosk-ic{ width:10px; height:10px; }
+  .kiosk-hint{ display:none; }
+
+  .hero-inner{
+    gap:12px;
+    justify-content:center;
+    flex-wrap:nowrap;
+    padding:0 6px;
+  }
+  .logo-wrap{ width:68px; height:68px; border-radius:18px; }
+  .logo-wrap img{ width:48px; max-width:80%; }
+
+  .brand{ max-width:78vw; }
+  .brand-name{
+    font-size:30px;
+    letter-spacing:3px;
+    line-height:1.05;
+    white-space:normal;
+    word-break:break-word;
+  }
+  .brand-sub{ font-size:12px; margin-top:6px; letter-spacing:2.2px; }
+
+  .rates{
+    grid-template-columns:1fr;
+    margin:12px auto 86px;
+    padding:10px;
+    gap:12px;
+  }
+  .card{ min-height:auto; border-radius:20px; }
+  .tv-box{ height:360px; }
+
+  /* Mobile: keep Day's Range visible */
+  .tv-inner iframe{
+    transform:translate(-50%,-50%) scale(0.92)!important;
+  }
+
+  .ticker{ height:54px; }
+  .item{ font-size:14px; }
+  .badge{ padding:5px 10px; border-radius:14px; }
+  .news-time{ font-size:12px; }
+}
+</style>
 </head>
 
 <body>
-  <div class="wrap">
 
-    <div class="topbar">
-      <button class="btn" id="fullscreenBtn" type="button" aria-label="Toggle fullscreen">
-        <span class="dot"></span>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.05">
-          <small>Full Screen</small>
-          <span style="font-size:13px;letter-spacing:.08em;color:#eaeaea">Fullscreen</span>
-        </div>
-      </button>
+<!-- FULLSCREEN BUTTON (MOBILE ONLY) -->
+<button class="kiosk-btn" id="kioskBtn" type="button" aria-label="Toggle fullscreen">
+  <span class="kiosk-ic" aria-hidden="true"></span>
+  <span id="kioskLabel">FULL SCREEN</span>
+  <span class="kiosk-hint" id="kioskHint">Fullscreen</span>
+</button>
+
+<!-- TOP STATUS BAR (Market Open/Closed moved here, above charts) -->
+<div class="statusbar">
+  <div class="statusbar-inner">
+    <div class="sb-left">
+      <span class="dot" id="statusDot"></span>
+      <span class="sb-title" id="marketTop">Market</span>
+      <span class="sb-eta" id="marketETA">--</span>
     </div>
 
-    <header>
-      <div class="brand">
-        <div class="logo" aria-label="Shaluq Jewellers logo">
-          <!-- Keep your existing logo src -->
-          <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
-        </div>
-        <div class="titles">
-          <h1>SHALUQ JEWELLERS</h1>
-          <p>Live Gold &amp; Silver Prices</p>
-        </div>
+    <div class="sb-mid">
+      <span class="sb-clock" id="clock">--:-- UAE • --:-- USA • --:-- LON</span>
+    </div>
+
+    <div class="sb-right">
+      <span class="sb-conn" id="connPill"><i></i><span id="connText">LIVE</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="logo-wrap"><img src="logo.png" alt="Logo"></div>
+    <div class="brand">
+      <div class="brand-name">SHALUQ JEWELLERS</div>
+      <div class="brand-sub">Live Gold &amp; Silver Prices</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- RATES -->
+<div class="rates">
+  <div class="card">
+    <div class="card-title">
+      <div class="ct-left">
+        <div class="ct-symbol">GOLD (XAUUSD)</div>
+        <div class="ct-sub">Onyx Live</div>
       </div>
-
-      <div class="statusRow">
-        <div class="chip">
-          <span class="marketDot" id="marketDot" aria-hidden="true"></span>
-          <span class="label">Market</span>
-          <span class="val" id="marketStatus">• --</span>
-          <span class="sep"></span>
-          <span class="val" id="marketClock">--:--</span>
-        </div>
-
-        <div class="chip">
-          <span class="label">UAE</span>
-          <span class="val" id="uaeTime">--:--</span>
-        </div>
-        <div class="chip">
-          <span class="label">USA</span>
-          <span class="val" id="usaTime">--:--</span>
-        </div>
-        <div class="chip">
-          <span class="label">LON</span>
-          <span class="val" id="lonTime">--:--</span>
-        </div>
+      <div class="ct-right">
+        <div class="pill-mini" id="goldLastPill">Last: <b>--</b></div>
       </div>
-    </header>
-
-    <main>
-      <div class="grid">
-        <!-- GOLD -->
-        <section class="card" id="goldCard">
-          <div class="cardInner">
-            <div class="kicker">
-              <div class="name">GOLD (XAUUSD)</div>
-              <div class="badge"><span>Status</span> <b id="goldStatus">Market Closed</b></div>
-            </div>
-
-            <div class="priceRow">
-              <div>
-                <!-- If your existing JS sets a different ID, rename here -->
-                <div class="price" id="goldPrice"><span class="skeleton" style="display:inline-block;width:160px"></span></div>
-                <div class="sub" id="goldMeta">Spot • USD/oz</div>
-              </div>
-              <div style="text-align:right">
-                <div class="sub">Change</div>
-                <div class="price" style="font-size:18px;color:var(--muted)" id="goldChange">--</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- SILVER -->
-        <section class="card" id="silverCard">
-          <div class="cardInner">
-            <div class="kicker">
-              <div class="name">SILVER (XAGUSD)</div>
-              <div class="badge"><span>Status</span> <b id="silverStatus">Market Closed</b></div>
-            </div>
-
-            <div class="priceRow">
-              <div>
-                <div class="price" id="silverPrice"><span class="skeleton" style="display:inline-block;width:160px"></span></div>
-                <div class="sub" id="silverMeta">Spot • USD/oz</div>
-              </div>
-              <div style="text-align:right">
-                <div class="sub">Change</div>
-                <div class="price" style="font-size:18px;color:var(--muted)" id="silverChange">--</div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <!-- NEWS -->
-      <section class="card stack" id="newsCard">
-        <div class="cardInner">
-          <div class="sectionTitle">
-            <h2>NEWS</h2>
-            <div class="badge"><span id="newsStatus">Loading Gold Headlines…</span></div>
-          </div>
-
-          <div class="newsList" id="newsList">
-            <div class="newsItem">
-              <div class="skeleton" style="width: 92%; height: 14px; border-radius: 10px;"></div>
-              <div class="skeleton" style="width: 76%; height: 14px; border-radius: 10px; margin-top:10px;"></div>
-              <small>Fetching headlines</small>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- FOOTER / CONTACT -->
-      <footer>
-        <div class="footBlock">
-          <div class="label">Dubai Office</div>
-          <div class="value">M02, Saeed Mohammed Building, Deira Gold Souk Dubai</div>
-          <a class="goldLink" href="tel:+971547869940">Call +971 54 786 9940</a>
-        </div>
-
-        <div class="footBlock">
-          <div class="label">Visit</div>
-          <div class="value">Shaluq Jewellers Official Website</div>
-          <a class="goldLink" href="https://www.shaluqjewellers.com/" target="_blank" rel="noopener">www.shaluqjewellers.com</a>
-        </div>
-
-        <div class="footBlock">
-          <div class="label">Fujairah Retail Store</div>
-          <div class="value">Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank, Fujairah UAE</div>
-          <a class="goldLink" href="tel:+97192439539">Call +971 92 439 539</a>
-        </div>
-      </footer>
-
-      <div class="signature"><b>SHALUQ JEWELLERS</b> — Where Luxury Meets Affection</div>
-    </main>
+    </div>
+    <div class="tv-box">
+      <div class="tv-inner"><div id="gold"></div></div>
+    </div>
   </div>
 
-  <script>
-    // ---------- Premium reveal ----------
-    const reveal = () => {
-      document.querySelectorAll('.card').forEach((el, i) => {
-        setTimeout(() => el.classList.add('reveal'), 120 + i * 110);
-      });
-    };
-    window.addEventListener('load', reveal);
+  <div class="card">
+    <div class="card-title">
+      <div class="ct-left">
+        <div class="ct-symbol">SILVER (XAGUSD)</div>
+        <div class="ct-sub">Onyx Live</div>
+      </div>
+      <div class="ct-right">
+        <div class="pill-mini" id="silverLastPill">Last: <b>--</b></div>
+      </div>
+    </div>
+    <div class="tv-box">
+      <div class="tv-inner"><div id="silver"></div></div>
+    </div>
+  </div>
+</div>
 
-    // ---------- Fullscreen ----------
-    const fsBtn = document.getElementById('fullscreenBtn');
-    fsBtn?.addEventListener('click', async () => {
-      try{
-        if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
-        else await document.exitFullscreen();
-      }catch(e){ /* ignore */ }
-    });
+<!-- TICKER -->
+<div class="ticker">
+  <div class="marquee">
+    <div class="marquee-group" id="g1">
+      <div class="item"><span class="badge">NEWS</span> Loading Gold Headlines...</div>
 
-    // ---------- Time row ----------
-    const fmtTime = (tz) =>
-      new Intl.DateTimeFormat([], { hour:'2-digit', minute:'2-digit', hour12:false, timeZone: tz }).format(new Date());
+      <div class="item"><span class="sep-dot"></span><span class="badge">DUBAI</span> Office M02, Saeed Mohammed Building, Deira Gold Souk Dubai</div>
+      <div class="item"><span class="sep-dot"></span><span class="badge">FOR DUBAI CALL</span> +971 54 786 9940</div>
+      <div class="item"><span class="sep-dot"></span><span class="badge">VISIT</span> www.shaluqjewellers.com</div>
+      <div class="item"><span class="sep-dot"></span><span class="badge">FUJAIRAH</span> (Retail Store) Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
+      <div class="item"><span class="sep-dot"></span><span class="badge">FOR FUJAIRAH CALL</span> +971 92 439 539</div>
+      <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
 
-    const uaeEl = document.getElementById('uaeTime');
-    const usaEl = document.getElementById('usaTime');
-    const lonEl = document.getElementById('lonTime');
-    const mClock = document.getElementById('marketClock');
+      <div class="item" aria-hidden="true" style="width:80px;"></div>
+    </div>
 
-    function tickClocks(){
-      // Dubai (UAE)
-      uaeEl.textContent = fmtTime('Asia/Dubai');
-      // USA example: New York (you can change to Chicago/LA if you prefer)
-      usaEl.textContent = fmtTime('America/New_York');
-      // London
-      lonEl.textContent = fmtTime('Europe/London');
-      // Market clock can follow UAE for your staff
-      mClock.textContent = fmtTime('Asia/Dubai');
+    <div class="marquee-group" id="g2"></div>
+  </div>
+</div>
+
+<script>
+/* =========================
+   TradingView Widgets
+   ========================= */
+function addTV(symbol,id){
+  const s=document.createElement("script");
+  s.src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js";
+  s.async=true;
+  s.innerHTML=JSON.stringify({symbol:symbol,colorTheme:"dark",isTransparent:true,locale:"en"});
+  document.getElementById(id).appendChild(s);
+}
+addTV("OANDA:XAUUSD","gold");
+addTV("OANDA:XAGUSD","silver");
+
+/* =========================
+   Dubai time helper (UAE = UTC+4)
+   ========================= */
+function getDubaiDate(){
+  const now = new Date();
+  const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+  return new Date(utc + (4 * 60 * 60000));
+}
+
+/* =========================
+   Clock (Dubai + USA(New York) + London)
+   ========================= */
+function tickClock(){
+  const now = new Date();
+
+  const d = getDubaiDate();
+  const hh = String(d.getHours()).padStart(2,"0");
+  const mm = String(d.getMinutes()).padStart(2,"0");
+
+  const ny = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
+  const nyhh = String(ny.getHours()).padStart(2,"0");
+  const nymm = String(ny.getMinutes()).padStart(2,"0");
+
+  const lon = new Date(now.toLocaleString("en-GB", { timeZone: "Europe/London" }));
+  const lonhh = String(lon.getHours()).padStart(2,"0");
+  const lonmm = String(lon.getMinutes()).padStart(2,"0");
+
+  document.getElementById("clock").textContent =
+    `${hh}:${mm} UAE • ${nyhh}:${nymm} USA • ${lonhh}:${lonmm} LON`;
+}
+tickClock();
+setInterval(tickClock, 10000);
+
+/* =========================
+   Connection pill helper
+   ========================= */
+const connPill = document.getElementById("connPill");
+const connText = document.getElementById("connText");
+function setConn(ok, label){
+  if(ok){
+    connPill.classList.remove("off");
+    connText.textContent = label || "LIVE";
+  }else{
+    connPill.classList.add("off");
+    connText.textContent = label || "RECONNECTING";
+  }
+}
+
+/* =========================
+   Market Hours (Dubai time)
+   Open: 03:00
+   Close: 02:00 (next day)
+   Daily gap: 02:00–03:00 CLOSED
+   Weekend closure: Saturday 02:00 → Sunday 03:00 CLOSED
+   ========================= */
+let marketTickTimer = null;
+let wasOpen = null;
+
+function updateDubaiMarket(){
+  const d = getDubaiDate();
+  const day = d.getDay(); // 0=Sun, 6=Sat
+  const h = d.getHours();
+
+  const top = document.getElementById("marketTop");
+  const eta = document.getElementById("marketETA");
+  const dot = document.getElementById("statusDot");
+
+  const dailyGapClosed = (h === 2);
+
+  const weekendClosed =
+    (day === 6 && (h >= 2)) ||  // Saturday from 02:00 onward
+    (day === 0 && (h < 3));     // Sunday until 03:00
+
+  const isOpen = !(dailyGapClosed || weekendClosed);
+
+  function getNextClose(nowDubai){
+    const close = new Date(nowDubai);
+    close.setMilliseconds(0);
+    if (nowDubai.getHours() < 2){
+      close.setHours(2, 0, 0, 0);
+    } else {
+      close.setDate(close.getDate() + 1);
+      close.setHours(2, 0, 0, 0);
     }
-    tickClocks();
-    setInterval(tickClocks, 1000 * 15);
+    return close;
+  }
 
-    // ---------- Market open/closed (simple, cosmetic) ----------
-    // Note: XAU/XAG trade nearly 24/5; you can fine-tune later.
-    const marketDot = document.getElementById('marketDot');
-    const marketStatus = document.getElementById('marketStatus');
+  function getNextOpen(nowDubai){
+    const open = new Date(nowDubai);
+    open.setMilliseconds(0);
 
-    function isWeekdayNY(){
-      const now = new Date();
-      const dow = new Intl.DateTimeFormat('en-US', { weekday:'short', timeZone:'America/New_York' }).format(now);
-      return !['Sat','Sun'].includes(dow);
+    if (weekendClosed){
+      if (day === 6){
+        open.setDate(open.getDate() + 1);
+        open.setHours(3, 0, 0, 0);
+      } else {
+        open.setHours(3, 0, 0, 0);
+      }
+    } else {
+      open.setHours(3, 0, 0, 0);
     }
+    return open;
+  }
 
-    function setMarketState(){
-      const open = isWeekdayNY();
-      marketDot.classList.toggle('open', open);
-      marketStatus.textContent = open ? '• Open' : '• Closed';
+  if (marketTickTimer) clearInterval(marketTickTimer);
 
-      // Also set the badges (cosmetic; your real price feed can override)
-      document.getElementById('goldStatus').textContent = open ? 'Market Open' : 'Market Closed';
-      document.getElementById('silverStatus').textContent = open ? 'Market Open' : 'Market Closed';
+  // Transition detection: open -> closed (store last snapshot already handled by price poll storage)
+  if(wasOpen === null) wasOpen = isOpen;
+  if(wasOpen && !isOpen){
+    // mark "closedAt" timestamp (for display purposes)
+    try{ localStorage.setItem("sj_closed_at", String(Date.now())); }catch(e){}
+  }
+  wasOpen = isOpen;
+
+  if (isOpen){
+    const closeAt = getNextClose(d);
+
+    top.textContent = "Market Open";
+    dot.style.background = "var(--open)";
+    dot.style.boxShadow = "0 0 12px var(--open)";
+    document.body.classList.remove("market-closed");
+
+    function tick(){
+      const nowDubai = getDubaiDate();
+      let diff = Math.max(0, Math.floor((closeAt.getTime() - nowDubai.getTime()) / 1000));
+      const hrs = Math.floor(diff / 3600);
+      diff %= 3600;
+      const mins = Math.floor(diff / 60);
+      const secs = diff % 60;
+      eta.textContent = `• Closes in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
     }
-    setMarketState();
-    setInterval(setMarketState, 1000 * 60);
+    tick();
+    marketTickTimer = setInterval(tick, 1000);
 
-    // ---------- Hook points for your existing price/news logic ----------
-    // If you already fetch prices + headlines elsewhere, just set these:
-    //
-    // document.getElementById('goldPrice').textContent = '2,034.55';
-    // document.getElementById('goldChange').textContent = '+0.42%';
-    //
-    // document.getElementById('silverPrice').textContent = '23.41';
-    // document.getElementById('silverChange').textContent = '-0.18%';
-    //
-    // For news:
-    // const list = document.getElementById('newsList');
-    // list.innerHTML = `<div class="newsItem">Headline...<small>Source</small></div>`;
-    // document.getElementById('newsStatus').textContent = 'Updated';
-  </script>
+  } else {
+    const openAt = getNextOpen(d);
+
+    top.textContent = "Market Closed";
+    dot.style.background = "var(--closed)";
+    dot.style.boxShadow = "0 0 12px var(--closed)";
+    document.body.classList.add("market-closed");
+
+    function tick(){
+      const nowDubai = getDubaiDate();
+      let diff = Math.max(0, Math.floor((openAt.getTime() - nowDubai.getTime()) / 1000));
+
+      const days = Math.floor(diff / 86400);
+      diff %= 86400;
+      const hrs = Math.floor(diff / 3600);
+      diff %= 3600;
+      const mins = Math.floor(diff / 60);
+      const secs = diff % 60;
+
+      eta.textContent = days > 0
+        ? `• Opens in ${days}d ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`
+        : `• Opens in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
+    }
+    tick();
+    marketTickTimer = setInterval(tick, 1000);
+  }
+}
+updateDubaiMarket();
+setInterval(updateDubaiMarket, 30000);
+
+/* =========================
+   Ticker duplicate rebuild (seamless loop)
+   ========================= */
+function rebuildTicker(){
+  document.getElementById("g2").innerHTML = document.getElementById("g1").innerHTML;
+}
+
+/* =========================
+   Utilities
+   ========================= */
+function stripHtml(s){
+  return String(s || "").replace(/<[^>]*>/g,"").trim();
+}
+function formatDubaiTime(dateObj){
+  const d = new Date(dateObj);
+  const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+  const dubai = new Date(utc + (4 * 60 * 60000));
+  const hh = String(dubai.getHours()).padStart(2,"0");
+  const mm = String(dubai.getMinutes()).padStart(2,"0");
+  return `${hh}:${mm} UAE`;
+}
+function relTimeFromNow(dateObj){
+  const now = new Date();
+  const then = new Date(dateObj);
+  const diff = Math.max(0, Math.round((now.getTime() - then.getTime())/1000));
+  const m = Math.floor(diff/60);
+  const h = Math.floor(m/60);
+  const d = Math.floor(h/24);
+  if (d >= 1) return `${d}d ago`;
+  if (h >= 1) return `${h}h ago`;
+  if (m >= 1) return `${m}m ago`;
+  return `just now`;
+}
+
+/* =========================
+   (FIX 1) News reliability:
+   - Avoid rss2json dependency failures
+   - Fetch RSS via AllOrigins and parse XML
+   - Cache last good headlines in localStorage
+   - If fetch fails or returns empty, keep cached so ticker NEVER goes blank
+   ========================= */
+const NEWS_CACHE_KEY = "sj_news_cache_v2";
+
+async function fetchRssItems(){
+  const rssUrl = "https://www.tradingview.com/rss/news/?category=commodities";
+  const proxy = "https://api.allorigins.win/raw?url=" + encodeURIComponent(rssUrl);
+
+  const res = await fetch(proxy, { cache:"no-store" });
+  if(!res.ok) throw new Error("RSS fetch failed");
+  const xmlText = await res.text();
+
+  const parser = new DOMParser();
+  const xml = parser.parseFromString(xmlText, "text/xml");
+
+  // detect parse errors
+  if(xml.querySelector("parsererror")) throw new Error("RSS parse error");
+
+  const items = Array.from(xml.querySelectorAll("item")).slice(0, 6).map(it => {
+    const title = stripHtml(it.querySelector("title")?.textContent || "");
+    const link  = (it.querySelector("link")?.textContent || "").trim();
+    const pub   = (it.querySelector("pubDate")?.textContent || "").trim();
+    return { title, link, pubDate: pub };
+  }).filter(x => x.title);
+
+  return items;
+}
+
+function loadCachedNews(){
+  try{
+    const raw = localStorage.getItem(NEWS_CACHE_KEY);
+    if(!raw) return null;
+    const obj = JSON.parse(raw);
+    if(!obj || !Array.isArray(obj.items) || obj.items.length === 0) return null;
+    return obj;
+  }catch(e){ return null; }
+}
+
+function saveCachedNews(items){
+  try{
+    localStorage.setItem(NEWS_CACHE_KEY, JSON.stringify({
+      savedAt: Date.now(),
+      items
+    }));
+  }catch(e){}
+}
+
+function renderNews(items, note){
+  const g1 = document.getElementById("g1");
+
+  // remove old news blocks
+  g1.querySelectorAll("[data-news='1']").forEach(n => n.remove());
+
+  // remove "Loading..." placeholder if present
+  const first = g1.querySelector(".item");
+  if(first && first.textContent.includes("Loading Gold Headlines")) first.remove();
+
+  if(!items || items.length === 0){
+    g1.insertAdjacentHTML("afterbegin",
+      `<div class="item" data-news="1"><span class="badge">NEWS</span> No headlines right now</div>`
+    );
+  }else{
+    const html = items.map(x => {
+      const link = x.link || "#";
+      const pub = x.pubDate ? new Date(x.pubDate) : null;
+      const timeLabel = (pub && !isNaN(pub.getTime()))
+        ? `${relTimeFromNow(pub)} • ${formatDubaiTime(pub)}`
+        : "Latest";
+
+      return `
+        <div class="item" data-news="1">
+          <span class="badge">NEWS</span>
+          <a class="news-link" href="${link}" target="_blank" rel="noopener noreferrer">${stripHtml(x.title)}</a>
+          <span class="news-time">${timeLabel}${note ? " • " + note : ""}</span>
+        </div>
+      `;
+    }).join("");
+    g1.insertAdjacentHTML("afterbegin", html);
+  }
+
+  rebuildTicker();
+}
+
+async function loadGoldHeadlines(){
+  try{
+    const items = await fetchRssItems();
+    if(items.length > 0){
+      renderNews(items, "");
+      saveCachedNews(items);
+      setConn(true, "LIVE");
+      return;
+    }
+    // empty response: fallback to cache
+    const cached = loadCachedNews();
+    if(cached){
+      renderNews(cached.items, "cached");
+      setConn(true, "LIVE");
+      return;
+    }
+    renderNews([], "");
+    setConn(false, "RECONNECTING");
+  }catch(e){
+    // failure: render cached if exists
+    const cached = loadCachedNews();
+    if(cached){
+      renderNews(cached.items, "cached");
+    }
+    setConn(false, "RECONNECTING");
+    rebuildTicker();
+  }
+}
+
+/* =========================
+   (FIX 2) Last rate at market close:
+   - We poll a free public JSON endpoint (no API key)
+   - Store latest XAU/XAG USD prices in localStorage
+   - Always display "Last: ..." in each card header
+   - When market closes, widget remains visible (shows last state),
+     and our "Last: ..." remains as the last fetched value.
+   ========================= */
+const PRICE_CACHE_KEY = "sj_price_cache_v1";
+const goldLastPill = document.getElementById("goldLastPill");
+const silverLastPill = document.getElementById("silverLastPill");
+
+function readPriceCache(){
+  try{
+    const raw = localStorage.getItem(PRICE_CACHE_KEY);
+    if(!raw) return null;
+    const obj = JSON.parse(raw);
+    if(!obj) return null;
+    return obj;
+  }catch(e){ return null; }
+}
+
+function writePriceCache(obj){
+  try{ localStorage.setItem(PRICE_CACHE_KEY, JSON.stringify(obj)); }catch(e){}
+}
+
+function fmt(n){
+  if(typeof n !== "number" || !isFinite(n)) return "--";
+  // luxury: 2 decimals
+  return n.toLocaleString(undefined, { minimumFractionDigits:2, maximumFractionDigits:2 });
+}
+
+function setLastPillsFromCache(){
+  const c = readPriceCache();
+  if(!c){
+    goldLastPill.innerHTML = `Last: <b>--</b>`;
+    silverLastPill.innerHTML = `Last: <b>--</b>`;
+    return;
+  }
+  const t = c.ts ? new Date(c.ts) : null;
+  const ts = t ? formatDubaiTime(t) : "--";
+  goldLastPill.innerHTML = `Last: <b>${fmt(c.xau)}</b> <span style="opacity:.75">• ${ts}</span>`;
+  silverLastPill.innerHTML = `Last: <b>${fmt(c.xag)}</b> <span style="opacity:.75">• ${ts}</span>`;
+}
+
+// GoldPrice.org JSON (commonly used publicly, no key)
+// If this ever fails, we keep cached values and UI still works.
+async function pollSpotPrices(){
+  try{
+    const res = await fetch("https://data-asg.goldprice.org/dbXRates/USD", { cache:"no-store" });
+    if(!res.ok) throw new Error("price fetch failed");
+    const data = await res.json();
+
+    // expected: data.items[0].xauPrice, xagPrice
+    const it = data?.items?.[0];
+    const xau = Number(it?.xauPrice);
+    const xag = Number(it?.xagPrice);
+
+    if(!isFinite(xau) || !isFinite(xag)) throw new Error("bad price data");
+
+    const obj = { ts: Date.now(), xau, xag };
+    writePriceCache(obj);
+    setLastPillsFromCache();
+    setConn(true, "LIVE");
+  }catch(e){
+    // keep cached
+    setLastPillsFromCache();
+    // don't force "RECONNECTING" just because price failed; news might be fine.
+  }
+}
+
+/* Poll prices every 60s (lightweight) */
+setLastPillsFromCache();
+pollSpotPrices();
+setInterval(pollSpotPrices, 60 * 1000);
+
+/* =========================
+   FULLSCREEN MODE (MOBILE BUTTON ONLY)
+   ========================= */
+const kioskBtn = document.getElementById("kioskBtn");
+const kioskLabel = document.getElementById("kioskLabel");
+const kioskHint  = document.getElementById("kioskHint");
+
+function isFullscreen(){
+  return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+}
+
+async function enterFullscreen(){
+  const el = document.documentElement;
+  if (el.requestFullscreen) return el.requestFullscreen();
+  if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen();
+  if (el.msRequestFullscreen) return el.msRequestFullscreen();
+  throw new Error("Fullscreen not supported");
+}
+async function exitFullscreen(){
+  if (document.exitFullscreen) return document.exitFullscreen();
+  if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
+  if (document.msExitFullscreen) return document.msFullscreenElement ? document.msExitFullscreen() : null;
+}
+
+async function toggleKiosk(){
+  try{
+    if (!isFullscreen()){
+      await enterFullscreen();
+      document.body.classList.add("kiosk");
+      kioskHint.textContent = "Tap EXIT to close";
+      setTimeout(()=> kioskHint.textContent = "Fullscreen", 1500);
+    } else {
+      await exitFullscreen();
+      document.body.classList.remove("kiosk");
+    }
+    updateKioskUI();
+  } catch(err){
+    kioskHint.textContent = "Blocked";
+    setTimeout(() => kioskHint.textContent = isFullscreen() ? "Exit" : "Fullscreen", 1500);
+  }
+}
+
+function updateKioskUI(){
+  kioskLabel.textContent = isFullscreen() ? "EXIT" : "FULL SCREEN";
+}
+
+kioskBtn.addEventListener("click", toggleKiosk);
+["fullscreenchange","webkitfullscreenchange","msfullscreenchange"].forEach(ev=>{
+  document.addEventListener(ev, ()=>{
+    if (!isFullscreen()) document.body.classList.remove("kiosk");
+    updateKioskUI();
+  });
+});
+updateKioskUI();
+
+/* =========================
+   Run ticker + news refresh
+   ========================= */
+rebuildTicker();
+loadGoldHeadlines();
+setInterval(loadGoldHeadlines, 10 * 60 * 1000);
+</script>
+
 </body>
 </html>
