@@ -7,19 +7,11 @@
 <link rel="icon" href="logo.png" />
 
 <style>
-/* =========================
-   STYLE A — BLACK ONYX + SOFT GOLD
-   ✅ Clean version (NO Day’s Range glow)
-   ✅ Perfect top bar fit (PC + Mobile)
-   ✅ Premium spacing + mobile optimized
-   ✅ No news section (ticker only)
-   ========================= */
-
 @font-face{font-family:"ClarityCity";src:url("ClarityCity-Regular.ttf") format("truetype");font-weight:400}
 @font-face{font-family:"ClarityCity";src:url("ClarityCity-SemiBold.ttf") format("truetype");font-weight:600}
 @font-face{font-family:"ClarityCity";src:url("ClarityCity-Bold.ttf") format("truetype");font-weight:800}
 
-html, body{width:100%;height:100%;margin:0;padding:0;}
+html,body{width:100%;height:100%;margin:0;padding:0;}
 body{min-height:100vh;}
 
 :root{
@@ -74,11 +66,9 @@ body::before{
   100%{transform:translate3d(-1.4%,-1.4%,0) scale(1.02);opacity:.20;}
 }
 
-.hero, .divider, .rates, .ticker, .statusbar { position:relative; z-index:1; }
+.hero,.divider,.rates,.ticker,.statusbar{position:relative;z-index:1;}
 
-/* =========================
-   TOP STATUS BAR (PERFECT FIT)
-   ========================= */
+/* TOP STATUS BAR (bigger font) */
 .statusbar{width:100%;display:flex;justify-content:center;padding:10px 12px 0;}
 .statusbar-inner{
   width:min(1320px, 96vw);
@@ -94,23 +84,23 @@ body::before{
   box-shadow:0 10px 34px rgba(0,0,0,.55);
 }
 .sb-left{display:flex;align-items:center;gap:10px;white-space:nowrap;min-width:0;}
-.dot{width:12px;height:12px;border-radius:50%;background:var(--open);box-shadow:0 0 14px var(--open);animation:blink 1.6s infinite;}
+.dot{
+  width:12px;height:12px;border-radius:50%;
+  background:var(--open);
+  box-shadow:0 0 14px var(--open);
+  animation:blink 1.6s infinite;
+}
 @keyframes blink{0%,100%{opacity:.45}50%{opacity:1}}
-.sb-title{font-weight:900;letter-spacing:.35px;}
-.sb-eta{font-weight:900;color:var(--muted);opacity:.95;}
+.sb-title{font-weight:900;letter-spacing:.35px;font-size:16px;}
+.sb-eta{font-weight:900;color:var(--muted);opacity:.95;font-size:16px;}
 .sb-clock{
-  justify-self:end;
-  text-align:right;
-  font-weight:900;
-  color:#eaf0ff;
-  opacity:.98;
-  letter-spacing:.25px;
-  white-space:nowrap;
+  justify-self:end;text-align:right;
+  font-weight:900;color:#eaf0ff;opacity:.98;
+  letter-spacing:.25px;white-space:nowrap;
+  font-size:16px;
 }
 
-/* =========================
-   HEADER
-   ========================= */
+/* HEADER */
 .hero{padding:14px 14px 14px;border-bottom:1px solid rgba(255,179,0,.10);}
 .hero-inner{display:flex;justify-content:center;align-items:center;gap:22px;}
 .logo-wrap{
@@ -141,26 +131,11 @@ body::before{
   position:relative;display:inline-block;overflow:hidden;
 }
 @keyframes goldFlow{0%{background-position:0%}100%{background-position:320%}}
-.brand-name::after{
-  content:"";position:absolute;top:-25%;left:-70%;
-  width:55%;height:160%;pointer-events:none;
-  transform:skewX(-18deg);
-  background:linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.18) 35%, rgba(255,255,255,.48) 50%, rgba(255,255,255,.18) 65%, rgba(255,255,255,0) 100%);
-  mix-blend-mode:screen;opacity:.55;
-  animation:brandSweep 26s ease-in-out infinite;
-}
-@keyframes brandSweep{
-  0%{left:-75%;opacity:0;}
-  8%{opacity:.55;}
-  18%{left:120%;opacity:0;}
-  100%{left:120%;opacity:0;}
-}
 .brand-sub{
   margin-top:10px;font-size:14px;color:#dce4ff;opacity:.92;
   letter-spacing:2.8px;text-transform:uppercase;
 }
 
-/* divider */
 .divider{
   height:2px;width:min(1320px, 92vw);
   margin:10px auto 0;border-radius:999px;
@@ -169,9 +144,7 @@ body::before{
   opacity:.92;
 }
 
-/* =========================
-   GRID + CARDS
-   ========================= */
+/* GRID */
 .rates{
   max-width:1700px;
   margin:18px auto 96px;
@@ -200,20 +173,6 @@ body::before{
           mask-composite:exclude;
   opacity:.80;
 }
-.card::after{
-  content:"";position:absolute;inset:-60%;pointer-events:none;
-  background:linear-gradient(120deg, transparent 42%, rgba(255,255,255,.09) 50%, transparent 58%);
-  transform:translateX(-30%);
-  animation:cardSheen 14s ease-in-out infinite;
-  opacity:.55;
-}
-@keyframes cardSheen{
-  0%{transform:translateX(-40%);opacity:0;}
-  15%{opacity:.55;}
-  40%{transform:translateX(20%);opacity:0;}
-  100%{transform:translateX(20%);opacity:0;}
-}
-
 .card-title{
   padding:14px 14px;
   font-size:18px;
@@ -235,7 +194,7 @@ body::before{
 }
 
 /* =========================
-   TICKER (NO NEWS)
+   TICKER — FIXED (NO COLLAPSE)
    ========================= */
 .ticker{
   position:fixed;bottom:0;left:0;right:0;
@@ -252,22 +211,62 @@ body::before{
 .ticker::before{left:0;background:linear-gradient(90deg, rgba(0,0,0,.95), rgba(0,0,0,0));}
 .ticker::after{right:0;background:linear-gradient(270deg, rgba(0,0,0,.95), rgba(0,0,0,0));}
 
-.marquee{display:flex;width:100%;overflow:hidden;position:relative;z-index:1}
-.marquee-group{display:flex;gap:42px;white-space:nowrap;animation:scroll 120s linear infinite;}
-@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
-.item{font-size:18px;font-weight:800;display:flex;gap:12px;align-items:center}
+.marquee{
+  height:100%;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  position:relative;
+  z-index:1;
+}
+
+/* One belt with 2 groups -> animate 0 to -50% */
+.belt{
+  display:flex;
+  align-items:center;
+  width:max-content;           /* ✅ prevents collapse */
+  will-change:transform;
+  transform:translate3d(0,0,0);
+  animation:beltMove 70s linear infinite;
+}
+@keyframes beltMove{
+  0%{transform:translate3d(0,0,0);}
+  100%{transform:translate3d(-50%,0,0);} /* ✅ because we have 2 identical groups */
+}
+
+.group{
+  display:flex;
+  align-items:center;
+  gap:42px;
+  white-space:nowrap;
+  padding-left:24px;
+}
+
+/* make every item unshrinkable + no wrap */
+.item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:18px;
+  font-weight:800;
+  white-space:nowrap;
+  flex:0 0 auto;              /* ✅ never shrink */
+}
+
 .badge{
   padding:6px 12px;border-radius:16px;
   background:rgba(255,179,0,.12);
   color:var(--gold3);
   border:1px solid rgba(255,179,0,.26);
   letter-spacing:.35px;
+  flex:0 0 auto;
 }
 .sep-dot{
   width:6px;height:6px;border-radius:50%;
   background:rgba(255,211,106,.38);
   box-shadow:0 0 10px rgba(255,211,106,.18);
   opacity:.9;
+  flex:0 0 auto;
 }
 
 /* FULLSCREEN button (mobile only) */
@@ -289,21 +288,15 @@ body::before{
 .kiosk-hint{font-size:12px;font-weight:800;opacity:.7;}
 @media (min-width:769px){.kiosk-btn{display:none!important;}}
 
-/* =========================
-   RESPONSIVE (PC -> MOBILE)
-   ========================= */
+/* responsive */
 @media(max-width:1100px){
   .rates{grid-template-columns:1fr}
   .brand-name{font-size:44px}
-  .sb-clock{font-size:13px;}
-  .sb-title{font-size:14px;}
-  .sb-eta{font-size:13px;}
+  .sb-title,.sb-eta,.sb-clock{font-size:15px;}
 }
-
 @media (max-width:768px){
   body{overflow-y:auto;}
 
-  /* top bar becomes 2 rows */
   .statusbar{padding-top:58px;}
   .statusbar-inner{
     grid-template-columns:1fr;
@@ -311,22 +304,10 @@ body::before{
     border-radius:22px;
     padding:12px;
   }
-  .sb-left{
-    justify-content:center;
-    flex-wrap:wrap;
-    white-space:normal;
-    text-align:center;
-    gap:10px;
-  }
-  .sb-clock{
-    justify-self:center;
-    text-align:center;
-    white-space:normal;
-    line-height:1.25;
-    font-size:12px;
-  }
+  .sb-left{justify-content:center;flex-wrap:wrap;white-space:normal;text-align:center;gap:10px;}
+  .sb-clock{justify-self:center;text-align:center;white-space:normal;line-height:1.25;font-size:14px;}
+  .sb-title,.sb-eta{font-size:14px;}
 
-  /* reserve header space for fullscreen button */
   .hero{padding:58px 10px 12px;position:relative;}
   .kiosk-btn{
     display:flex!important;
@@ -347,37 +328,32 @@ body::before{
   .brand-name{font-size:30px;letter-spacing:3px;line-height:1.05;white-space:normal;word-break:break-word;}
   .brand-sub{font-size:12px;margin-top:6px;letter-spacing:2.2px;}
 
-  .rates{
-    grid-template-columns:1fr;
-    margin:12px auto 86px;
-    padding:10px;
-    gap:12px;
-  }
+  .rates{grid-template-columns:1fr;margin:12px auto 86px;padding:10px;gap:12px;}
   .card{min-height:auto;border-radius:20px;}
   .tv-box{height:360px;}
-
-  /* keep Day’s Range visible on mobile */
-  .tv-inner iframe{
-    transform:translate(-50%,-50%) scale(0.92)!important;
-  }
+  .tv-inner iframe{transform:translate(-50%,-50%) scale(0.92)!important;}
 
   .ticker{height:54px;}
   .item{font-size:14px;}
   .badge{padding:5px 10px;border-radius:14px;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .belt{animation:none;}
+  .dot{animation:none;}
+  body::before{animation:none;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- FULLSCREEN BUTTON (MOBILE ONLY) -->
 <button class="kiosk-btn" id="kioskBtn" type="button" aria-label="Toggle fullscreen">
   <span class="kiosk-ic" aria-hidden="true"></span>
   <span id="kioskLabel">FULL SCREEN</span>
   <span class="kiosk-hint" id="kioskHint">Fullscreen</span>
 </button>
 
-<!-- TOP STATUS BAR -->
 <div class="statusbar">
   <div class="statusbar-inner">
     <div class="sb-left">
@@ -389,7 +365,6 @@ body::before{
   </div>
 </div>
 
-<!-- HEADER -->
 <div class="hero">
   <div class="hero-inner">
     <div class="logo-wrap"><img src="logo.png" alt="Logo"></div>
@@ -402,7 +377,6 @@ body::before{
 
 <div class="divider"></div>
 
-<!-- RATES -->
 <div class="rates">
   <div class="card">
     <div class="card-title">GOLD (XAUUSD)</div>
@@ -421,17 +395,28 @@ body::before{
 
 <!-- TICKER -->
 <div class="ticker">
-  <div class="marquee">
-    <div class="marquee-group" id="g1">
-      <div class="item"><span class="badge">DUBAI</span> Office M02, Saeed Mohammed Building, Deira Gold Souk Dubai</div>
-      <div class="item"><span class="sep-dot"></span><span class="badge">FOR DUBAI CALL</span> +971 54 786 9940</div>
-      <div class="item"><span class="sep-dot"></span><span class="badge">VISIT</span> www.shaluqjewellers.com</div>
-      <div class="item"><span class="sep-dot"></span><span class="badge">FUJAIRAH</span> Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
-      <div class="item"><span class="sep-dot"></span><span class="badge">FOR FUJAIRAH CALL</span> +971 92 439 539</div>
-      <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
-      <div class="item" aria-hidden="true" style="width:80px;"></div>
+  <div class="marquee" aria-label="Contact information ticker">
+    <div class="belt">
+      <!-- Group 1 -->
+      <div class="group">
+        <div class="item"><span class="badge">DUBAI</span> Office M02, Saeed Mohammed Building, Deira Gold Souk Dubai</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge">FOR DUBAI CALL</span> +971 54 786 9940</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge">VISIT</span> www.shaluqjewellers.com</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge">FUJAIRAH</span> Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge">FOR FUJAIRAH CALL</span> +971 92 439 539</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
+      </div>
+
+      <!-- Group 2 (duplicate) -->
+      <div class="group" aria-hidden="true">
+        <div class="item"><span class="badge">DUBAI</span> Office M02, Saeed Mohammed Building, Deira Gold Souk Dubai</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge">FOR DUBAI CALL</span> +971 54 786 9940</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge">VISIT</span> www.shaluqjewellers.com</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge">FUJAIRAH</span> Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge">FOR FUJAIRAH CALL</span> +971 92 439 539</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
+      </div>
     </div>
-    <div class="marquee-group" id="g2"></div>
   </div>
 </div>
 
@@ -447,12 +432,6 @@ function addTV(symbol,id){
 addTV("OANDA:XAUUSD","gold");
 addTV("OANDA:XAGUSD","silver");
 
-/* ticker clone */
-function rebuildTicker(){
-  document.getElementById("g2").innerHTML = document.getElementById("g1").innerHTML;
-}
-rebuildTicker();
-
 /* Dubai time helper */
 function getDubaiDate(){
   const now = new Date();
@@ -465,8 +444,7 @@ function formatAMPM(dateObj){
   let h = dateObj.getHours();
   const m = String(dateObj.getMinutes()).padStart(2,"0");
   const ampm = h >= 12 ? "PM" : "AM";
-  h = h % 12;
-  if(h === 0) h = 12;
+  h = h % 12; if(h === 0) h = 12;
   return `${h}:${m} ${ampm}`;
 }
 
@@ -482,18 +460,12 @@ function tickClock(){
   const lon = new Date(now.toLocaleString("en-GB", { timeZone: "Europe/London" }));
   const ldn = formatAMPM(lon);
 
-  document.getElementById("clock").textContent =
-    `${uae} UAE • ${usa} USA • ${ldn} LON`;
+  document.getElementById("clock").textContent = `${uae} UAE • ${usa} USA • ${ldn} LON`;
 }
 tickClock();
 setInterval(tickClock, 10000);
 
-/* Market hours (Dubai time)
-   Open: 03:00
-   Close: 02:00 (next day)
-   Daily gap: 02:00–03:00 CLOSED
-   Weekend closure: Saturday 02:00 → Sunday 03:00 CLOSED
-*/
+/* Market hours (Dubai time) */
 let marketTickTimer = null;
 
 function updateDubaiMarket(){
@@ -512,29 +484,18 @@ function updateDubaiMarket(){
   function getNextClose(nowDubai){
     const close = new Date(nowDubai);
     close.setMilliseconds(0);
-    if (nowDubai.getHours() < 2){
-      close.setHours(2, 0, 0, 0);
-    } else {
-      close.setDate(close.getDate() + 1);
-      close.setHours(2, 0, 0, 0);
-    }
+    if (nowDubai.getHours() < 2) close.setHours(2,0,0,0);
+    else { close.setDate(close.getDate()+1); close.setHours(2,0,0,0); }
     return close;
   }
 
   function getNextOpen(nowDubai){
     const open = new Date(nowDubai);
     open.setMilliseconds(0);
-
     if (weekendClosed){
-      if (day === 6){
-        open.setDate(open.getDate() + 1);
-        open.setHours(3, 0, 0, 0);
-      } else {
-        open.setHours(3, 0, 0, 0);
-      }
-    } else {
-      open.setHours(3, 0, 0, 0);
-    }
+      if (day === 6){ open.setDate(open.getDate()+1); open.setHours(3,0,0,0); }
+      else open.setHours(3,0,0,0);
+    } else open.setHours(3,0,0,0);
     return open;
   }
 
@@ -542,7 +503,6 @@ function updateDubaiMarket(){
 
   if (isOpen){
     const closeAt = getNextClose(d);
-
     top.textContent = "Market Open";
     dot.style.background = "var(--open)";
     dot.style.boxShadow = "0 0 12px var(--open)";
@@ -558,10 +518,8 @@ function updateDubaiMarket(){
     }
     tick();
     marketTickTimer = setInterval(tick, 1000);
-
   } else {
     const openAt = getNextOpen(d);
-
     top.textContent = "Market Closed";
     dot.style.background = "var(--closed)";
     dot.style.boxShadow = "0 0 12px var(--closed)";
@@ -569,14 +527,10 @@ function updateDubaiMarket(){
     function tick(){
       const nowDubai = getDubaiDate();
       let diff = Math.max(0, Math.floor((openAt.getTime() - nowDubai.getTime()) / 1000));
-
-      const days = Math.floor(diff / 86400);
-      diff %= 86400;
-      const hrs = Math.floor(diff / 3600);
-      diff %= 3600;
+      const days = Math.floor(diff / 86400); diff%=86400;
+      const hrs = Math.floor(diff / 3600); diff%=3600;
       const mins = Math.floor(diff / 60);
       const secs = diff % 60;
-
       eta.textContent = days > 0
         ? `• Opens in ${days}d ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`
         : `• Opens in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
@@ -593,9 +547,7 @@ const kioskBtn = document.getElementById("kioskBtn");
 const kioskLabel = document.getElementById("kioskLabel");
 const kioskHint  = document.getElementById("kioskHint");
 
-function isFullscreen(){
-  return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
-}
+function isFullscreen(){ return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement); }
 async function enterFullscreen(){
   const el = document.documentElement;
   if (el.requestFullscreen) return el.requestFullscreen();
@@ -605,10 +557,9 @@ async function enterFullscreen(){
 }
 async function exitFullscreen(){
   if (document.exitFullscreen) return document.exitFullscreen();
-  if (document.webkitExitFullscreen) return document.webkitFullscreenExit();
+  if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
   if (document.msExitFullscreen) return document.msFullscreenElement ? document.msExitFullscreen() : null;
 }
-
 async function toggleKiosk(){
   try{
     if (!isFullscreen()){
