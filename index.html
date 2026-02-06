@@ -68,36 +68,48 @@ body::before{
 
 .hero,.divider,.rates,.ticker,.statusbar{position:relative;z-index:1;}
 
-/* TOP STATUS BAR (bigger font) */
+/* =========================
+   TOP STATUS BAR (PC/TV BIGGER)
+   - Mobile stays same (we do NOT change the mobile @media block)
+   ========================= */
 .statusbar{width:100%;display:flex;justify-content:center;padding:10px 12px 0;}
 .statusbar-inner{
-  width:min(1320px, 96vw);
+  width:min(1520px, 96vw);             /* a bit wider for TV */
   display:grid;
   grid-template-columns:auto 1fr;
   align-items:center;
-  gap:14px;
-  padding:12px 16px;
+  gap:18px;
+  padding:16px 22px;                   /* bigger pill */
   border-radius:999px;
   background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.35));
   border:1px solid rgba(255,211,106,.22);
   backdrop-filter: blur(14px);
   box-shadow:0 10px 34px rgba(0,0,0,.55);
 }
-.sb-left{display:flex;align-items:center;gap:10px;white-space:nowrap;min-width:0;}
+.sb-left{display:flex;align-items:center;gap:14px;white-space:nowrap;min-width:0;}
 .dot{
-  width:12px;height:12px;border-radius:50%;
+  width:14px;height:14px;border-radius:50%;
   background:var(--open);
-  box-shadow:0 0 14px var(--open);
+  box-shadow:0 0 16px var(--open);
   animation:blink 1.6s infinite;
 }
 @keyframes blink{0%,100%{opacity:.45}50%{opacity:1}}
-.sb-title{font-weight:900;letter-spacing:.35px;font-size:16px;}
-.sb-eta{font-weight:900;color:var(--muted);opacity:.95;font-size:16px;}
+
+/* ✅ PC/TV bigger fonts */
+.sb-title{font-weight:900;letter-spacing:.35px;font-size:22px;}
+.sb-eta{font-weight:900;color:var(--muted);opacity:.95;font-size:22px;}
 .sb-clock{
   justify-self:end;text-align:right;
   font-weight:900;color:#eaf0ff;opacity:.98;
   letter-spacing:.25px;white-space:nowrap;
-  font-size:16px;
+  font-size:22px;
+}
+
+/* Optional: even bigger on very large screens (TV) */
+@media (min-width: 1400px){
+  .sb-title,.sb-eta,.sb-clock{font-size:26px;}
+  .statusbar-inner{padding:18px 26px;}
+  .dot{width:16px;height:16px;}
 }
 
 /* HEADER */
@@ -193,9 +205,7 @@ body::before{
   width:100%!important;height:100%!important;border:0;
 }
 
-/* =========================
-   TICKER — FIXED (NO COLLAPSE)
-   ========================= */
+/* TICKER */
 .ticker{
   position:fixed;bottom:0;left:0;right:0;
   height:64px;
@@ -211,48 +221,20 @@ body::before{
 .ticker::before{left:0;background:linear-gradient(90deg, rgba(0,0,0,.95), rgba(0,0,0,0));}
 .ticker::after{right:0;background:linear-gradient(270deg, rgba(0,0,0,.95), rgba(0,0,0,0));}
 
-.marquee{
-  height:100%;
-  display:flex;
-  align-items:center;
-  overflow:hidden;
-  position:relative;
-  z-index:1;
-}
-
-/* One belt with 2 groups -> animate 0 to -50% */
+.marquee{height:100%;display:flex;align-items:center;overflow:hidden;position:relative;z-index:1;}
 .belt{
-  display:flex;
-  align-items:center;
-  width:max-content;           /* ✅ prevents collapse */
+  display:flex;align-items:center;
+  width:max-content;
   will-change:transform;
   transform:translate3d(0,0,0);
   animation:beltMove 70s linear infinite;
 }
 @keyframes beltMove{
   0%{transform:translate3d(0,0,0);}
-  100%{transform:translate3d(-50%,0,0);} /* ✅ because we have 2 identical groups */
+  100%{transform:translate3d(-50%,0,0);}
 }
-
-.group{
-  display:flex;
-  align-items:center;
-  gap:42px;
-  white-space:nowrap;
-  padding-left:24px;
-}
-
-/* make every item unshrinkable + no wrap */
-.item{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-size:18px;
-  font-weight:800;
-  white-space:nowrap;
-  flex:0 0 auto;              /* ✅ never shrink */
-}
-
+.group{display:flex;align-items:center;gap:42px;white-space:nowrap;padding-left:24px;}
+.item{display:flex;align-items:center;gap:12px;font-size:18px;font-weight:800;white-space:nowrap;flex:0 0 auto;}
 .badge{
   padding:6px 12px;border-radius:16px;
   background:rgba(255,179,0,.12);
@@ -261,13 +243,7 @@ body::before{
   letter-spacing:.35px;
   flex:0 0 auto;
 }
-.sep-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:rgba(255,211,106,.38);
-  box-shadow:0 0 10px rgba(255,211,106,.18);
-  opacity:.9;
-  flex:0 0 auto;
-}
+.sep-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,211,106,.38);box-shadow:0 0 10px rgba(255,211,106,.18);opacity:.9;flex:0 0 auto;}
 
 /* FULLSCREEN button (mobile only) */
 .kiosk-btn{
@@ -288,12 +264,13 @@ body::before{
 .kiosk-hint{font-size:12px;font-weight:800;opacity:.7;}
 @media (min-width:769px){.kiosk-btn{display:none!important;}}
 
-/* responsive */
+/* responsive desktop narrowing */
 @media(max-width:1100px){
   .rates{grid-template-columns:1fr}
   .brand-name{font-size:44px}
-  .sb-title,.sb-eta,.sb-clock{font-size:15px;}
 }
+
+/* ✅ MOBILE VERSION (UNCHANGED) */
 @media (max-width:768px){
   body{overflow-y:auto;}
 
@@ -393,11 +370,9 @@ body::before{
   </div>
 </div>
 
-<!-- TICKER -->
 <div class="ticker">
   <div class="marquee" aria-label="Contact information ticker">
     <div class="belt">
-      <!-- Group 1 -->
       <div class="group">
         <div class="item"><span class="badge">DUBAI</span> Office M02, Saeed Mohammed Building, Deira Gold Souk Dubai</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">FOR DUBAI CALL</span> +971 54 786 9940</div>
@@ -407,7 +382,6 @@ body::before{
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
       </div>
 
-      <!-- Group 2 (duplicate) -->
       <div class="group" aria-hidden="true">
         <div class="item"><span class="badge">DUBAI</span> Office M02, Saeed Mohammed Building, Deira Gold Souk Dubai</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">FOR DUBAI CALL</span> +971 54 786 9940</div>
@@ -421,7 +395,6 @@ body::before{
 </div>
 
 <script>
-/* TradingView Symbol Info */
 function addTV(symbol,id){
   const s=document.createElement("script");
   s.src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js";
@@ -432,68 +405,58 @@ function addTV(symbol,id){
 addTV("OANDA:XAUUSD","gold");
 addTV("OANDA:XAGUSD","silver");
 
-/* Dubai time helper */
 function getDubaiDate(){
-  const now = new Date();
-  const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-  return new Date(utc + (4 * 60 * 60000));
+  const now=new Date();
+  const utc=now.getTime() + (now.getTimezoneOffset()*60000);
+  return new Date(utc + (4*60*60000));
 }
-
-/* AM/PM format */
 function formatAMPM(dateObj){
-  let h = dateObj.getHours();
-  const m = String(dateObj.getMinutes()).padStart(2,"0");
-  const ampm = h >= 12 ? "PM" : "AM";
-  h = h % 12; if(h === 0) h = 12;
+  let h=dateObj.getHours();
+  const m=String(dateObj.getMinutes()).padStart(2,"0");
+  const ampm=h>=12?"PM":"AM";
+  h=h%12; if(h===0) h=12;
   return `${h}:${m} ${ampm}`;
 }
-
-/* Clock */
 function tickClock(){
-  const now = new Date();
-  const d = getDubaiDate();
-  const uae = formatAMPM(d);
-
-  const ny = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
-  const usa = formatAMPM(ny);
-
-  const lon = new Date(now.toLocaleString("en-GB", { timeZone: "Europe/London" }));
-  const ldn = formatAMPM(lon);
-
+  const now=new Date();
+  const d=getDubaiDate();
+  const uae=formatAMPM(d);
+  const ny=new Date(now.toLocaleString("en-US",{timeZone:"America/New_York"}));
+  const usa=formatAMPM(ny);
+  const lon=new Date(now.toLocaleString("en-GB",{timeZone:"Europe/London"}));
+  const ldn=formatAMPM(lon);
   document.getElementById("clock").textContent = `${uae} UAE • ${usa} USA • ${ldn} LON`;
 }
 tickClock();
 setInterval(tickClock, 10000);
 
 /* Market hours (Dubai time) */
-let marketTickTimer = null;
-
+let marketTickTimer=null;
 function updateDubaiMarket(){
-  const d = getDubaiDate();
-  const day = d.getDay();
-  const h = d.getHours();
+  const d=getDubaiDate();
+  const day=d.getDay();
+  const h=d.getHours();
 
-  const top = document.getElementById("marketTop");
-  const eta = document.getElementById("marketETA");
-  const dot = document.getElementById("statusDot");
+  const top=document.getElementById("marketTop");
+  const eta=document.getElementById("marketETA");
+  const dot=document.getElementById("statusDot");
 
-  const dailyGapClosed = (h === 2);
-  const weekendClosed = (day === 6 && (h >= 2)) || (day === 0 && (h < 3));
-  const isOpen = !(dailyGapClosed || weekendClosed);
+  const dailyGapClosed=(h===2);
+  const weekendClosed=(day===6 && (h>=2)) || (day===0 && (h<3));
+  const isOpen=!(dailyGapClosed || weekendClosed);
 
   function getNextClose(nowDubai){
-    const close = new Date(nowDubai);
+    const close=new Date(nowDubai);
     close.setMilliseconds(0);
-    if (nowDubai.getHours() < 2) close.setHours(2,0,0,0);
+    if (nowDubai.getHours()<2) close.setHours(2,0,0,0);
     else { close.setDate(close.getDate()+1); close.setHours(2,0,0,0); }
     return close;
   }
-
   function getNextOpen(nowDubai){
-    const open = new Date(nowDubai);
+    const open=new Date(nowDubai);
     open.setMilliseconds(0);
     if (weekendClosed){
-      if (day === 6){ open.setDate(open.getDate()+1); open.setHours(3,0,0,0); }
+      if (day===6){ open.setDate(open.getDate()+1); open.setHours(3,0,0,0); }
       else open.setHours(3,0,0,0);
     } else open.setHours(3,0,0,0);
     return open;
@@ -502,54 +465,53 @@ function updateDubaiMarket(){
   if (marketTickTimer) clearInterval(marketTickTimer);
 
   if (isOpen){
-    const closeAt = getNextClose(d);
-    top.textContent = "Market Open";
-    dot.style.background = "var(--open)";
-    dot.style.boxShadow = "0 0 12px var(--open)";
+    const closeAt=getNextClose(d);
+    top.textContent="Market Open";
+    dot.style.background="var(--open)";
+    dot.style.boxShadow="0 0 16px var(--open)";
 
     function tick(){
-      const nowDubai = getDubaiDate();
-      let diff = Math.max(0, Math.floor((closeAt.getTime() - nowDubai.getTime()) / 1000));
-      const hrs = Math.floor(diff / 3600);
-      diff %= 3600;
-      const mins = Math.floor(diff / 60);
-      const secs = diff % 60;
-      eta.textContent = `• Closes in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
+      const nowDubai=getDubaiDate();
+      let diff=Math.max(0, Math.floor((closeAt.getTime()-nowDubai.getTime())/1000));
+      const hrs=Math.floor(diff/3600); diff%=3600;
+      const mins=Math.floor(diff/60);
+      const secs=diff%60;
+      eta.textContent=`• Closes in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
     }
     tick();
-    marketTickTimer = setInterval(tick, 1000);
+    marketTickTimer=setInterval(tick, 1000);
   } else {
-    const openAt = getNextOpen(d);
-    top.textContent = "Market Closed";
-    dot.style.background = "var(--closed)";
-    dot.style.boxShadow = "0 0 12px var(--closed)";
+    const openAt=getNextOpen(d);
+    top.textContent="Market Closed";
+    dot.style.background="var(--closed)";
+    dot.style.boxShadow="0 0 16px var(--closed)";
 
     function tick(){
-      const nowDubai = getDubaiDate();
-      let diff = Math.max(0, Math.floor((openAt.getTime() - nowDubai.getTime()) / 1000));
-      const days = Math.floor(diff / 86400); diff%=86400;
-      const hrs = Math.floor(diff / 3600); diff%=3600;
-      const mins = Math.floor(diff / 60);
-      const secs = diff % 60;
-      eta.textContent = days > 0
+      const nowDubai=getDubaiDate();
+      let diff=Math.max(0, Math.floor((openAt.getTime()-nowDubai.getTime())/1000));
+      const days=Math.floor(diff/86400); diff%=86400;
+      const hrs=Math.floor(diff/3600); diff%=3600;
+      const mins=Math.floor(diff/60);
+      const secs=diff%60;
+
+      eta.textContent = days>0
         ? `• Opens in ${days}d ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`
         : `• Opens in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
     }
     tick();
-    marketTickTimer = setInterval(tick, 1000);
+    marketTickTimer=setInterval(tick, 1000);
   }
 }
 updateDubaiMarket();
 setInterval(updateDubaiMarket, 30000);
 
 /* Fullscreen (mobile) */
-const kioskBtn = document.getElementById("kioskBtn");
-const kioskLabel = document.getElementById("kioskLabel");
-const kioskHint  = document.getElementById("kioskHint");
-
-function isFullscreen(){ return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement); }
+const kioskBtn=document.getElementById("kioskBtn");
+const kioskLabel=document.getElementById("kioskLabel");
+const kioskHint=document.getElementById("kioskHint");
+function isFullscreen(){return !!(document.fullscreenElement||document.webkitFullscreenElement||document.msFullscreenElement);}
 async function enterFullscreen(){
-  const el = document.documentElement;
+  const el=document.documentElement;
   if (el.requestFullscreen) return el.requestFullscreen();
   if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen();
   if (el.msRequestFullscreen) return el.msRequestFullscreen();
@@ -564,22 +526,22 @@ async function toggleKiosk(){
   try{
     if (!isFullscreen()){
       await enterFullscreen();
-      kioskHint.textContent = "Tap EXIT to close";
-      setTimeout(()=> kioskHint.textContent = "Fullscreen", 1500);
+      kioskHint.textContent="Tap EXIT to close";
+      setTimeout(()=> kioskHint.textContent="Fullscreen", 1500);
     } else {
       await exitFullscreen();
     }
-    kioskLabel.textContent = isFullscreen() ? "EXIT" : "FULL SCREEN";
+    kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN";
   }catch(err){
-    kioskHint.textContent = "Blocked";
-    setTimeout(() => kioskHint.textContent = isFullscreen() ? "Exit" : "Fullscreen", 1500);
+    kioskHint.textContent="Blocked";
+    setTimeout(()=> kioskHint.textContent=isFullscreen()?"Exit":"Fullscreen", 1500);
   }
 }
 kioskBtn.addEventListener("click", toggleKiosk);
 ["fullscreenchange","webkitfullscreenchange","msfullscreenchange"].forEach(ev=>{
-  document.addEventListener(ev, ()=> kioskLabel.textContent = isFullscreen() ? "EXIT" : "FULL SCREEN");
+  document.addEventListener(ev, ()=> kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN");
 });
-kioskLabel.textContent = isFullscreen() ? "EXIT" : "FULL SCREEN";
+kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN";
 </script>
 
 </body>
