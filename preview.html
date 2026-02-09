@@ -12,8 +12,6 @@
 @font-face{font-family:"ClarityCity";src:url("ClarityCity-Bold.ttf") format("truetype");font-weight:800}
 
 html,body{width:100%;height:100%;margin:0;padding:0;}
-body{min-height:100vh;}
-
 :root{
   --bg:#04050a;
   --gold:#ffd36a;
@@ -28,13 +26,14 @@ body{min-height:100vh;}
 }
 
 body{
+  min-height:100vh;
   background:
     radial-gradient(1200px 600px at 50% 0%, #0b1430 0%, var(--bg) 55%, #02030a 100%),
     radial-gradient(900px 520px at 82% 18%, rgba(255,211,106,.06), transparent 60%);
   color:var(--text);
   font-family:"ClarityCity",Arial,sans-serif;
   overflow-x:hidden;
-  overflow-y:hidden;
+  overflow-y:auto;
   position:relative;
 }
 
@@ -74,101 +73,77 @@ body::before{
 .statusbar{width:100%;display:flex;justify-content:center;padding:10px 12px 0;}
 .statusbar-inner{
   width:min(1520px, 96vw);
-  display:grid;
-  grid-template-columns:auto 1fr auto;
+  display:flex;
+  justify-content:space-between;
   align-items:center;
-  gap:16px;
-  padding:14px 18px;
+  gap:14px;
+  padding:12px 16px;
   border-radius:999px;
   background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.35));
   border:1px solid rgba(255,211,106,.22);
   backdrop-filter: blur(14px);
   box-shadow:0 10px 34px rgba(0,0,0,.55);
   overflow:hidden;
-  position:relative;
 }
-.sb-left{display:flex;align-items:center;gap:12px;white-space:nowrap;min-width:0;}
+
+.sb-left{display:flex;align-items:center;gap:12px;min-width:0;}
 .dot{
   width:14px;height:14px;border-radius:50%;
   background:var(--open);
   box-shadow:0 0 16px var(--open);
   animation:blink 1.6s infinite;
+  flex:0 0 auto;
 }
 @keyframes blink{0%,100%{opacity:.45}50%{opacity:1}}
 
-.sb-titlewrap{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.sb-title{font-weight:900;letter-spacing:.35px;font-size:20px;}
-.sb-eta{font-weight:900;color:var(--muted);opacity:.95;font-size:18px;}
-.sb-chips{display:flex;gap:8px;flex-wrap:wrap;margin-left:8px;}
-.chip{
+.sb-title{
   font-weight:900;
-  font-size:12px;
-  letter-spacing:.35px;
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid rgba(255,211,106,.22);
-  background:rgba(0,0,0,.28);
-  color:#eaf0ff;
-  opacity:.92;
+  letter-spacing:.25px;
+  font-size:16px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
-.chip.dim{opacity:.75}
-.chip.warn{border-color:rgba(255,92,92,.30); color:rgba(255,255,255,.92);}
 
 .sb-clock{
   text-align:right;
   font-weight:900;color:#eaf0ff;opacity:.98;
   letter-spacing:.25px;white-space:nowrap;
-  font-size:20px;
+  font-size:16px;
+  flex:0 0 auto;
 }
 
-/* Progress bar */
-.sb-progress{
-  position:absolute;left:0;right:0;bottom:0;height:3px;
-  background:rgba(255,211,106,.12);
-}
-.sb-progress > i{
-  display:block;height:100%;
-  width:0%;
-  background:linear-gradient(90deg, rgba(255,179,0,.75), rgba(255,211,106,.95), rgba(255,179,0,.75));
-  box-shadow:0 0 14px rgba(255,179,0,.30);
-  transition:width .35s ease;
-}
-
-/* Mode Switch */
-.sb-mode{display:flex;align-items:center;gap:8px;justify-self:end;}
-.modebtn{
-  border:1px solid rgba(255,211,106,.22);
-  background:rgba(0,0,0,.28);
-  color:#fff;
-  font-family:"ClarityCity",Arial,sans-serif;
-  font-weight:900;
-  letter-spacing:.25px;
-  padding:8px 10px;
-  border-radius:999px;
-  cursor:pointer;
-  opacity:.9;
-}
-.modebtn.active{
-  background:rgba(255,179,0,.14);
-  border-color:rgba(255,211,106,.34);
-  box-shadow:0 0 0 1px rgba(255,211,106,.08), 0 10px 24px rgba(0,0,0,.35);
-  opacity:1;
-}
-.modebtn:active{transform:translateY(1px);}
-
-@media (min-width: 1400px){
-  .sb-title{font-size:24px;}
-  .sb-eta{font-size:22px;}
-  .sb-clock{font-size:24px;}
-  .statusbar-inner{padding:16px 22px;}
-  .dot{width:16px;height:16px;}
+/* MOBILE */
+@media (max-width:768px){
+  .statusbar{padding-top:58px;}
+  .statusbar-inner{
+    flex-direction:column;
+    align-items:center;
+    border-radius:22px;
+    padding:10px 12px;
+    gap:8px;
+  }
+  .sb-left{justify-content:center;gap:10px;}
+  .sb-title{
+    text-align:center;
+    white-space:normal;
+    line-height:1.25;
+    font-size:13px;
+    letter-spacing:.15px;
+  }
+  .sb-clock{
+    text-align:center;
+    font-size:13px;
+    white-space:normal;
+    line-height:1.25;
+  }
 }
 
 /* HEADER */
-.hero{padding:14px 14px 14px;border-bottom:1px solid rgba(255,179,0,.10);}
-.hero-inner{display:flex;justify-content:center;align-items:center;gap:22px;}
+.hero{padding:14px 14px 12px;border-bottom:1px solid rgba(255,179,0,.10);}
+.hero-inner{display:flex;justify-content:center;align-items:center;gap:18px;}
 .logo-wrap{
-  width:110px;height:110px;border-radius:28px;
+  width:92px;height:92px;border-radius:24px;
   display:grid;place-items:center;
   background:linear-gradient(180deg, rgba(12,14,20,.92), rgba(6,8,12,.92));
   border:1px solid rgba(255,211,106,.22);
@@ -181,11 +156,11 @@ body::before{
   animation:shine 7.5s infinite;opacity:.75;
 }
 @keyframes shine{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
-.logo-wrap img{width:82px;max-width:78%;height:auto;display:block;}
+.logo-wrap img{width:68px;max-width:78%;height:auto;display:block;}
 
 .brand{text-align:center}
 .brand-name{
-  font-size:58px;font-weight:800;letter-spacing:7px;
+  font-size:54px;font-weight:800;letter-spacing:7px;
   color:transparent;
   background:linear-gradient(90deg,#fff7dc,#ffd36a,#ffffff,#ffb300,#fff7dc);
   background-size:320% 100%;
@@ -208,7 +183,18 @@ body::before{
   opacity:.92;
 }
 
-/* SNAPSHOT ROW */
+/* Mobile header sizing */
+@media (max-width:768px){
+  .hero{padding:58px 10px 12px;position:relative;}
+  .hero-inner{gap:12px;justify-content:center;flex-wrap:nowrap;padding:0 6px;}
+  .logo-wrap{width:68px;height:68px;border-radius:18px;}
+  .logo-wrap img{width:48px;max-width:80%;}
+  .brand{max-width:78vw;}
+  .brand-name{font-size:30px;letter-spacing:3px;line-height:1.05;white-space:normal;word-break:break-word;}
+  .brand-sub{font-size:12px;margin-top:6px;letter-spacing:2.2px;}
+}
+
+/* SNAPSHOT */
 .snapshot{
   width:min(1700px, 96vw);
   margin:14px auto 0;
@@ -216,7 +202,7 @@ body::before{
 }
 .snap-grid{
   display:grid;
-  grid-template-columns:repeat(6, 1fr);
+  grid-template-columns:repeat(2, 1fr);
   gap:12px;
 }
 .snap{
@@ -230,42 +216,17 @@ body::before{
   padding:12px 14px;
   overflow:hidden;
 }
-.snap::after{
-  content:"";position:absolute;inset:-60%;
-  background:linear-gradient(120deg, transparent 42%, rgba(255,255,255,.10) 52%, transparent 62%);
-  opacity:.45; transform:translateX(-120%);
-  animation:snapShine 10.5s ease-in-out infinite;
-  pointer-events:none;
-}
-@keyframes snapShine{0%{transform:translateX(-120%)}55%{transform:translateX(120%)}100%{transform:translateX(120%)}}
 .snap-k{font-size:12px;font-weight:900;letter-spacing:.75px;color:rgba(207,216,255,.88);}
-.snap-v{margin-top:8px;font-size:22px;font-weight:900;letter-spacing:.25px;color:#fff;}
-.snap-v.gold{color:var(--gold);}
+.snap-v{margin-top:8px;font-size:20px;font-weight:900;letter-spacing:.25px;color:#fff;}
 .snap-sub{margin-top:6px;font-size:12px;font-weight:800;color:rgba(255,255,255,.70);letter-spacing:.2px;}
-.snap-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  margin-top:8px;
-  padding:6px 10px;border-radius:999px;
-  border:1px solid rgba(255,211,106,.18);
-  background:rgba(0,0,0,.22);
-  font-weight:900;font-size:12px;letter-spacing:.25px;
-  color:#fff;opacity:.92;
-}
-.snap-badge .bdot{width:8px;height:8px;border-radius:50%;background:var(--open);box-shadow:0 0 12px var(--open);}
-.snap-badge.closed .bdot{background:var(--closed);box-shadow:0 0 12px var(--closed);}
-.snap-badge.warn{border-color:rgba(255,92,92,.26);}
-
-@media(max-width:1100px){
-  .snap-grid{grid-template-columns:repeat(3, 1fr);}
-}
 @media(max-width:768px){
   .snapshot{padding:0 10px;}
-  .snap-grid{grid-template-columns:repeat(2, 1fr); gap:10px;}
+  .snap-grid{grid-template-columns:1fr; gap:10px;}
   .snap{padding:10px 12px;border-radius:16px;}
   .snap-v{font-size:18px;}
 }
 
-/* GRID */
+/* CHART GRID */
 .rates{
   max-width:1700px;
   margin:14px auto 96px;
@@ -274,7 +235,6 @@ body::before{
   grid-template-columns:1fr 1fr;
   gap:16px;
 }
-
 .card{
   position:relative;
   background:
@@ -283,38 +243,17 @@ body::before{
   border:1px solid rgba(255,211,106,.18);
   border-radius:22px;
   overflow:hidden;
-  min-height:680px;
+  min-height:620px;
   box-shadow:var(--shadow);
 }
-.card::before{
-  content:"";position:absolute;inset:0;pointer-events:none;border-radius:22px;padding:1px;
-  background:linear-gradient(135deg, rgba(255,211,106,.24), rgba(255,255,255,.05), rgba(255,179,0,.18), rgba(255,255,255,.04));
-  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;
-          mask-composite:exclude;
-  opacity:.86;
-}
-.card::after{
-  content:"";position:absolute;inset:10px;pointer-events:none;border-radius:18px;
-  border:1px solid rgba(255,255,255,.05);
-  box-shadow:inset 0 0 0 1px rgba(255,179,0,.05);
-  opacity:.65;
-}
-
 .card-title{
   padding:12px 14px;
   border-bottom:1px solid rgba(255,211,106,.12);
   background:linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.12));
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
 }
-.ct-left{display:flex;flex-direction:column;gap:4px;min-width:0;}
-.ct-name{font-size:16px;font-weight:900;letter-spacing:.8px;}
-.ct-sub{font-size:12px;font-weight:800;letter-spacing:.25px;color:rgba(207,216,255,.85);opacity:.95;}
-.ct-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
-.ct-price{font-weight:900;font-size:22px;letter-spacing:.25px;color:var(--gold);}
-.ct-stamp{font-weight:800;font-size:11px;letter-spacing:.25px;color:rgba(255,255,255,.70);}
+.ct-name{font-size:15px;font-weight:900;letter-spacing:.8px;}
+.ct-sub{margin-top:4px;font-size:12px;font-weight:800;letter-spacing:.25px;color:rgba(207,216,255,.85);opacity:.95;}
 
-/* TradingView */
 .tv-box{position:relative;height:calc(100% - 0px)}
 .tv-inner{position:absolute;inset:0}
 .tv-inner iframe{
@@ -325,7 +264,6 @@ body::before{
   width:100%!important;height:100%!important;border:0;
 }
 
-/* LAST PRICE OVERLAY */
 .lastbox{
   position:absolute;
   top:14px; left:14px;
@@ -342,11 +280,19 @@ body::before{
 .lb-title{font-weight:900;letter-spacing:.8px;font-size:12px;color:rgba(255,255,255,.78);}
 .lb-price{margin-top:8px;font-weight:900;font-size:28px;color:var(--gold);letter-spacing:.4px;}
 .lb-sub{margin-top:6px;font-weight:800;font-size:12px;color:rgba(207,216,255,.85);letter-spacing:.35px;}
-
 .card.is-closed .tv-inner{opacity:0; pointer-events:none;}
 .card.is-closed .lastbox{display:block;}
 
-/* FOOTER MICROLINE */
+/* MOBILE charts */
+@media(max-width:1100px){ .rates{grid-template-columns:1fr} }
+@media (max-width:768px){
+  .rates{grid-template-columns:1fr;margin:12px auto 86px;padding:10px;gap:12px;}
+  .card{min-height:auto;border-radius:20px;}
+  .tv-box{height:380px;}
+  .tv-inner iframe{transform:translate(-50%,-50%) scale(0.92)!important;}
+}
+
+/* FOOTER */
 .footerline{
   width:100%;
   position:fixed;
@@ -362,14 +308,13 @@ body::before{
 .footerline-inner{
   width:min(1700px, 96vw);
   padding:0 14px;
-  display:flex;justify-content:space-between;gap:12px;align-items:center;
+  display:flex;justify-content:center;gap:12px;align-items:center;
   font-weight:900;
   font-size:12px;
   letter-spacing:.35px;
   color:rgba(255,255,255,.68);
   opacity:.92;
 }
-.footerline-inner .mut{color:rgba(207,216,255,.72);font-weight:800;letter-spacing:.25px;}
 @media(max-width:768px){
   .footerline{bottom:54px;height:28px;}
   .footerline-inner{font-size:11px;}
@@ -390,7 +335,6 @@ body::before{
 }
 .ticker::before{left:0;background:linear-gradient(90deg, rgba(0,0,0,.95), rgba(0,0,0,0));}
 .ticker::after{right:0;background:linear-gradient(270deg, rgba(0,0,0,.95), rgba(0,0,0,0));}
-
 .marquee{height:100%;display:flex;align-items:center;overflow:hidden;position:relative;z-index:1;}
 .belt{
   display:flex;align-items:center;
@@ -412,8 +356,13 @@ body::before{
 }
 .badge.note{background:rgba(207,216,255,.10);border-color:rgba(207,216,255,.20);color:#eaf0ff;}
 .sep-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,211,106,.38);box-shadow:0 0 10px rgba(255,211,106,.18);opacity:.9;flex:0 0 auto;}
+@media (max-width:768px){
+  .ticker{height:54px;}
+  .item{font-size:14px;}
+  .badge{padding:5px 10px;border-radius:14px;}
+}
 
-/* FULLSCREEN button (mobile only) */
+/* FULLSCREEN button (mobile only, always visible) */
 .kiosk-btn{
   position:fixed;top:14px;right:14px;z-index:9999;
   display:flex;align-items:center;gap:10px;
@@ -431,75 +380,23 @@ body::before{
 .kiosk-ic{width:12px;height:12px;border-radius:50%;background:rgba(255,211,106,.9);box-shadow:0 0 12px rgba(255,179,0,.55);}
 .kiosk-hint{font-size:12px;font-weight:800;opacity:.7;}
 @media (min-width:769px){.kiosk-btn{display:none!important;}}
-
-/* responsive desktop narrowing */
-@media(max-width:1100px){
-  .rates{grid-template-columns:1fr}
-  .brand-name{font-size:44px}
-  .statusbar-inner{grid-template-columns:1fr; border-radius:22px; gap:10px;}
-  .sb-mode{justify-self:start;}
-  .sb-clock{text-align:left;white-space:normal;}
-}
-
-/* ✅ MOBILE VERSION */
 @media (max-width:768px){
-  body{overflow-y:auto;}
-  .statusbar{padding-top:58px;}
-  .statusbar-inner{grid-template-columns:1fr;gap:8px;border-radius:22px;padding:12px;}
-  .sb-left{justify-content:center;flex-wrap:wrap;white-space:normal;text-align:center;gap:10px;}
-  .sb-clock{justify-self:center;text-align:center;white-space:normal;line-height:1.25;font-size:14px;}
-  .sb-title{font-size:14px;}
-  .sb-eta{font-size:14px;}
-  .sb-chips{justify-content:center;margin-left:0;}
-  .sb-mode{justify-content:center;}
-
-  .hero{padding:58px 10px 12px;position:relative;}
   .kiosk-btn{
     display:flex!important;
     position:absolute;
     top:10px;left:10px;right:auto;
     padding:8px 10px;
     gap:8px;
-    border-radius:999px;
   }
   #kioskLabel{font-size:12px;letter-spacing:.2px;}
   .kiosk-ic{width:10px;height:10px;}
   .kiosk-hint{display:none;}
-
-  .hero-inner{gap:12px;justify-content:center;flex-wrap:nowrap;padding:0 6px;}
-  .logo-wrap{width:68px;height:68px;border-radius:18px;}
-  .logo-wrap img{width:48px;max-width:80%;}
-  .brand{max-width:78vw;}
-  .brand-name{font-size:30px;letter-spacing:3px;line-height:1.05;white-space:normal;word-break:break-word;}
-  .brand-sub{font-size:12px;margin-top:6px;letter-spacing:2.2px;}
-
-  .rates{grid-template-columns:1fr;margin:12px auto 86px;padding:10px;gap:12px;}
-  .card{min-height:auto;border-radius:20px;}
-  .tv-box{height:360px;}
-  .tv-inner iframe{transform:translate(-50%,-50%) scale(0.92)!important;}
-
-  .ticker{height:54px;}
-  .item{font-size:14px;}
-  .badge{padding:5px 10px;border-radius:14px;}
-}
-
-/* MODE STYLES */
-body.mode-tv .brand-name{font-size:64px;}
-body.mode-tv .brand-sub{font-size:15px;letter-spacing:3.1px;}
-body.mode-tv .rates{gap:18px;}
-body.mode-tv .card{min-height:720px;}
-body.mode-tv .ct-price{font-size:26px;}
-body.mode-tv .snap-v{font-size:24px;}
-body.mode-tv .item{font-size:20px;}
-@media (max-width:1100px){
-  body.mode-tv .brand-name{font-size:48px;}
 }
 
 @media (prefers-reduced-motion: reduce){
   .belt{animation:none;}
   .dot{animation:none;}
   body::before{animation:none;}
-  .snap::after{animation:none;}
 }
 </style>
 </head>
@@ -516,27 +413,9 @@ body.mode-tv .item{font-size:20px;}
   <div class="statusbar-inner">
     <div class="sb-left">
       <span class="dot" id="statusDot"></span>
-      <div class="sb-titlewrap">
-        <span class="sb-title" id="marketTop">Market</span>
-        <span class="sb-eta" id="marketETA">--</span>
-        <div class="sb-chips">
-          <span class="chip" id="chipXAU">XAUUSD</span>
-          <span class="chip" id="chipXAG">XAGUSD</span>
-          <span class="chip dim" id="chipCurrency">USD</span>
-          <span class="chip dim" id="chipSource">TradingView + GoldAPI</span>
-          <span class="chip warn" id="chipApi" style="display:none;">API KEY MISSING</span>
-        </div>
-      </div>
+      <span class="sb-title" id="marketLine">--</span>
     </div>
-
     <div class="sb-clock" id="clock">--</div>
-
-    <div class="sb-mode" aria-label="Display mode">
-      <button class="modebtn" id="modeDesktop" type="button">DESKTOP</button>
-      <button class="modebtn" id="modeTV" type="button">TV</button>
-    </div>
-
-    <div class="sb-progress" aria-hidden="true"><i id="sbProg"></i></div>
   </div>
 </div>
 
@@ -555,16 +434,6 @@ body.mode-tv .item{font-size:20px;}
 <div class="snapshot">
   <div class="snap-grid">
     <div class="snap">
-      <div class="snap-k">GOLD SPOT (USD/oz)</div>
-      <div class="snap-v gold" id="snapGold">--</div>
-      <div class="snap-sub" id="snapGoldSub">Updated: --</div>
-    </div>
-    <div class="snap">
-      <div class="snap-k">SILVER SPOT (USD/oz)</div>
-      <div class="snap-v" id="snapSilver">--</div>
-      <div class="snap-sub" id="snapSilverSub">Updated: --</div>
-    </div>
-    <div class="snap">
       <div class="snap-k">GOLD 24H CHANGE</div>
       <div class="snap-v" id="snapGoldChg">--</div>
       <div class="snap-sub" id="snapGoldHL">High/Low: --</div>
@@ -574,29 +443,15 @@ body.mode-tv .item{font-size:20px;}
       <div class="snap-v" id="snapSilverChg">--</div>
       <div class="snap-sub" id="snapSilverHL">High/Low: --</div>
     </div>
-    <div class="snap">
-      <div class="snap-k">MARKET STATUS</div>
-      <div class="snap-badge" id="snapStatus"><span class="bdot"></span><span id="snapStatusTxt">--</span></div>
-      <div class="snap-sub" id="snapStatusSub">Next: --</div>
-    </div>
-    <div class="snap">
-      <div class="snap-k">NOTES</div>
-      <div class="snap-v" style="font-size:16px;line-height:1.15;" id="snapNote">Indicative prices</div>
-      <div class="snap-sub">Confirm before invoice</div>
-    </div>
   </div>
 </div>
 
 <div class="rates">
   <div class="card" id="goldCard">
     <div class="card-title">
-      <div class="ct-left">
+      <div>
         <div class="ct-name">GOLD • XAUUSD</div>
         <div class="ct-sub">USD/oz • OANDA</div>
-      </div>
-      <div class="ct-right">
-        <div class="ct-price" id="goldHeaderPrice">--</div>
-        <div class="ct-stamp" id="goldHeaderStamp">Updated: --</div>
       </div>
     </div>
     <div class="tv-box">
@@ -611,13 +466,9 @@ body.mode-tv .item{font-size:20px;}
 
   <div class="card" id="silverCard">
     <div class="card-title">
-      <div class="ct-left">
+      <div>
         <div class="ct-name">SILVER • XAGUSD</div>
         <div class="ct-sub">USD/oz • OANDA</div>
-      </div>
-      <div class="ct-right">
-        <div class="ct-price" id="silverHeaderPrice">--</div>
-        <div class="ct-stamp" id="silverHeaderStamp">Updated: --</div>
       </div>
     </div>
     <div class="tv-box">
@@ -634,7 +485,6 @@ body.mode-tv .item{font-size:20px;}
 <div class="footerline" aria-hidden="true">
   <div class="footerline-inner">
     <span>© SHALUQ JEWELLERS • Dubai • Fujairah</span>
-    <span class="mut" id="footerUpdate">Last snapshot: --</span>
   </div>
 </div>
 
@@ -650,8 +500,7 @@ body.mode-tv .item{font-size:20px;}
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
 
         <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
-        <div class="item"><span class="sep-dot"></span><span class="badge note">UPDATE</span> Snapshot refreshes every 60s when market is open</div>
-        <div class="item"><span class="sep-dot"></span><span class="badge note">STATUS</span> Market Open/Close shown in UAE time</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge note">UPDATE</span> 24h change refreshes every 60s when market is open</div>
       </div>
 
       <div class="group" aria-hidden="true">
@@ -663,8 +512,7 @@ body.mode-tv .item{font-size:20px;}
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
 
         <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
-        <div class="item"><span class="sep-dot"></span><span class="badge note">UPDATE</span> Snapshot refreshes every 60s when market is open</div>
-        <div class="item"><span class="sep-dot"></span><span class="badge note">STATUS</span> Market Open/Close shown in UAE time</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge note">UPDATE</span> 24h change refreshes every 60s when market is open</div>
       </div>
     </div>
   </div>
@@ -682,22 +530,6 @@ function addTV(symbol,id){
 addTV("OANDA:XAUUSD","gold");
 addTV("OANDA:XAGUSD","silver");
 
-/* Display mode switch */
-const MODE_KEY="shal_uq_display_mode_v1";
-const modeDesktopBtn=document.getElementById("modeDesktop");
-const modeTVBtn=document.getElementById("modeTV");
-function applyMode(mode){
-  document.body.classList.toggle("mode-tv", mode==="tv");
-  document.body.classList.toggle("mode-desktop", mode!=="tv");
-  modeDesktopBtn.classList.toggle("active", mode!=="tv");
-  modeTVBtn.classList.toggle("active", mode==="tv");
-  try{ localStorage.setItem(MODE_KEY, mode); }catch(e){}
-}
-function loadMode(){ try{ return localStorage.getItem(MODE_KEY) || "desktop"; }catch(e){ return "desktop"; } }
-modeDesktopBtn.addEventListener("click", ()=>applyMode("desktop"));
-modeTVBtn.addEventListener("click", ()=>applyMode("tv"));
-applyMode(loadMode());
-
 /* Dubai time helpers */
 function getDubaiDate(){
   const now=new Date();
@@ -711,6 +543,8 @@ function formatAMPM(dateObj){
   h=h%12; if(h===0) h=12;
   return `${h}:${m} ${ampm}`;
 }
+
+/* World clock line */
 function tickClock(){
   const now=new Date();
   const d=getDubaiDate();
@@ -724,10 +558,15 @@ function tickClock(){
 tickClock();
 setInterval(tickClock, 10000);
 
-/* ===== LAST (CLOSE) PRICE STORAGE & FREEZE ===== */
+/* ===== GoldAPI for 24H CHANGE + store LAST CLOSE ===== */
+const API_KEY="PASTE_YOUR_GOLDAPI_KEY_HERE";
 const LS_KEY="shal_uq_last_prices_v1";
+
 let pricePollTimer=null;
 let lastMarketState=null;
+let marketCountdownTimer=null;
+
+function apiKeyMissing(){ return (!API_KEY || API_KEY.includes("PASTE_YOUR")); }
 
 function loadSaved(){
   try { return JSON.parse(localStorage.getItem(LS_KEY) || "{}"); }
@@ -736,13 +575,39 @@ function loadSaved(){
 function saveSaved(obj){ localStorage.setItem(LS_KEY, JSON.stringify(obj)); }
 
 function fmt(n){ return n.toLocaleString("en-US",{minimumFractionDigits:2, maximumFractionDigits:2}); }
-function fmtMaybe(n){ return (typeof n==="number" && isFinite(n)) ? fmt(n) : "--"; }
 function fmtSavedTime(ts){
   if (!ts) return "--";
   const d=new Date(ts);
   const dubai = new Date(d.toLocaleString("en-US",{timeZone:"Asia/Dubai"}));
   return `${dubai.toLocaleDateString("en-GB")} ${formatAMPM(dubai)} UAE`;
 }
+
+async function fetchSpotFull(metal){
+  const url = `https://www.goldapi.io/api/${metal}/USD`;
+  const res = await fetch(url, { cache:"no-store", headers:{ "x-access-token": API_KEY } });
+  if(!res.ok) throw new Error("API error: " + res.status);
+  const data = await res.json();
+
+  const price = (data.price ?? data.bid ?? data.ask);
+  if(typeof price!=="number") throw new Error("Bad payload");
+
+  const high = (data.high_price ?? data.high ?? data.high_24h ?? null);
+  const low  = (data.low_price  ?? data.low  ?? data.low_24h  ?? null);
+  const chg = (typeof data.chg==="number") ? data.chg : null;
+  const chgPct = (typeof data.chg_pct==="number") ? data.chg_pct : null;
+
+  return { price, high:(typeof high==="number"?high:null), low:(typeof low==="number"?low:null), chg, chgPct };
+}
+
+function calcChangeFromLow(obj){
+  if(!obj) return null;
+  const p=obj.price, low=obj.low;
+  if(typeof p!=="number" || typeof low!=="number" || low<=0) return null;
+  const chg=p-low;
+  const pct=(chg/low)*100;
+  return {chg,pct};
+}
+
 function setOverlay(metal, price, ts){
   if (metal==="XAU"){
     document.getElementById("goldLast").textContent = (typeof price==="number") ? fmt(price) : "--";
@@ -753,109 +618,32 @@ function setOverlay(metal, price, ts){
   }
 }
 
-/* ✅ GoldAPI (header: x-access-token)
-   PUT YOUR KEY BELOW
-*/
-const API_KEY="goldapi-16u3bfsmlexowde-io";
-const chipApi=document.getElementById("chipApi");
+function setChangeTiles(xau, xag){
+  const gx = (typeof xau?.chg==="number" && typeof xau?.chgPct==="number")
+    ? { chg: xau.chg, pct: xau.chgPct }
+    : calcChangeFromLow(xau);
 
-function apiKeyMissing(){ return (!API_KEY || API_KEY.includes("PASTE_YOUR")); }
-function updateApiChip(){ chipApi.style.display = apiKeyMissing() ? "inline-flex" : "none"; }
-updateApiChip();
+  const sx = (typeof xag?.chg==="number" && typeof xag?.chgPct==="number")
+    ? { chg: xag.chg, pct: xag.chgPct }
+    : calcChangeFromLow(xag);
 
-/* Fetch full payload */
-async function fetchSpotFull(metal){
-  const url = `https://www.goldapi.io/api/${metal}/USD`;
-  const res = await fetch(url, {
-    cache: "no-store",
-    headers: { "x-access-token": API_KEY }
-  });
-  if(!res.ok) throw new Error("API error: " + res.status);
-  const data = await res.json();
+  document.getElementById("snapGoldChg").textContent =
+    gx ? `${(gx.chg>=0?"+":"")}${fmt(gx.chg)} (${(gx.pct>=0?"+":"")}${gx.pct.toFixed(2)}%)` : "--";
 
-  const price = (data.price ?? data.bid ?? data.ask);
-  if(typeof price!=="number") throw new Error("Bad payload");
+  document.getElementById("snapGoldHL").textContent =
+    (typeof xau?.high==="number" && typeof xau?.low==="number")
+      ? `High/Low: ${fmt(xau.high)} / ${fmt(xau.low)}`
+      : "High/Low: --";
 
-  const high = (data.high_price ?? data.high ?? data.high_24h ?? null);
-  const low  = (data.low_price  ?? data.low  ?? data.low_24h  ?? null);
-  const ts   = (data.timestamp ? (data.timestamp*1000) : Date.now());
+  document.getElementById("snapSilverChg").textContent =
+    sx ? `${(sx.chg>=0?"+":"")}${fmt(sx.chg)} (${(sx.pct>=0?"+":"")}${sx.pct.toFixed(2)}%)` : "--";
 
-  // Some free plans do not include chg/chg_pct. We'll compute fallback.
-  const chg = (typeof data.chg==="number") ? data.chg : null;
-  const chgPct = (typeof data.chg_pct==="number") ? data.chg_pct : null;
-
-  return {
-    price,
-    high:(typeof high==="number"?high:null),
-    low:(typeof low==="number"?low:null),
-    chg,
-    chgPct,
-    ts
-  };
+  document.getElementById("snapSilverHL").textContent =
+    (typeof xag?.high==="number" && typeof xag?.low==="number")
+      ? `High/Low: ${fmt(xag.high)} / ${fmt(xag.low)}`
+      : "High/Low: --";
 }
 
-/* Fallback change calculator (from low to current) */
-function calcChangeFromLow(obj){
-  if(!obj) return null;
-  const p=obj.price, low=obj.low;
-  if(typeof p!=="number" || typeof low!=="number" || low<=0) return null;
-  const chg=p-low;
-  const pct=(chg/low)*100;
-  return {chg,pct};
-}
-
-/* UI setters */
-function setHeader(metal, price, ts){
-  const stamp = ts ? `Updated: ${fmtSavedTime(ts)}` : "Updated: --";
-  if(metal==="XAU"){
-    document.getElementById("goldHeaderPrice").textContent = fmtMaybe(price);
-    document.getElementById("goldHeaderStamp").textContent = stamp;
-  } else {
-    document.getElementById("silverHeaderPrice").textContent = fmtMaybe(price);
-    document.getElementById("silverHeaderStamp").textContent = stamp;
-  }
-}
-
-function setSnapshot(metal, obj){
-  const tsStr = obj?.ts ? fmtSavedTime(obj.ts) : "--";
-
-  if(metal==="XAU"){
-    document.getElementById("snapGold").textContent = fmtMaybe(obj?.price);
-    document.getElementById("snapGoldSub").textContent = `Updated: ${tsStr}`;
-
-    const c = (typeof obj?.chg==="number" && typeof obj?.chgPct==="number")
-      ? { chg: obj.chg, pct: obj.chgPct }
-      : calcChangeFromLow(obj);
-
-    document.getElementById("snapGoldChg").textContent =
-      c ? `${(c.chg>=0?"+":"")}${fmt(c.chg)} (${(c.pct>=0?"+":"")}${c.pct.toFixed(2)}%)` : "--";
-
-    document.getElementById("snapGoldHL").textContent =
-      (typeof obj?.high==="number" && typeof obj?.low==="number")
-        ? `High/Low: ${fmt(obj.high)} / ${fmt(obj.low)}`
-        : "High/Low: --";
-  } else {
-    document.getElementById("snapSilver").textContent = fmtMaybe(obj?.price);
-    document.getElementById("snapSilverSub").textContent = `Updated: ${tsStr}`;
-
-    const c = (typeof obj?.chg==="number" && typeof obj?.chgPct==="number")
-      ? { chg: obj.chg, pct: obj.chgPct }
-      : calcChangeFromLow(obj);
-
-    document.getElementById("snapSilverChg").textContent =
-      c ? `${(c.chg>=0?"+":"")}${fmt(c.chg)} (${(c.pct>=0?"+":"")}${c.pct.toFixed(2)}%)` : "--";
-
-    document.getElementById("snapSilverHL").textContent =
-      (typeof obj?.high==="number" && typeof obj?.low==="number")
-        ? `High/Low: ${fmt(obj.high)} / ${fmt(obj.low)}`
-        : "High/Low: --";
-  }
-}
-function setFooterUpdate(ts){
-  document.getElementById("footerUpdate").textContent = `Last snapshot: ${ts ? fmtSavedTime(ts) : "--"}`;
-}
-
-/* Capture & save */
 async function captureOnce(){
   if(apiKeyMissing()) throw new Error("Missing API key");
 
@@ -869,22 +657,14 @@ async function captureOnce(){
   saved.ts=Date.now();
   saveSaved(saved);
 
-  // closed overlay store
   setOverlay("XAU", xau.price, saved.ts);
   setOverlay("XAG", xag.price, saved.ts);
-
-  // headers + snapshot
-  setHeader("XAU", xau.price, saved.ts);
-  setHeader("XAG", xag.price, saved.ts);
-  setSnapshot("XAU", { ...xau, ts: saved.ts });
-  setSnapshot("XAG", { ...xag, ts: saved.ts });
-  setFooterUpdate(saved.ts);
+  setChangeTiles(xau, xag);
 }
 
 function startPolling(){
   if(pricePollTimer) return;
   captureOnce().catch(()=>{});
-  /* 60 seconds for free plan */
   pricePollTimer=setInterval(()=>{ captureOnce().catch(()=>{}); }, 60000);
 }
 function stopPolling(){
@@ -907,39 +687,23 @@ function applyClosedUI(isOpen){
     setOverlay("XAG", (typeof saved.xag==="number"?saved.xag:null), saved.ts);
   }
 
-  // keep header + snapshot showing last saved
-  setHeader("XAU", (typeof saved.xau==="number"?saved.xau:null), saved.ts);
-  setHeader("XAG", (typeof saved.xag==="number"?saved.xag:null), saved.ts);
-
   const metaXAU = saved.xau_meta || null;
   const metaXAG = saved.xag_meta || null;
-  setSnapshot("XAU", metaXAU ? { ...metaXAU, price: saved.xau, ts: saved.ts } : { price: saved.xau, ts: saved.ts });
-  setSnapshot("XAG", metaXAG ? { ...metaXAG, price: saved.xag, ts: saved.ts } : { price: saved.xag, ts: saved.ts });
-  setFooterUpdate(saved.ts);
+  setChangeTiles(metaXAU ? metaXAU : null, metaXAG ? metaXAG : null);
 }
 
-/* Market hours (Dubai time) */
-let marketTickTimer=null;
-
-function formatNextLabel(target){
-  const dub = new Date(target.toLocaleString("en-US",{timeZone:"Asia/Dubai"}));
-  const day = dub.toLocaleDateString("en-GB");
-  return `${day} ${formatAMPM(dub)} UAE`;
-}
-
+/* Market line with seconds */
 function updateDubaiMarket(){
   const d=getDubaiDate();
   const day=d.getDay();
   const h=d.getHours();
 
-  const top=document.getElementById("marketTop");
-  const eta=document.getElementById("marketETA");
-  const dot=document.getElementById("statusDot");
-  const sbProg=document.getElementById("sbProg");
-
   const dailyGapClosed=(h===2);
   const weekendClosed=(day===6 && (h>=2)) || (day===0 && (h<3));
   const isOpen=!(dailyGapClosed || weekendClosed);
+
+  const dot=document.getElementById("statusDot");
+  const marketLine=document.getElementById("marketLine");
 
   function getNextClose(nowDubai){
     const close=new Date(nowDubai);
@@ -954,78 +718,52 @@ function updateDubaiMarket(){
     if (weekendClosed){
       if (day===6){ open.setDate(open.getDate()+1); open.setHours(3,0,0,0); }
       else open.setHours(3,0,0,0);
-    } else open.setHours(3,0,0,0);
+    } else {
+      open.setHours(3,0,0,0);
+    }
     return open;
   }
 
-  if (marketTickTimer) clearInterval(marketTickTimer);
-
-  const snapStatus=document.getElementById("snapStatus");
-  const snapStatusTxt=document.getElementById("snapStatusTxt");
-  const snapStatusSub=document.getElementById("snapStatusSub");
+  if (marketCountdownTimer) clearInterval(marketCountdownTimer);
 
   if (isOpen){
-    const closeAt=getNextClose(d);
-
-    top.textContent="Market Open";
     dot.style.background="var(--open)";
     dot.style.boxShadow="0 0 16px var(--open)";
+    const closeAt=getNextClose(d);
 
-    snapStatus.classList.remove("closed");
-    snapStatusTxt.textContent="OPEN";
-    snapStatusSub.textContent=`Next close: ${formatNextLabel(closeAt)}`;
-
-    function tick(){
+    const tick=()=>{
       const nowDubai=getDubaiDate();
       let diff=Math.max(0, Math.floor((closeAt.getTime()-nowDubai.getTime())/1000));
       const hrs=Math.floor(diff/3600); diff%=3600;
-      const mins=Math.floor(diff/60);
-      const secs=diff%60;
-      eta.textContent=`• Closes in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
-
-      // progress for open block (from 3:00 to 2:00 next day)
-      const startOpen = new Date(closeAt); startOpen.setDate(startOpen.getDate()-1); startOpen.setHours(3,0,0,0);
-      const span = closeAt.getTime() - startOpen.getTime();
-      const passed = Math.min(span, Math.max(0, nowDubai.getTime() - startOpen.getTime()));
-      const pct = Math.max(0, Math.min(100, (passed/span)*100));
-      sbProg.style.width = pct.toFixed(2)+"%";
-    }
+      const mins=Math.floor(diff/60); diff%=60;
+      const secs=diff;
+      marketLine.textContent=`Market Open • Closes in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
+    };
     tick();
-    marketTickTimer=setInterval(tick, 1000);
-
+    marketCountdownTimer=setInterval(tick, 1000);
   } else {
-    const openAt=getNextOpen(d);
-
-    top.textContent="Market Closed";
     dot.style.background="var(--closed)";
     dot.style.boxShadow="0 0 16px var(--closed)";
+    const openAt=getNextOpen(d);
 
-    snapStatus.classList.add("closed");
-    snapStatusTxt.textContent="CLOSED";
-    snapStatusSub.textContent=`Next open: ${formatNextLabel(openAt)}`;
-
-    function tick(){
+    const tick=()=>{
       const nowDubai=getDubaiDate();
       let diff=Math.max(0, Math.floor((openAt.getTime()-nowDubai.getTime())/1000));
       const days=Math.floor(diff/86400); diff%=86400;
       const hrs=Math.floor(diff/3600); diff%=3600;
-      const mins=Math.floor(diff/60);
-      const secs=diff%60;
+      const mins=Math.floor(diff/60); diff%=60;
+      const secs=diff;
 
-      eta.textContent = days>0
-        ? `• Opens in ${days}d ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`
-        : `• Opens in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
-
-      sbProg.style.width = "0%";
-    }
+      marketLine.textContent = (days>0)
+        ? `Market Closed • Opens in ${days}d ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`
+        : `Market Closed • Opens in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
+    };
     tick();
-    marketTickTimer=setInterval(tick, 1000);
+    marketCountdownTimer=setInterval(tick, 1000);
   }
 
-  // state change
   if (lastMarketState===null || lastMarketState!==isOpen){
     lastMarketState=isOpen;
-
     if (isOpen){
       applyClosedUI(true);
       if (!apiKeyMissing()) startPolling();
@@ -1036,29 +774,18 @@ function updateDubaiMarket(){
       applyClosedUI(false);
     }
   }
-
-  if (apiKeyMissing()){
-    document.getElementById("snapNote").textContent="Charts live (TradingView)";
-  } else {
-    document.getElementById("snapNote").textContent="Indicative prices";
-  }
 }
 updateDubaiMarket();
 setInterval(updateDubaiMarket, 30000);
 
-/* Load last saved snapshot on first paint */
+/* Load last saved on first paint */
 (function initSaved(){
   const saved=loadSaved();
-  setHeader("XAU", (typeof saved.xau==="number"?saved.xau:null), saved.ts);
-  setHeader("XAG", (typeof saved.xag==="number"?saved.xag:null), saved.ts);
-
-  const metaXAU = saved.xau_meta || null;
-  const metaXAG = saved.xag_meta || null;
-  setSnapshot("XAU", metaXAU ? { ...metaXAU, price: saved.xau, ts: saved.ts } : { price: saved.xau, ts: saved.ts });
-  setSnapshot("XAG", metaXAG ? { ...metaXAG, price: saved.xag, ts: saved.ts } : { price: saved.xag, ts: saved.ts });
   setOverlay("XAU", (typeof saved.xau==="number"?saved.xau:null), saved.ts);
   setOverlay("XAG", (typeof saved.xag==="number"?saved.xag:null), saved.ts);
-  setFooterUpdate(saved.ts);
+  const metaXAU = saved.xau_meta || null;
+  const metaXAG = saved.xag_meta || null;
+  setChangeTiles(metaXAU ? metaXAU : null, metaXAG ? metaXAG : null);
 })();
 
 /* Fullscreen (mobile) */
