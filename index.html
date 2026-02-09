@@ -195,30 +195,36 @@ body::before{
 }
 
 /* SNAPSHOT (ONLY HIGH/LOW) */
-.snapshot{
-  width:min(1700px, 96vw);
-  margin:14px auto 0;
-  padding:0 14px;
+/* ✅ CHANGE: Hidden on PC/TV, shown only on mobile */
+.snapshot{ display:none; }
+
+@media (max-width:768px){
+  .snapshot{
+    display:block;
+    width:min(1700px, 96vw);
+    margin:14px auto 0;
+    padding:0 14px;
+  }
+  .snap-grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:12px;
+  }
+  .snap{
+    position:relative;
+    border-radius:18px;
+    border:1px solid rgba(255,211,106,.16);
+    background:
+      radial-gradient(700px 260px at 18% 18%, rgba(255,211,106,.08), transparent 60%),
+      linear-gradient(180deg, rgba(14,18,28,.78), rgba(6,8,14,.78));
+    box-shadow:0 12px 34px rgba(0,0,0,.52);
+    padding:14px 16px;
+    overflow:hidden;
+    min-width:0;
+  }
+  .snap-k{font-size:12px;font-weight:900;letter-spacing:.75px;color:rgba(207,216,255,.88);}
+  .snap-v{margin-top:10px;font-size:18px;font-weight:900;letter-spacing:.2px;color:#fff;line-height:1.15;}
 }
-.snap-grid{
-  display:grid;
-  grid-template-columns:repeat(2, minmax(0, 1fr));
-  gap:12px;
-}
-.snap{
-  position:relative;
-  border-radius:18px;
-  border:1px solid rgba(255,211,106,.16);
-  background:
-    radial-gradient(700px 260px at 18% 18%, rgba(255,211,106,.08), transparent 60%),
-    linear-gradient(180deg, rgba(14,18,28,.78), rgba(6,8,14,.78));
-  box-shadow:0 12px 34px rgba(0,0,0,.52);
-  padding:14px 16px;
-  overflow:hidden;
-  min-width:0;
-}
-.snap-k{font-size:12px;font-weight:900;letter-spacing:.75px;color:rgba(207,216,255,.88);}
-.snap-v{margin-top:10px;font-size:18px;font-weight:900;letter-spacing:.2px;color:#fff;line-height:1.15;}
 
 /* ✅ MOBILE snapshot FIT */
 @media (max-width:768px){
@@ -233,7 +239,7 @@ body::before{
   .snap-grid{grid-template-columns:1fr;}
 }
 
-/* ✅ TV FIX */
+/* ✅ TV FIX (kept; snapshot is already hidden on TV/PC) */
 @media (min-width:1200px){
   .snap{min-height:92px;}
   .snap-v{font-size:20px;}
@@ -444,6 +450,7 @@ body::before{
 
 <div class="divider"></div>
 
+<!-- ✅ Snapshot remains in HTML but is ONLY visible on mobile via CSS -->
 <div class="snapshot">
   <div class="snap-grid">
     <div class="snap">
