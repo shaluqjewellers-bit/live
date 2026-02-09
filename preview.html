@@ -202,7 +202,7 @@ body::before{
 }
 .snap-grid{
   display:grid;
-  grid-template-columns:repeat(2, 1fr);
+  grid-template-columns:repeat(2, minmax(0, 1fr));
   gap:12px;
 }
 .snap{
@@ -215,15 +215,24 @@ body::before{
   box-shadow:0 12px 34px rgba(0,0,0,.52);
   padding:12px 14px;
   overflow:hidden;
+  min-width:0;
 }
 .snap-k{font-size:12px;font-weight:900;letter-spacing:.75px;color:rgba(207,216,255,.88);}
-.snap-v{margin-top:8px;font-size:20px;font-weight:900;letter-spacing:.25px;color:#fff;}
+.snap-v{margin-top:8px;font-size:20px;font-weight:900;letter-spacing:.25px;color:#fff;line-height:1.15;}
 .snap-sub{margin-top:6px;font-size:12px;font-weight:800;color:rgba(255,255,255,.70);letter-spacing:.2px;}
-@media(max-width:768px){
+
+/* ✅ MOBILE snapshot FIT */
+@media (max-width:768px){
   .snapshot{padding:0 10px;}
-  .snap-grid{grid-template-columns:1fr; gap:10px;}
-  .snap{padding:10px 12px;border-radius:16px;}
-  .snap-v{font-size:18px;}
+  .snap-grid{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px;}
+  .snap{padding:10px 10px;border-radius:16px;min-width:0;}
+  .snap-k{font-size:11px;letter-spacing:.55px;}
+  .snap-v{font-size:16px;line-height:1.15;}
+  .snap-sub{font-size:11px;}
+}
+/* very small phones: stack to 1 column */
+@media (max-width:420px){
+  .snap-grid{grid-template-columns:1fr;}
 }
 
 /* CHART GRID */
@@ -559,7 +568,7 @@ tickClock();
 setInterval(tickClock, 10000);
 
 /* ===== GoldAPI for 24H CHANGE + store LAST CLOSE ===== */
-const API_KEY="PASTE_YOUR_GOLDAPI_KEY_HERE";
+const API_KEY="goldapi-16u3bfsmlexowde-io";
 const LS_KEY="shal_uq_last_prices_v1";
 
 let pricePollTimer=null;
@@ -646,10 +655,9 @@ function setChangeTiles(xau, xag){
 
 async function captureOnce(){
   if(apiKeyMissing()) throw new Error("Missing API key");
-
   const [xau,xag]=await Promise.all([fetchSpotFull("XAU"), fetchSpotFull("XAG")]);
-  const saved=loadSaved();
 
+  const saved=loadSaved();
   saved.xau=xau.price;
   saved.xag=xag.price;
   saved.xau_meta=xau;
@@ -689,7 +697,7 @@ function applyClosedUI(isOpen){
 
   const metaXAU = saved.xau_meta || null;
   const metaXAG = saved.xag_meta || null;
-  setChangeTiles(metaXAU ? metaXAU : null, metaXAG ? metaXAG : null);
+  setChangeTiles(metaXAU, metaXAG);
 }
 
 /* Market line with seconds */
@@ -783,9 +791,7 @@ setInterval(updateDubaiMarket, 30000);
   const saved=loadSaved();
   setOverlay("XAU", (typeof saved.xau==="number"?saved.xau:null), saved.ts);
   setOverlay("XAG", (typeof saved.xag==="number"?saved.xag:null), saved.ts);
-  const metaXAU = saved.xau_meta || null;
-  const metaXAG = saved.xag_meta || null;
-  setChangeTiles(metaXAU ? metaXAU : null, metaXAG ? metaXAG : null);
+  setChangeTiles(saved.xau_meta || null, saved.xag_meta || null);
 })();
 
 /* Fullscreen (mobile) */
