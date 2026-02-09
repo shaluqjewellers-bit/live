@@ -99,7 +99,7 @@ body::before{
 .sb-title{
   font-weight:900;
   letter-spacing:.25px;
-  font-size:16px;
+  font-size:20px; /* ✅ bigger */
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
@@ -109,7 +109,7 @@ body::before{
   text-align:right;
   font-weight:900;color:#eaf0ff;opacity:.98;
   letter-spacing:.25px;white-space:nowrap;
-  font-size:16px;
+  font-size:18px; /* ✅ bigger */
   flex:0 0 auto;
 }
 
@@ -128,12 +128,12 @@ body::before{
     text-align:center;
     white-space:normal;
     line-height:1.25;
-    font-size:13px;
+    font-size:18px; /* ✅ bigger */
     letter-spacing:.15px;
   }
   .sb-clock{
     text-align:center;
-    font-size:13px;
+    font-size:16px; /* ✅ bigger */
     white-space:normal;
     line-height:1.25;
   }
@@ -194,7 +194,7 @@ body::before{
   .brand-sub{font-size:12px;margin-top:6px;letter-spacing:2.2px;}
 }
 
-/* SNAPSHOT */
+/* SNAPSHOT (ONLY HIGH/LOW) */
 .snapshot{
   width:min(1700px, 96vw);
   margin:14px auto 0;
@@ -213,26 +213,30 @@ body::before{
     radial-gradient(700px 260px at 18% 18%, rgba(255,211,106,.08), transparent 60%),
     linear-gradient(180deg, rgba(14,18,28,.78), rgba(6,8,14,.78));
   box-shadow:0 12px 34px rgba(0,0,0,.52);
-  padding:12px 14px;
+  padding:14px 16px;
   overflow:hidden;
   min-width:0;
 }
 .snap-k{font-size:12px;font-weight:900;letter-spacing:.75px;color:rgba(207,216,255,.88);}
-.snap-v{margin-top:8px;font-size:20px;font-weight:900;letter-spacing:.25px;color:#fff;line-height:1.15;}
-.snap-sub{margin-top:6px;font-size:12px;font-weight:800;color:rgba(255,255,255,.70);letter-spacing:.2px;}
+.snap-v{margin-top:10px;font-size:18px;font-weight:900;letter-spacing:.2px;color:#fff;line-height:1.15;}
 
 /* ✅ MOBILE snapshot FIT */
 @media (max-width:768px){
   .snapshot{padding:0 10px;}
   .snap-grid{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px;}
-  .snap{padding:10px 10px;border-radius:16px;min-width:0;}
+  .snap{padding:12px 12px;border-radius:16px;min-width:0;}
   .snap-k{font-size:11px;letter-spacing:.55px;}
-  .snap-v{font-size:16px;line-height:1.15;}
-  .snap-sub{font-size:11px;}
+  .snap-v{font-size:14px;line-height:1.2;white-space:normal;}
 }
 /* very small phones: stack to 1 column */
 @media (max-width:420px){
   .snap-grid{grid-template-columns:1fr;}
+}
+
+/* ✅ TV FIX */
+@media (min-width:1200px){
+  .snap{min-height:92px;}
+  .snap-v{font-size:20px;}
 }
 
 /* CHART GRID */
@@ -371,7 +375,7 @@ body::before{
   .badge{padding:5px 10px;border-radius:14px;}
 }
 
-/* FULLSCREEN button (mobile only, always visible) */
+/* FULLSCREEN button (mobile only) */
 .kiosk-btn{
   position:fixed;top:14px;right:14px;z-index:9999;
   display:flex;align-items:center;gap:10px;
@@ -443,14 +447,12 @@ body::before{
 <div class="snapshot">
   <div class="snap-grid">
     <div class="snap">
-      <div class="snap-k">GOLD 24H CHANGE</div>
-      <div class="snap-v" id="snapGoldChg">--</div>
-      <div class="snap-sub" id="snapGoldHL">High/Low: --</div>
+      <div class="snap-k">GOLD HIGH / LOW (24H)</div>
+      <div class="snap-v" id="goldHL">High/Low: --</div>
     </div>
     <div class="snap">
-      <div class="snap-k">SILVER 24H CHANGE</div>
-      <div class="snap-v" id="snapSilverChg">--</div>
-      <div class="snap-sub" id="snapSilverHL">High/Low: --</div>
+      <div class="snap-k">SILVER HIGH / LOW (24H)</div>
+      <div class="snap-v" id="silverHL">High/Low: --</div>
     </div>
   </div>
 </div>
@@ -509,7 +511,7 @@ body::before{
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
 
         <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
-        <div class="item"><span class="sep-dot"></span><span class="badge note">UPDATE</span> 24h change refreshes every 60s when market is open</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge note">UPDATE</span> High/Low refreshes every 60s when market is open</div>
       </div>
 
       <div class="group" aria-hidden="true">
@@ -521,7 +523,7 @@ body::before{
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
 
         <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
-        <div class="item"><span class="sep-dot"></span><span class="badge note">UPDATE</span> 24h change refreshes every 60s when market is open</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge note">UPDATE</span> High/Low refreshes every 60s when market is open</div>
       </div>
     </div>
   </div>
@@ -567,15 +569,12 @@ function tickClock(){
 tickClock();
 setInterval(tickClock, 10000);
 
-/* ===== GoldAPI for 24H CHANGE + store LAST CLOSE ===== */
+/* ===== GoldAPI (HIGH/LOW + store LAST CLOSE) ===== */
 const API_KEY="goldapi-16u3bfsmlexowde-io";
 const LS_KEY="shal_uq_last_prices_v1";
-
 let pricePollTimer=null;
 let lastMarketState=null;
 let marketCountdownTimer=null;
-
-function apiKeyMissing(){ return (!API_KEY || API_KEY.includes("PASTE_YOUR")); }
 
 function loadSaved(){
   try { return JSON.parse(localStorage.getItem(LS_KEY) || "{}"); }
@@ -590,11 +589,23 @@ function fmtSavedTime(ts){
   const dubai = new Date(d.toLocaleString("en-US",{timeZone:"Asia/Dubai"}));
   return `${dubai.toLocaleDateString("en-GB")} ${formatAMPM(dubai)} UAE`;
 }
-
+async function fetchWithTimeout(url, options, timeoutMs=9000){
+  const controller = new AbortController();
+  const t = setTimeout(()=>controller.abort(), timeoutMs);
+  try{
+    const res = await fetch(url, { ...options, signal: controller.signal });
+    return res;
+  } finally {
+    clearTimeout(t);
+  }
+}
 async function fetchSpotFull(metal){
   const url = `https://www.goldapi.io/api/${metal}/USD`;
-  const res = await fetch(url, { cache:"no-store", headers:{ "x-access-token": API_KEY } });
-  if(!res.ok) throw new Error("API error: " + res.status);
+  const res = await fetchWithTimeout(url, {
+    cache:"no-store",
+    headers:{ "x-access-token": API_KEY }
+  }, 9000);
+  if(!res.ok) throw new Error("API " + res.status);
   const data = await res.json();
 
   const price = (data.price ?? data.bid ?? data.ask);
@@ -602,19 +613,8 @@ async function fetchSpotFull(metal){
 
   const high = (data.high_price ?? data.high ?? data.high_24h ?? null);
   const low  = (data.low_price  ?? data.low  ?? data.low_24h  ?? null);
-  const chg = (typeof data.chg==="number") ? data.chg : null;
-  const chgPct = (typeof data.chg_pct==="number") ? data.chg_pct : null;
 
-  return { price, high:(typeof high==="number"?high:null), low:(typeof low==="number"?low:null), chg, chgPct };
-}
-
-function calcChangeFromLow(obj){
-  if(!obj) return null;
-  const p=obj.price, low=obj.low;
-  if(typeof p!=="number" || typeof low!=="number" || low<=0) return null;
-  const chg=p-low;
-  const pct=(chg/low)*100;
-  return {chg,pct};
+  return { price, high:(typeof high==="number"?high:null), low:(typeof low==="number"?low:null) };
 }
 
 function setOverlay(metal, price, ts){
@@ -627,34 +627,24 @@ function setOverlay(metal, price, ts){
   }
 }
 
-function setChangeTiles(xau, xag){
-  const gx = (typeof xau?.chg==="number" && typeof xau?.chgPct==="number")
-    ? { chg: xau.chg, pct: xau.chgPct }
-    : calcChangeFromLow(xau);
-
-  const sx = (typeof xag?.chg==="number" && typeof xag?.chgPct==="number")
-    ? { chg: xag.chg, pct: xag.chgPct }
-    : calcChangeFromLow(xag);
-
-  document.getElementById("snapGoldChg").textContent =
-    gx ? `${(gx.chg>=0?"+":"")}${fmt(gx.chg)} (${(gx.pct>=0?"+":"")}${gx.pct.toFixed(2)}%)` : "--";
-
-  document.getElementById("snapGoldHL").textContent =
+function setHighLow(xau, xag){
+  document.getElementById("goldHL").textContent =
     (typeof xau?.high==="number" && typeof xau?.low==="number")
       ? `High/Low: ${fmt(xau.high)} / ${fmt(xau.low)}`
       : "High/Low: --";
 
-  document.getElementById("snapSilverChg").textContent =
-    sx ? `${(sx.chg>=0?"+":"")}${fmt(sx.chg)} (${(sx.pct>=0?"+":"")}${sx.pct.toFixed(2)}%)` : "--";
-
-  document.getElementById("snapSilverHL").textContent =
+  document.getElementById("silverHL").textContent =
     (typeof xag?.high==="number" && typeof xag?.low==="number")
       ? `High/Low: ${fmt(xag.high)} / ${fmt(xag.low)}`
       : "High/Low: --";
 }
 
+function showCachedFallback(){
+  const saved=loadSaved();
+  setHighLow(saved.xau_meta || null, saved.xag_meta || null);
+}
+
 async function captureOnce(){
-  if(apiKeyMissing()) throw new Error("Missing API key");
   const [xau,xag]=await Promise.all([fetchSpotFull("XAU"), fetchSpotFull("XAG")]);
 
   const saved=loadSaved();
@@ -667,13 +657,13 @@ async function captureOnce(){
 
   setOverlay("XAU", xau.price, saved.ts);
   setOverlay("XAG", xag.price, saved.ts);
-  setChangeTiles(xau, xag);
+  setHighLow(xau, xag);
 }
 
 function startPolling(){
   if(pricePollTimer) return;
-  captureOnce().catch(()=>{});
-  pricePollTimer=setInterval(()=>{ captureOnce().catch(()=>{}); }, 60000);
+  captureOnce().catch(()=>showCachedFallback());
+  pricePollTimer=setInterval(()=>{ captureOnce().catch(()=>showCachedFallback()); }, 60000);
 }
 function stopPolling(){
   if(!pricePollTimer) return;
@@ -694,10 +684,7 @@ function applyClosedUI(isOpen){
     setOverlay("XAU", (typeof saved.xau==="number"?saved.xau:null), saved.ts);
     setOverlay("XAG", (typeof saved.xag==="number"?saved.xag:null), saved.ts);
   }
-
-  const metaXAU = saved.xau_meta || null;
-  const metaXAG = saved.xag_meta || null;
-  setChangeTiles(metaXAU, metaXAG);
+  setHighLow(saved.xau_meta || null, saved.xag_meta || null);
 }
 
 /* Market line with seconds */
@@ -774,10 +761,9 @@ function updateDubaiMarket(){
     lastMarketState=isOpen;
     if (isOpen){
       applyClosedUI(true);
-      if (!apiKeyMissing()) startPolling();
-      else applyClosedUI(true);
+      startPolling();
     } else {
-      if (!apiKeyMissing()) captureOnce().catch(()=>{});
+      captureOnce().catch(()=>showCachedFallback());
       stopPolling();
       applyClosedUI(false);
     }
@@ -791,7 +777,7 @@ setInterval(updateDubaiMarket, 30000);
   const saved=loadSaved();
   setOverlay("XAU", (typeof saved.xau==="number"?saved.xau:null), saved.ts);
   setOverlay("XAG", (typeof saved.xag==="number"?saved.xag:null), saved.ts);
-  setChangeTiles(saved.xau_meta || null, saved.xag_meta || null);
+  setHighLow(saved.xau_meta || null, saved.xag_meta || null);
 })();
 
 /* Fullscreen (mobile) */
