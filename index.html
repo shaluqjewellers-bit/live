@@ -65,7 +65,7 @@ body::before{
   100%{transform:translate3d(-1.4%,-1.4%,0) scale(1.02);opacity:.20;}
 }
 
-.hero,.divider,.rates,.ticker,.statusbar,.snapshot,.footerline{position:relative;z-index:1;}
+.hero,.divider,.rates,.ticker,.statusbar,.footerline{position:relative;z-index:1;}
 
 /* =========================
    TOP STATUS BAR
@@ -99,7 +99,7 @@ body::before{
 .sb-title{
   font-weight:900;
   letter-spacing:.25px;
-  font-size:20px; /* ✅ bigger */
+  font-size:20px;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
@@ -109,7 +109,7 @@ body::before{
   text-align:right;
   font-weight:900;color:#eaf0ff;opacity:.98;
   letter-spacing:.25px;white-space:nowrap;
-  font-size:18px; /* ✅ bigger */
+  font-size:18px;
   flex:0 0 auto;
 }
 
@@ -128,12 +128,12 @@ body::before{
     text-align:center;
     white-space:normal;
     line-height:1.25;
-    font-size:18px; /* ✅ bigger */
+    font-size:18px;
     letter-spacing:.15px;
   }
   .sb-clock{
     text-align:center;
-    font-size:16px; /* ✅ bigger */
+    font-size:16px;
     white-space:normal;
     line-height:1.25;
   }
@@ -194,57 +194,6 @@ body::before{
   .brand-sub{font-size:12px;margin-top:6px;letter-spacing:2.2px;}
 }
 
-/* SNAPSHOT (ONLY HIGH/LOW) */
-/* ✅ CHANGE: Hidden on PC/TV, shown only on mobile */
-.snapshot{ display:none; }
-
-@media (max-width:768px){
-  .snapshot{
-    display:block;
-    width:min(1700px, 96vw);
-    margin:14px auto 0;
-    padding:0 14px;
-  }
-  .snap-grid{
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-    gap:12px;
-  }
-  .snap{
-    position:relative;
-    border-radius:18px;
-    border:1px solid rgba(255,211,106,.16);
-    background:
-      radial-gradient(700px 260px at 18% 18%, rgba(255,211,106,.08), transparent 60%),
-      linear-gradient(180deg, rgba(14,18,28,.78), rgba(6,8,14,.78));
-    box-shadow:0 12px 34px rgba(0,0,0,.52);
-    padding:14px 16px;
-    overflow:hidden;
-    min-width:0;
-  }
-  .snap-k{font-size:12px;font-weight:900;letter-spacing:.75px;color:rgba(207,216,255,.88);}
-  .snap-v{margin-top:10px;font-size:18px;font-weight:900;letter-spacing:.2px;color:#fff;line-height:1.15;}
-}
-
-/* ✅ MOBILE snapshot FIT */
-@media (max-width:768px){
-  .snapshot{padding:0 10px;}
-  .snap-grid{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px;}
-  .snap{padding:12px 12px;border-radius:16px;min-width:0;}
-  .snap-k{font-size:11px;letter-spacing:.55px;}
-  .snap-v{font-size:14px;line-height:1.2;white-space:normal;}
-}
-/* very small phones: stack to 1 column */
-@media (max-width:420px){
-  .snap-grid{grid-template-columns:1fr;}
-}
-
-/* ✅ TV FIX (kept; snapshot is already hidden on TV/PC) */
-@media (min-width:1200px){
-  .snap{min-height:92px;}
-  .snap-v{font-size:20px;}
-}
-
 /* CHART GRID */
 .rates{
   max-width:1700px;
@@ -283,26 +232,9 @@ body::before{
   width:100%!important;height:100%!important;border:0;
 }
 
-.lastbox{
-  position:absolute;
-  top:14px; left:14px;
-  z-index:10;
-  min-width:260px;
-  padding:14px 16px;
-  border-radius:16px;
-  border:1px solid rgba(255,211,106,.28);
-  background:linear-gradient(180deg, rgba(0,0,0,.80), rgba(0,0,0,.54));
-  backdrop-filter: blur(12px);
-  box-shadow:0 10px 28px rgba(0,0,0,.55);
-  display:none;
-}
-.lb-title{font-weight:900;letter-spacing:.8px;font-size:12px;color:rgba(255,255,255,.78);}
-.lb-price{margin-top:8px;font-weight:900;font-size:28px;color:var(--gold);letter-spacing:.4px;}
-.lb-sub{margin-top:6px;font-weight:800;font-size:12px;color:rgba(207,216,255,.85);letter-spacing:.35px;}
-.card.is-closed .tv-inner{opacity:0; pointer-events:none;}
-.card.is-closed .lastbox{display:block;}
+/* ✅ Removed GoldAPI overlay logic; keep styles harmless (always hidden) */
+.lastbox{display:none!important;}
 
-/* MOBILE charts */
 @media(max-width:1100px){ .rates{grid-template-columns:1fr} }
 @media (max-width:768px){
   .rates{grid-template-columns:1fr;margin:12px auto 86px;padding:10px;gap:12px;}
@@ -450,20 +382,6 @@ body::before{
 
 <div class="divider"></div>
 
-<!-- ✅ Snapshot remains in HTML but is ONLY visible on mobile via CSS -->
-<div class="snapshot">
-  <div class="snap-grid">
-    <div class="snap">
-      <div class="snap-k">GOLD HIGH / LOW (24H)</div>
-      <div class="snap-v" id="goldHL">High/Low: --</div>
-    </div>
-    <div class="snap">
-      <div class="snap-k">SILVER HIGH / LOW (24H)</div>
-      <div class="snap-v" id="silverHL">High/Low: --</div>
-    </div>
-  </div>
-</div>
-
 <div class="rates">
   <div class="card" id="goldCard">
     <div class="card-title">
@@ -473,11 +391,6 @@ body::before{
       </div>
     </div>
     <div class="tv-box">
-      <div class="lastbox" id="goldLastBox">
-        <div class="lb-title">LAST (CLOSE)</div>
-        <div class="lb-price" id="goldLast">--</div>
-        <div class="lb-sub" id="goldLastTime">Saved: --</div>
-      </div>
       <div class="tv-inner"><div id="gold"></div></div>
     </div>
   </div>
@@ -490,11 +403,6 @@ body::before{
       </div>
     </div>
     <div class="tv-box">
-      <div class="lastbox" id="silverLastBox">
-        <div class="lb-title">LAST (CLOSE)</div>
-        <div class="lb-price" id="silverLast">--</div>
-        <div class="lb-sub" id="silverLastTime">Saved: --</div>
-      </div>
       <div class="tv-inner"><div id="silver"></div></div>
     </div>
   </div>
@@ -518,7 +426,6 @@ body::before{
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
 
         <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
-        <div class="item"><span class="sep-dot"></span><span class="badge note">UPDATE</span> High/Low refreshes every 60s when market is open</div>
       </div>
 
       <div class="group" aria-hidden="true">
@@ -530,7 +437,6 @@ body::before{
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
 
         <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
-        <div class="item"><span class="sep-dot"></span><span class="badge note">UPDATE</span> High/Low refreshes every 60s when market is open</div>
       </div>
     </div>
   </div>
@@ -576,130 +482,15 @@ function tickClock(){
 tickClock();
 setInterval(tickClock, 10000);
 
-/* ===== GoldAPI (HIGH/LOW + store LAST CLOSE) ===== */
-const API_KEY="goldapi-16u3bfsmlexowde-io";
-const LS_KEY="shal_uq_last_prices_v1";
-let pricePollTimer=null;
-let lastMarketState=null;
+/* Market open/close line (Dubai time) */
 let marketCountdownTimer=null;
 
-function loadSaved(){
-  try { return JSON.parse(localStorage.getItem(LS_KEY) || "{}"); }
-  catch(e){ return {}; }
-}
-function saveSaved(obj){ localStorage.setItem(LS_KEY, JSON.stringify(obj)); }
-
-function fmt(n){ return n.toLocaleString("en-US",{minimumFractionDigits:2, maximumFractionDigits:2}); }
-function fmtSavedTime(ts){
-  if (!ts) return "--";
-  const d=new Date(ts);
-  const dubai = new Date(d.toLocaleString("en-US",{timeZone:"Asia/Dubai"}));
-  return `${dubai.toLocaleDateString("en-GB")} ${formatAMPM(dubai)} UAE`;
-}
-async function fetchWithTimeout(url, options, timeoutMs=9000){
-  const controller = new AbortController();
-  const t = setTimeout(()=>controller.abort(), timeoutMs);
-  try{
-    const res = await fetch(url, { ...options, signal: controller.signal });
-    return res;
-  } finally {
-    clearTimeout(t);
-  }
-}
-async function fetchSpotFull(metal){
-  const url = `https://www.goldapi.io/api/${metal}/USD`;
-  const res = await fetchWithTimeout(url, {
-    cache:"no-store",
-    headers:{ "x-access-token": API_KEY }
-  }, 9000);
-  if(!res.ok) throw new Error("API " + res.status);
-  const data = await res.json();
-
-  const price = (data.price ?? data.bid ?? data.ask);
-  if(typeof price!=="number") throw new Error("Bad payload");
-
-  const high = (data.high_price ?? data.high ?? data.high_24h ?? null);
-  const low  = (data.low_price  ?? data.low  ?? data.low_24h  ?? null);
-
-  return { price, high:(typeof high==="number"?high:null), low:(typeof low==="number"?low:null) };
-}
-
-function setOverlay(metal, price, ts){
-  if (metal==="XAU"){
-    document.getElementById("goldLast").textContent = (typeof price==="number") ? fmt(price) : "--";
-    document.getElementById("goldLastTime").textContent = `Saved: ${fmtSavedTime(ts)}`;
-  } else {
-    document.getElementById("silverLast").textContent = (typeof price==="number") ? fmt(price) : "--";
-    document.getElementById("silverLastTime").textContent = `Saved: ${fmtSavedTime(ts)}`;
-  }
-}
-
-function setHighLow(xau, xag){
-  document.getElementById("goldHL").textContent =
-    (typeof xau?.high==="number" && typeof xau?.low==="number")
-      ? `High/Low: ${fmt(xau.high)} / ${fmt(xau.low)}`
-      : "High/Low: --";
-
-  document.getElementById("silverHL").textContent =
-    (typeof xag?.high==="number" && typeof xag?.low==="number")
-      ? `High/Low: ${fmt(xag.high)} / ${fmt(xag.low)}`
-      : "High/Low: --";
-}
-
-function showCachedFallback(){
-  const saved=loadSaved();
-  setHighLow(saved.xau_meta || null, saved.xag_meta || null);
-}
-
-async function captureOnce(){
-  const [xau,xag]=await Promise.all([fetchSpotFull("XAU"), fetchSpotFull("XAG")]);
-
-  const saved=loadSaved();
-  saved.xau=xau.price;
-  saved.xag=xag.price;
-  saved.xau_meta=xau;
-  saved.xag_meta=xag;
-  saved.ts=Date.now();
-  saveSaved(saved);
-
-  setOverlay("XAU", xau.price, saved.ts);
-  setOverlay("XAG", xag.price, saved.ts);
-  setHighLow(xau, xag);
-}
-
-function startPolling(){
-  if(pricePollTimer) return;
-  captureOnce().catch(()=>showCachedFallback());
-  pricePollTimer=setInterval(()=>{ captureOnce().catch(()=>showCachedFallback()); }, 60000);
-}
-function stopPolling(){
-  if(!pricePollTimer) return;
-  clearInterval(pricePollTimer);
-  pricePollTimer=null;
-}
-
-function applyClosedUI(isOpen){
-  const goldCard=document.getElementById("goldCard");
-  const silverCard=document.getElementById("silverCard");
-  const isClosed=!isOpen;
-
-  goldCard.classList.toggle("is-closed", isClosed);
-  silverCard.classList.toggle("is-closed", isClosed);
-
-  const saved=loadSaved();
-  if(isClosed){
-    setOverlay("XAU", (typeof saved.xau==="number"?saved.xau:null), saved.ts);
-    setOverlay("XAG", (typeof saved.xag==="number"?saved.xag:null), saved.ts);
-  }
-  setHighLow(saved.xau_meta || null, saved.xag_meta || null);
-}
-
-/* Market line with seconds */
 function updateDubaiMarket(){
   const d=getDubaiDate();
-  const day=d.getDay();
+  const day=d.getDay();     // 0 Sun ... 6 Sat
   const h=d.getHours();
 
+  // Your existing logic kept exactly:
   const dailyGapClosed=(h===2);
   const weekendClosed=(day===6 && (h>=2)) || (day===0 && (h<3));
   const isOpen=!(dailyGapClosed || weekendClosed);
@@ -763,29 +554,9 @@ function updateDubaiMarket(){
     tick();
     marketCountdownTimer=setInterval(tick, 1000);
   }
-
-  if (lastMarketState===null || lastMarketState!==isOpen){
-    lastMarketState=isOpen;
-    if (isOpen){
-      applyClosedUI(true);
-      startPolling();
-    } else {
-      captureOnce().catch(()=>showCachedFallback());
-      stopPolling();
-      applyClosedUI(false);
-    }
-  }
 }
 updateDubaiMarket();
 setInterval(updateDubaiMarket, 30000);
-
-/* Load last saved on first paint */
-(function initSaved(){
-  const saved=loadSaved();
-  setOverlay("XAU", (typeof saved.xau==="number"?saved.xau:null), saved.ts);
-  setOverlay("XAG", (typeof saved.xag==="number"?saved.xag:null), saved.ts);
-  setHighLow(saved.xau_meta || null, saved.xag_meta || null);
-})();
 
 /* Fullscreen (mobile) */
 const kioskBtn=document.getElementById("kioskBtn");
