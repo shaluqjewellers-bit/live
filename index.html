@@ -468,15 +468,21 @@ function formatAMPM(dateObj){
   return `${h}:${m} ${ampm}`;
 }
 
+/* ✅ SAFE timezone formatter (no Date parsing from locale strings) */
+function formatTimeInTZ(timeZone){
+  return new Intl.DateTimeFormat("en-US",{
+    timeZone,
+    hour:"numeric",
+    minute:"2-digit",
+    hour12:true
+  }).format(new Date());
+}
+
 /* World clock line */
 function tickClock(){
-  const now=new Date();
-  const d=getDubaiDate();
-  const uae=formatAMPM(d);
-  const ny=new Date(now.toLocaleString("en-US",{timeZone:"America/New_York"}));
-  const usa=formatAMPM(ny);
-  const lon=new Date(now.toLocaleString("en-GB",{timeZone:"Europe/London"}));
-  const ldn=formatAMPM(lon);
+  const uae = formatAMPM(getDubaiDate());
+  const usa = formatTimeInTZ("America/New_York");
+  const ldn = formatTimeInTZ("Europe/London");
   document.getElementById("clock").textContent = `${uae} UAE • ${usa} USA • ${ldn} LON`;
 }
 tickClock();
