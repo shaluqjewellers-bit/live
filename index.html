@@ -403,10 +403,29 @@ body::before{
   text-align:center;
   position:relative;
 }
-.ramadan-exit{
+.ramadan-exitwrap{
   position:absolute;
   top:14px;
   right:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.ramadan-count{
+  font-family:"ClarityCity",Arial,sans-serif;
+  font-weight:900;
+  letter-spacing:.25px;
+  font-size:12px;
+  color:rgba(255,255,255,.78);
+  padding:9px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,211,106,.20);
+  background:rgba(0,0,0,.26);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:0 10px 26px rgba(0,0,0,.45);
+}
+.ramadan-exit{
   border:1px solid rgba(255,211,106,.26);
   background:rgba(0,0,0,.38);
   color:#fff;
@@ -508,6 +527,9 @@ body::before{
   .ramadan-sub{font-size:12px;letter-spacing:2.2px;}
   .ramadan-mark{width:76px;height:76px;border-radius:20px;}
   .ramadan-moon{width:40px;height:40px;box-shadow:-10px 0 0 0 rgba(255,211,106,.95);}
+  .ramadan-exitwrap{top:12px;right:12px;gap:8px;}
+  .ramadan-count{padding:8px 9px;font-size:11px;}
+  .ramadan-exit{padding:8px 10px;}
 }
 </style>
 </head>
@@ -519,7 +541,10 @@ body::before{
   <div class="ramadan-card" role="document">
     <div class="ramadan-topline"></div>
     <div class="ramadan-inner">
-      <button class="ramadan-exit" id="ramadanExit" type="button" aria-label="Close Ramadan popup">EXIT ✕</button>
+      <div class="ramadan-exitwrap">
+        <span class="ramadan-count" id="ramadanCount">Closing in 5</span>
+        <button class="ramadan-exit" id="ramadanExit" type="button" aria-label="Close Ramadan popup">EXIT ✕</button>
+      </div>
 
       <div class="ramadan-mark" aria-hidden="true">
         <div class="ramadan-moon"></div>
@@ -783,29 +808,49 @@ kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN";
 
 /* =========================
    ✅ RAMADAN POPUP (ADDED)
-   - shows every load/refresh
-   - auto closes after 3 seconds
+   - shows every load/refresh (until March 17, 2026)
+   - auto closes after 5 seconds (5 4 3 2 1)
    - EXIT button closes instantly
    ========================= */
 (function(){
   const pop = document.getElementById("ramadanPop");
   const exitBtn = document.getElementById("ramadanExit");
-  let t = null;
+  const countEl = document.getElementById("ramadanCount");
 
-  function showPop(){
-    if(!pop) return;
-    pop.classList.add("show");
-
-    // Auto hide after 3 seconds
-    clearTimeout(t);
-    t = setTimeout(hidePop, 3000);
-  }
+  let autoTimer = null;
+  let countTimer = null;
 
   function hidePop(){
     if(!pop) return;
     pop.classList.remove("show");
-    clearTimeout(t);
-    t = null;
+    clearTimeout(autoTimer);
+    clearInterval(countTimer);
+    autoTimer = null;
+    countTimer = null;
+  }
+
+  function showPop(){
+    if(!pop) return;
+
+    pop.classList.add("show");
+
+    // 5-second countdown
+    let left = 5;
+    if(countEl) countEl.textContent = `Closing in ${left}`;
+
+    clearInterval(countTimer);
+    countTimer = setInterval(()=>{
+      left = Math.max(0, left - 1);
+      if(countEl) countEl.textContent = `Closing in ${left}`;
+      if(left <= 0){
+        clearInterval(countTimer);
+        countTimer = null;
+      }
+    }, 1000);
+
+    // Auto hide after 5 seconds
+    clearTimeout(autoTimer);
+    autoTimer = setTimeout(hidePop, 5000);
   }
 
   // Close on exit button
@@ -813,15 +858,25 @@ kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN";
     exitBtn.addEventListener("click", hidePop);
   }
 
-  // Optional: click outside card to close (luxury UX)
+  // Optional: click outside card to close
   if(pop){
     pop.addEventListener("click", (e)=>{
       if(e.target === pop) hidePop();
     });
   }
 
-  // Always show on load / refresh
-  showPop();
+  // ✅ Only show until March 17, 2026 (Dubai time)
+  // End at 23:59:59 UAE time on March 17, 2026
+  const nowDubai = getDubaiDate();
+  const endDubai = new Date(nowDubai);
+  endDubai.setFullYear(2026, 2, 17); // March 17, 2026 (month is 0-based)
+  endDubai.setHours(23, 59, 59, 999);
+
+  if(nowDubai.getTime() <= endDubai.getTime()){
+    showPop();
+  } else {
+    hidePop();
+  }
 })();
 </script>
 
