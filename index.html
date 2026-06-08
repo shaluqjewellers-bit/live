@@ -12,11 +12,16 @@
 @font-face{font-family:"ClarityCity";src:url("ClarityCity-Bold.ttf") format("truetype");font-weight:800}
 
 html,body{width:100%;height:100%;margin:0;padding:0;}
+
 :root{
   --bg:#ffffff;
+  --paper:#ffffff;
+  --ivory:#fffdf8;
+  --ivory2:#fff8e8;
   --gold:#c89418;
   --gold2:#b77900;
   --gold3:#fff4cf;
+  --goldDeep:#6c4800;
   --open:#19a66a;
   --closed:#d83b3b;
   --text:#1b2430;
@@ -25,13 +30,15 @@ html,body{width:100%;height:100%;margin:0;padding:0;}
   --soft:#fffaf0;
   --shadow:0 18px 45px rgba(27,36,48,.12);
   --shadow2:0 0 0 1px rgba(200,148,24,.18), 0 16px 38px rgba(27,36,48,.10);
+  --luxuryShadow:0 24px 70px rgba(27,36,48,.13), 0 0 0 1px rgba(200,148,24,.16);
 }
 
 body{
   min-height:100vh;
   background:
-    radial-gradient(1200px 600px at 50% 0%, #fff8e8 0%, var(--bg) 58%, #ffffff 100%),
-    radial-gradient(900px 520px at 82% 18%, rgba(200,148,24,.10), transparent 60%);
+    radial-gradient(1200px 600px at 50% 0%, #fff8e8 0%, #ffffff 58%, #ffffff 100%),
+    radial-gradient(900px 520px at 82% 18%, rgba(200,148,24,.10), transparent 60%),
+    linear-gradient(180deg,#ffffff 0%,#fffdf8 42%,#ffffff 100%);
   color:var(--text);
   font-family:"ClarityCity",Arial,sans-serif;
   overflow-x:hidden;
@@ -39,14 +46,19 @@ body{
   position:relative;
 }
 
-/* micro-noise */
+/* Premium UAE white-gold background pattern */
 body::after{
   content:"";
   position:fixed; inset:0;
   pointer-events:none; z-index:0;
-  opacity:.035; mix-blend-mode:multiply;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-  background-size:140px 140px;
+  opacity:.055;
+  background-image:
+    linear-gradient(45deg, rgba(200,148,24,.10) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(200,148,24,.10) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(200,148,24,.10) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(200,148,24,.10) 75%);
+  background-size:34px 34px;
+  background-position:0 0,0 17px,17px -17px,-17px 0px;
 }
 
 /* ambient glow */
@@ -81,12 +93,23 @@ body::before{
   gap:14px;
   padding:12px 16px;
   border-radius:999px;
-  background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,250,240,.82));
-  border:1px solid rgba(200,148,24,.24);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,250,240,.90)),
+    radial-gradient(420px 120px at 10% 20%, rgba(200,148,24,.10), transparent 60%);
+  border:1px solid rgba(200,148,24,.28);
   backdrop-filter: blur(14px);
-  box-shadow:0 10px 30px rgba(27,36,48,.10);
+  box-shadow:0 10px 30px rgba(27,36,48,.10), inset 0 1px 0 rgba(255,255,255,.86);
   overflow:hidden;
+  position:relative;
 }
+.statusbar-inner::before{
+  content:"";
+  position:absolute;inset:0;
+  background:linear-gradient(90deg, transparent 0%, rgba(255,244,207,.45) 50%, transparent 100%);
+  opacity:.65;
+  pointer-events:none;
+}
+.statusbar-inner > *{position:relative;z-index:1;}
 
 .sb-left{display:flex;align-items:center;gap:12px;min-width:0;}
 .dot{
@@ -147,18 +170,27 @@ body::before{
 .logo-wrap{
   width:92px;height:92px;border-radius:24px;
   display:grid;place-items:center;
-  background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,250,240,.92));
-  border:1px solid rgba(200,148,24,.26);
-  box-shadow:var(--shadow2), inset 0 0 18px rgba(255,255,255,.75);
+  background:
+    radial-gradient(circle at 35% 20%, rgba(255,244,207,.65), transparent 50%),
+    linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,250,240,.92));
+  border:1px solid rgba(200,148,24,.30);
+  box-shadow:var(--shadow2), inset 0 0 22px rgba(255,255,255,.88);
   position:relative;overflow:hidden;
+}
+.logo-wrap::before{
+  content:"";
+  position:absolute;inset:8px;
+  border-radius:19px;
+  border:1px solid rgba(200,148,24,.16);
+  pointer-events:none;
 }
 .logo-wrap::after{
   content:"";position:absolute;inset:-60%;
-  background:linear-gradient(120deg, transparent 38%, rgba(255,221,130,.38) 50%, transparent 62%);
+  background:linear-gradient(120deg, transparent 38%, rgba(255,221,130,.42) 50%, transparent 62%);
   animation:shine 7.5s infinite;opacity:.75;
 }
 @keyframes shine{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
-.logo-wrap img{width:68px;max-width:78%;height:auto;display:block;}
+.logo-wrap img{width:68px;max-width:78%;height:auto;display:block;position:relative;z-index:1;}
 
 .brand{text-align:center}
 .brand-name{
@@ -190,6 +222,7 @@ body::before{
   .hero{padding:58px 10px 12px;position:relative;}
   .hero-inner{gap:12px;justify-content:center;flex-wrap:nowrap;padding:0 6px;}
   .logo-wrap{width:68px;height:68px;border-radius:18px;}
+  .logo-wrap::before{inset:6px;border-radius:14px;}
   .logo-wrap img{width:48px;max-width:80%;}
   .brand{max-width:78vw;}
   .brand-name{font-size:30px;letter-spacing:3px;line-height:1.05;white-space:normal;word-break:break-word;}
@@ -209,24 +242,79 @@ body::before{
   position:relative;
   background:
     radial-gradient(900px 420px at 22% 18%, rgba(200,148,24,.08), transparent 58%),
-    linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,250,240,.94));
-  border:1px solid rgba(200,148,24,.26);
+    linear-gradient(180deg, rgba(255,255,255,.99), rgba(255,250,240,.95));
+  border:1px solid rgba(200,148,24,.28);
   border-radius:22px;
   overflow:hidden;
   min-height:620px;
-  box-shadow:var(--shadow);
+  box-shadow:var(--luxuryShadow);
+}
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg, transparent, rgba(255,244,207,.40), transparent),
+    radial-gradient(500px 120px at 50% 0%, rgba(200,148,24,.10), transparent 70%);
+  opacity:.8;
+  z-index:0;
+}
+.card::after{
+  content:"";
+  position:absolute;
+  left:18px;right:18px;top:0;
+  height:2px;
+  background:linear-gradient(90deg, transparent, rgba(200,148,24,.78), transparent);
+  opacity:.9;
+  z-index:2;
 }
 .card-title{
   padding:12px 14px;
   border-bottom:1px solid rgba(200,148,24,.18);
-  background:linear-gradient(180deg, rgba(255,250,240,.98), rgba(255,255,255,.88));
+  background:
+    linear-gradient(180deg, rgba(255,250,240,.98), rgba(255,255,255,.90)),
+    radial-gradient(360px 120px at 18% 0%, rgba(200,148,24,.10), transparent 60%);
   color:#1b2430;
+  position:relative;
+  z-index:1;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
 }
 .ct-name{font-size:15px;font-weight:900;letter-spacing:.8px;}
 .ct-sub{margin-top:4px;font-size:12px;font-weight:800;letter-spacing:.25px;color:rgba(94,102,117,.92);opacity:.95;}
+.ct-badge{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:0 0 auto;
+  padding:7px 11px;
+  border-radius:999px;
+  border:1px solid rgba(200,148,24,.24);
+  background:rgba(255,255,255,.74);
+  color:#7a5200;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.35px;
+  white-space:nowrap;
+  box-shadow:0 8px 20px rgba(27,36,48,.07), inset 0 1px 0 rgba(255,255,255,.85);
+}
+.ct-badge::before{
+  content:"";
+  width:7px;height:7px;border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 12px rgba(200,148,24,.38);
+  flex:0 0 auto;
+}
 
-.tv-box{position:relative;height:calc(100% - 0px)}
-.tv-inner{position:absolute;inset:0;background:#ffffff;overflow:hidden;}
+.tv-box{position:relative;height:calc(100% - 0px);z-index:1;}
+.tv-inner{
+  position:absolute;inset:0;
+  background:#ffffff;
+  overflow:hidden;
+}
 
 /*
    White background + compact TradingView layout.
@@ -262,6 +350,16 @@ body::before{
 @media (max-width:768px){
   .rates{grid-template-columns:1fr;margin:12px auto 86px;padding:10px;gap:12px;}
   .card{min-height:auto;border-radius:20px;}
+  .card-title{
+    padding:11px 12px;
+    gap:8px;
+  }
+  .ct-name{font-size:14px;}
+  .ct-sub{font-size:11px;}
+  .ct-badge{
+    font-size:10px;
+    padding:6px 9px;
+  }
   .tv-box{height:380px;}
   #gold,#silver{
     width:min(430px, calc(100% - 16px))!important;
@@ -271,6 +369,8 @@ body::before{
 }
 
 @media (max-width:420px){
+  .card-title{align-items:flex-start;}
+  .ct-badge{display:none;}
   #gold,#silver{
     width:min(395px, calc(100% - 12px))!important;
     height:335px!important;
@@ -317,8 +417,10 @@ body::before{
 .ticker{
   position:fixed;bottom:0;left:0;right:0;
   height:64px;
-  background:linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,250,240,.90));
-  border-top:1px solid rgba(200,148,24,.24);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,250,240,.92)),
+    radial-gradient(600px 120px at 50% 0%, rgba(200,148,24,.12), transparent 70%);
+  border-top:1px solid rgba(200,148,24,.26);
   overflow:hidden;
   backdrop-filter: blur(12px);
   box-shadow:0 -10px 28px rgba(27,36,48,.08);
@@ -347,8 +449,10 @@ body::before{
   border:1px solid rgba(200,148,24,.28);
   letter-spacing:.35px;
   flex:0 0 auto;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.70);
 }
 .badge.note{background:rgba(27,36,48,.06);border-color:rgba(27,36,48,.14);color:#1b2430;}
+.badge.uae{background:rgba(200,148,24,.16);border-color:rgba(200,148,24,.34);color:#6c4800;}
 .sep-dot{width:6px;height:6px;border-radius:50%;background:rgba(200,148,24,.42);box-shadow:0 0 10px rgba(200,148,24,.12);opacity:.9;flex:0 0 auto;}
 @media (max-width:768px){
   .ticker{height:54px;}
@@ -362,9 +466,8 @@ body::before{
   display:flex;align-items:center;gap:10px;
   padding:10px 14px;border-radius:999px;
   border:1px solid rgba(200,148,24,.34);
-  background:rgba(255,255,255,.78);
+  background:rgba(255,255,255,.82);
   backdrop-filter: blur(12px);
-  box-shadow:0 -10px 28px rgba(27,36,48,.08);
   color:#1b2430;
   font-family:"ClarityCity",Arial,sans-serif;
   font-weight:900;letter-spacing:.3px;
@@ -395,7 +498,7 @@ body::before{
 }
 
 /* =========================
-   ✅ RAMADAN POPUP (ADDED)
+   RAMADAN POPUP
    ========================= */
 .ramadan-pop{
   position:fixed;
@@ -466,7 +569,6 @@ body::before{
   border:1px solid rgba(200,148,24,.22);
   background:rgba(255,255,255,.70);
   backdrop-filter: blur(12px);
-  box-shadow:0 -10px 28px rgba(27,36,48,.08);
   -webkit-backdrop-filter: blur(12px);
   box-shadow:0 10px 24px rgba(27,36,48,.10);
 }
@@ -481,7 +583,6 @@ body::before{
   padding:9px 12px;
   cursor:pointer;
   backdrop-filter: blur(12px);
-  box-shadow:0 -10px 28px rgba(27,36,48,.08);
   -webkit-backdrop-filter: blur(12px);
   box-shadow:0 10px 24px rgba(27,36,48,.10);
 }
@@ -582,7 +683,7 @@ body::before{
 
 <body>
 
-<!-- ✅ RAMADAN POPUP (ADDED) -->
+<!-- RAMADAN POPUP -->
 <div class="ramadan-pop" id="ramadanPop" role="dialog" aria-modal="true" aria-label="Ramadan Kareem">
   <div class="ramadan-card" role="document">
     <div class="ramadan-topline"></div>
@@ -639,6 +740,7 @@ body::before{
         <div class="ct-name">GOLD • XAUUSD</div>
         <div class="ct-sub">USD/oz • OANDA</div>
       </div>
+      <div class="ct-badge">UAE LIVE DISPLAY</div>
     </div>
     <div class="tv-box">
       <div class="tv-inner"><div id="gold"></div></div>
@@ -651,6 +753,7 @@ body::before{
         <div class="ct-name">SILVER • XAGUSD</div>
         <div class="ct-sub">USD/oz • OANDA</div>
       </div>
+      <div class="ct-badge">INTERNATIONAL SPOT</div>
     </div>
     <div class="tv-box">
       <div class="tv-inner"><div id="silver"></div></div>
@@ -674,8 +777,8 @@ body::before{
         <div class="item"><span class="sep-dot"></span><span class="badge">FUJAIRAH</span> Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">FOR FUJAIRAH CALL</span> +971 92 439 539</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
-
         <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge uae">UAE</span> AED billing rate, making charge and VAT may apply as per invoice</div>
       </div>
 
       <div class="group" aria-hidden="true">
@@ -685,8 +788,8 @@ body::before{
         <div class="item"><span class="sep-dot"></span><span class="badge">FUJAIRAH</span> Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">FOR FUJAIRAH CALL</span> +971 92 439 539</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
-
         <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge uae">UAE</span> AED billing rate, making charge and VAT may apply as per invoice</div>
       </div>
     </div>
   </div>
@@ -718,7 +821,7 @@ function formatAMPM(dateObj){
   return `${h}:${m} ${ampm}`;
 }
 
-/* ✅ SAFE timezone formatter (no Date parsing from locale strings) */
+/* SAFE timezone formatter */
 function formatTimeInTZ(timeZone){
   return new Intl.DateTimeFormat("en-US",{
     timeZone,
@@ -733,7 +836,8 @@ function tickClock(){
   const uae = formatAMPM(getDubaiDate());
   const usa = formatTimeInTZ("America/New_York");
   const ldn = formatTimeInTZ("Europe/London");
-  document.getElementById("clock").textContent = `${uae} UAE • ${usa} USA • ${ldn} LON`;
+  const ind = formatTimeInTZ("Asia/Kolkata");
+  document.getElementById("clock").textContent = `${uae} UAE • ${usa} USA • ${ldn} LON • ${ind} INDIA`;
 }
 tickClock();
 setInterval(tickClock, 10000);
@@ -746,7 +850,7 @@ function updateDubaiMarket(){
   const day=d.getDay();     // 0 Sun ... 6 Sat
   const h=d.getHours();
 
-  // Your existing logic kept exactly:
+  // Existing logic kept:
   const dailyGapClosed=(h===2);
   const weekendClosed=(day===6 && (h>=2)) || (day===0 && (h<3));
   const isOpen=!(dailyGapClosed || weekendClosed);
@@ -853,9 +957,9 @@ kioskBtn.addEventListener("click", toggleKiosk);
 kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN";
 
 /* =========================
-   ✅ RAMADAN POPUP (ADDED)
-   - shows every load/refresh (until March 17, 2026)
-   - auto closes after 5 seconds (5 4 3 2 1)
+   RAMADAN POPUP
+   - shows every load/refresh until March 17, 2026
+   - auto closes after 5 seconds
    - EXIT button closes instantly
    ========================= */
 (function(){
@@ -880,7 +984,6 @@ kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN";
 
     pop.classList.add("show");
 
-    // 5-second countdown
     let left = 5;
     if(countEl) countEl.textContent = `Closing in ${left}`;
 
@@ -894,28 +997,23 @@ kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN";
       }
     }, 1000);
 
-    // Auto hide after 5 seconds
     clearTimeout(autoTimer);
     autoTimer = setTimeout(hidePop, 5000);
   }
 
-  // Close on exit button
   if(exitBtn){
     exitBtn.addEventListener("click", hidePop);
   }
 
-  // Optional: click outside card to close
   if(pop){
     pop.addEventListener("click", (e)=>{
       if(e.target === pop) hidePop();
     });
   }
 
-  // ✅ Only show until March 17, 2026 (Dubai time)
-  // End at 23:59:59 UAE time on March 17, 2026
   const nowDubai = getDubaiDate();
   const endDubai = new Date(nowDubai);
-  endDubai.setFullYear(2026, 2, 17); // March 17, 2026 (month is 0-based)
+  endDubai.setFullYear(2026, 2, 17);
   endDubai.setHours(23, 59, 59, 999);
 
   if(nowDubai.getTime() <= endDubai.getTime()){
