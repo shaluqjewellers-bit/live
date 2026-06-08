@@ -12,7 +12,6 @@
 @font-face{font-family:"ClarityCity";src:url("ClarityCity-Bold.ttf") format("truetype");font-weight:800}
 
 html,body{width:100%;height:100%;margin:0;padding:0;}
-
 :root{
   --bg:#ffffff;
   --gold:#c89418;
@@ -22,6 +21,8 @@ html,body{width:100%;height:100%;margin:0;padding:0;}
   --closed:#d83b3b;
   --text:#1b2430;
   --muted:#5e6675;
+  --line:#ead9a5;
+  --soft:#fffaf0;
   --shadow:0 18px 45px rgba(27,36,48,.12);
   --shadow2:0 0 0 1px rgba(200,148,24,.18), 0 16px 38px rgba(27,36,48,.10);
 }
@@ -108,11 +109,8 @@ body::before{
 
 .sb-clock{
   text-align:right;
-  font-weight:900;
-  color:#1b2430;
-  opacity:.98;
-  letter-spacing:.25px;
-  white-space:nowrap;
+  font-weight:900;color:#1b2430;opacity:.98;
+  letter-spacing:.25px;white-space:nowrap;
   font-size:18px;
   flex:0 0 auto;
 }
@@ -230,24 +228,35 @@ body::before{
 .tv-box{position:relative;height:calc(100% - 0px)}
 .tv-inner{position:absolute;inset:0;background:#ffffff;overflow:hidden;}
 
-/* Compact TradingView inside white box */
+/*
+   White background + compact TradingView layout.
+   Main page dimensions are kept from the first/original code.
+   The widget is limited by the card width so it will not cut on TV, PC, or mobile.
+*/
 #gold,#silver{
   position:absolute!important;
-  width:640px!important;
+  width:min(640px, calc(100% - 22px))!important;
   height:500px!important;
   left:50%!important;
   top:50%!important;
   transform-origin:center center!important;
-  transform:translate(calc(-50% + 16px), calc(-50% + 18px)) scale(1.22)!important;
+  transform:translate(-50%,-50%) scale(1)!important;
 }
 #gold iframe,#silver iframe{
-  width:640px!important;
-  height:500px!important;
+  width:100%!important;
+  height:100%!important;
   border:0!important;
   background:#ffffff!important;
 }
 
 .lastbox{display:none!important;}
+
+@media (min-width:1200px) and (max-width:1500px){
+  #gold,#silver{
+    width:min(590px, calc(100% - 22px))!important;
+    height:455px!important;
+  }
+}
 
 @media(max-width:1100px){ .rates{grid-template-columns:1fr} }
 @media (max-width:768px){
@@ -255,13 +264,24 @@ body::before{
   .card{min-height:auto;border-radius:20px;}
   .tv-box{height:380px;}
   #gold,#silver{
-    width:430px!important;
+    width:min(430px, calc(100% - 16px))!important;
     height:350px!important;
-    transform:translate(-50%,-50%) scale(.95)!important;
+    transform:translate(-50%,-50%) scale(1)!important;
   }
-  #gold iframe,#silver iframe{
-    width:430px!important;
-    height:350px!important;
+}
+
+@media (max-width:420px){
+  #gold,#silver{
+    width:min(395px, calc(100% - 12px))!important;
+    height:335px!important;
+  }
+}
+
+@media (max-width:360px){
+  .tv-box{height:340px;}
+  #gold,#silver{
+    width:min(360px, calc(100% - 10px))!important;
+    height:315px!important;
   }
 }
 
@@ -344,6 +364,7 @@ body::before{
   border:1px solid rgba(200,148,24,.34);
   background:rgba(255,255,255,.78);
   backdrop-filter: blur(12px);
+  box-shadow:0 -10px 28px rgba(27,36,48,.08);
   color:#1b2430;
   font-family:"ClarityCity",Arial,sans-serif;
   font-weight:900;letter-spacing:.3px;
@@ -374,7 +395,7 @@ body::before{
 }
 
 /* =========================
-   RAMADAN POPUP
+   ✅ RAMADAN POPUP (ADDED)
    ========================= */
 .ramadan-pop{
   position:fixed;
@@ -445,6 +466,7 @@ body::before{
   border:1px solid rgba(200,148,24,.22);
   background:rgba(255,255,255,.70);
   backdrop-filter: blur(12px);
+  box-shadow:0 -10px 28px rgba(27,36,48,.08);
   -webkit-backdrop-filter: blur(12px);
   box-shadow:0 10px 24px rgba(27,36,48,.10);
 }
@@ -459,6 +481,7 @@ body::before{
   padding:9px 12px;
   cursor:pointer;
   backdrop-filter: blur(12px);
+  box-shadow:0 -10px 28px rgba(27,36,48,.08);
   -webkit-backdrop-filter: blur(12px);
   box-shadow:0 10px 24px rgba(27,36,48,.10);
 }
@@ -559,6 +582,7 @@ body::before{
 
 <body>
 
+<!-- ✅ RAMADAN POPUP (ADDED) -->
 <div class="ramadan-pop" id="ramadanPop" role="dialog" aria-modal="true" aria-label="Ramadan Kareem">
   <div class="ramadan-card" role="document">
     <div class="ramadan-topline"></div>
@@ -650,6 +674,7 @@ body::before{
         <div class="item"><span class="sep-dot"></span><span class="badge">FUJAIRAH</span> Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">FOR FUJAIRAH CALL</span> +971 92 439 539</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
+
         <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
       </div>
 
@@ -660,6 +685,7 @@ body::before{
         <div class="item"><span class="sep-dot"></span><span class="badge">FUJAIRAH</span> Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">FOR FUJAIRAH CALL</span> +971 92 439 539</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
+
         <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
       </div>
     </div>
@@ -692,7 +718,7 @@ function formatAMPM(dateObj){
   return `${h}:${m} ${ampm}`;
 }
 
-/* SAFE timezone formatter */
+/* ✅ SAFE timezone formatter (no Date parsing from locale strings) */
 function formatTimeInTZ(timeZone){
   return new Intl.DateTimeFormat("en-US",{
     timeZone,
@@ -712,14 +738,15 @@ function tickClock(){
 tickClock();
 setInterval(tickClock, 10000);
 
-/* Market open/close line */
+/* Market open/close line (Dubai time) */
 let marketCountdownTimer=null;
 
 function updateDubaiMarket(){
   const d=getDubaiDate();
-  const day=d.getDay();
+  const day=d.getDay();     // 0 Sun ... 6 Sat
   const h=d.getHours();
 
+  // Your existing logic kept exactly:
   const dailyGapClosed=(h===2);
   const weekendClosed=(day===6 && (h>=2)) || (day===0 && (h<3));
   const isOpen=!(dailyGapClosed || weekendClosed);
@@ -787,11 +814,10 @@ function updateDubaiMarket(){
 updateDubaiMarket();
 setInterval(updateDubaiMarket, 30000);
 
-/* Fullscreen */
+/* Fullscreen (mobile) */
 const kioskBtn=document.getElementById("kioskBtn");
 const kioskLabel=document.getElementById("kioskLabel");
 const kioskHint=document.getElementById("kioskHint");
-
 function isFullscreen(){return !!(document.fullscreenElement||document.webkitFullscreenElement||document.msFullscreenElement);}
 async function enterFullscreen(){
   const el=document.documentElement;
@@ -826,7 +852,12 @@ kioskBtn.addEventListener("click", toggleKiosk);
 });
 kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN";
 
-/* Ramadan popup */
+/* =========================
+   ✅ RAMADAN POPUP (ADDED)
+   - shows every load/refresh (until March 17, 2026)
+   - auto closes after 5 seconds (5 4 3 2 1)
+   - EXIT button closes instantly
+   ========================= */
 (function(){
   const pop = document.getElementById("ramadanPop");
   const exitBtn = document.getElementById("ramadanExit");
@@ -849,6 +880,7 @@ kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN";
 
     pop.classList.add("show");
 
+    // 5-second countdown
     let left = 5;
     if(countEl) countEl.textContent = `Closing in ${left}`;
 
@@ -862,23 +894,28 @@ kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN";
       }
     }, 1000);
 
+    // Auto hide after 5 seconds
     clearTimeout(autoTimer);
     autoTimer = setTimeout(hidePop, 5000);
   }
 
+  // Close on exit button
   if(exitBtn){
     exitBtn.addEventListener("click", hidePop);
   }
 
+  // Optional: click outside card to close
   if(pop){
     pop.addEventListener("click", (e)=>{
       if(e.target === pop) hidePop();
     });
   }
 
+  // ✅ Only show until March 17, 2026 (Dubai time)
+  // End at 23:59:59 UAE time on March 17, 2026
   const nowDubai = getDubaiDate();
   const endDubai = new Date(nowDubai);
-  endDubai.setFullYear(2026, 2, 17);
+  endDubai.setFullYear(2026, 2, 17); // March 17, 2026 (month is 0-based)
   endDubai.setHours(23, 59, 59, 999);
 
   if(nowDubai.getTime() <= endDubai.getTime()){
