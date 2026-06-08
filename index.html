@@ -159,7 +159,7 @@ body::before{
 }
 
 .hero{padding:14px 14px 12px;border-bottom:1px solid rgba(200,148,24,.14);}
-.hero-inner{display:flex;justify-content:center;align-items:center;gap:18px;}
+.hero-inner{display:flex;justify-content:center;align-items:center;gap:18px;position:relative;}
 .logo-wrap{
   width:92px;height:92px;border-radius:24px;
   display:grid;place-items:center;
@@ -185,6 +185,34 @@ body::before{
 @keyframes shine{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
 .logo-wrap img{width:68px;max-width:78%;height:auto;display:block;position:relative;z-index:1;}
 
+.sparkle-field{
+  position:absolute;
+  inset:-18px -42px;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+.sparkle{
+  position:absolute;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:radial-gradient(circle, #ffffff 0%, #ffe48f 38%, rgba(200,148,24,.08) 72%, transparent 100%);
+  box-shadow:0 0 16px rgba(255,215,106,.72), 0 0 30px rgba(200,148,24,.18);
+  opacity:.28;
+  animation:sparkleFloat 6.5s ease-in-out infinite;
+}
+.sparkle.s1{left:7%;top:12%;animation-delay:0s;}
+.sparkle.s2{left:18%;top:72%;animation-delay:1.1s;}
+.sparkle.s3{right:12%;top:20%;animation-delay:2.2s;}
+.sparkle.s4{right:4%;bottom:18%;animation-delay:3.1s;}
+.sparkle.s5{left:48%;bottom:3%;animation-delay:4s;}
+@keyframes sparkleFloat{
+  0%,100%{transform:translate3d(0,0,0) scale(.55);opacity:.16;}
+  42%{transform:translate3d(8px,-12px,0) scale(1);opacity:.88;}
+  68%{transform:translate3d(-5px,-4px,0) scale(.72);opacity:.36;}
+}
+
 .brand{text-align:center}
 .brand-name{
   font-size:54px;font-weight:800;letter-spacing:7px;
@@ -202,23 +230,74 @@ body::before{
   letter-spacing:2.8px;text-transform:uppercase;
 }
 .brand-prayer{
-  margin-top:8px;
-  font-size:15px;
+  margin-top:13px;
+  font-size:clamp(24px, 2.75vw, 42px);
   font-weight:900;
-  letter-spacing:1.15px;
+  line-height:1.08;
+  letter-spacing:1.55px;
   text-transform:uppercase;
-  color:#7a5200;
-  text-shadow:0 7px 20px rgba(200,148,24,.18);
-  white-space:nowrap;
+  color:transparent;
+  background:
+    linear-gradient(110deg,
+      #3b2600 0%,
+      #5f3e00 12%,
+      #8c5f00 22%,
+      #c28a14 31%,
+      #ffe07a 37%,
+      #f4bd34 43%,
+      #9a6800 54%,
+      #4f3300 66%,
+      #7a5200 78%,
+      #d39a19 86%,
+      #6c4800 94%,
+      #3b2600 100%);
+  background-size:360% 100%;
+  background-clip:text;
+  -webkit-background-clip:text;
+  text-shadow:
+    0 1px 0 rgba(255,246,210,.38),
+    0 2px 2px rgba(68,42,0,.18),
+    0 0 10px rgba(200,148,24,.34),
+    0 8px 22px rgba(108,72,0,.28);
+  white-space:normal;
+  position:relative;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:0;
+  max-width:100%;
+  transform:translateZ(0);
+  animation:prayerGloss 4.8s ease-in-out infinite, prayerGlow 2.9s ease-in-out infinite;
 }
 .brand-prayer::before,
 .brand-prayer::after{
   content:"";
   display:inline-block;
-  width:34px;
-  height:1px;
-  margin:0 11px 4px;
-  background:linear-gradient(90deg, transparent, rgba(200,148,24,.72), transparent);
+  width:50px;
+  height:2px;
+  margin:0 15px 7px;
+  border-radius:999px;
+  background:linear-gradient(90deg, transparent, rgba(108,72,0,.45), rgba(255,203,76,.92), rgba(108,72,0,.50), transparent);
+  box-shadow:0 0 12px rgba(200,148,24,.34), 0 0 24px rgba(108,72,0,.12);
+}
+.brand-prayer.prayer-flash{
+  animation:prayerGloss 4.8s ease-in-out infinite, prayerGlow 2.9s ease-in-out infinite, prayerFlash .95s ease-out;
+}
+@keyframes prayerGloss{
+  0%{background-position:0% 50%;transform:translateZ(0) scale(1);}
+  38%{background-position:145% 50%;transform:translateZ(0) scale(1.012);}
+  74%{background-position:280% 50%;transform:translateZ(0) scale(1);}
+  100%{background-position:360% 50%;transform:translateZ(0) scale(1);}
+}
+@keyframes prayerGlow{
+  0%,100%{filter:drop-shadow(0 0 4px rgba(108,72,0,.28)) drop-shadow(0 8px 14px rgba(68,42,0,.16));}
+  50%{filter:drop-shadow(0 0 12px rgba(200,148,24,.58)) drop-shadow(0 10px 22px rgba(108,72,0,.26));}
+}
+@keyframes prayerFlash{
+  0%{transform:scale(1);text-shadow:0 0 10px rgba(255,215,106,.26);}
+  42%{transform:scale(1.04);text-shadow:0 0 24px rgba(255,214,94,.72), 0 0 42px rgba(108,72,0,.38);}
+  100%{transform:scale(1);text-shadow:0 1px 0 rgba(255,246,210,.38), 0 2px 2px rgba(68,42,0,.18), 0 0 10px rgba(200,148,24,.34), 0 8px 22px rgba(108,72,0,.28);}
 }
 
 .divider{
@@ -238,9 +317,16 @@ body::before{
   .brand{max-width:78vw;}
   .brand-name{font-size:30px;letter-spacing:3px;line-height:1.05;white-space:normal;word-break:break-word;}
   .brand-sub{font-size:12px;margin-top:6px;letter-spacing:2.2px;}
-  .brand-prayer{font-size:11px;margin-top:7px;letter-spacing:.55px;}
+  .sparkle-field{inset:-10px -18px;}
+  .sparkle{width:5px;height:5px;}
+  .brand-prayer{
+    font-size:clamp(17px, 4.8vw, 24px);
+    margin-top:9px;
+    letter-spacing:.75px;
+    line-height:1.18;
+  }
   .brand-prayer::before,
-  .brand-prayer::after{width:18px;margin:0 7px 3px;}
+  .brand-prayer::after{width:20px;margin:0 8px 4px;}
 }
 
 .rates{
@@ -466,51 +552,20 @@ body::before{
   .badge{padding:5px 10px;border-radius:14px;}
 }
 
-.kiosk-btn{
-  position:fixed;top:14px;right:14px;z-index:9999;
-  display:flex;align-items:center;gap:10px;
-  padding:10px 14px;border-radius:999px;
-  border:1px solid rgba(200,148,24,.34);
-  background:rgba(255,255,255,.82);
-  backdrop-filter: blur(12px);
-  color:#1b2430;
-  font-family:"ClarityCity",Arial,sans-serif;
-  font-weight:900;letter-spacing:.3px;
-  cursor:pointer;user-select:none;
-  box-shadow:0 8px 22px rgba(27,36,48,.10);
-}
-.kiosk-btn:active{transform:translateY(1px);}
-.kiosk-ic{width:12px;height:12px;border-radius:50%;background:rgba(200,148,24,.95);box-shadow:0 0 12px rgba(200,148,24,.35);}
-.kiosk-hint{font-size:12px;font-weight:800;opacity:.7;}
-@media (min-width:769px){.kiosk-btn{display:none!important;}}
-@media (max-width:768px){
-  .kiosk-btn{
-    display:flex!important;
-    position:absolute;
-    top:10px;left:10px;right:auto;
-    padding:8px 10px;
-    gap:8px;
-  }
-  #kioskLabel{font-size:12px;letter-spacing:.2px;}
-  .kiosk-ic{width:10px;height:10px;}
-  .kiosk-hint{display:none;}
-}
-
 @media (prefers-reduced-motion: reduce){
   .belt{animation:none;}
   .dot{animation:none;}
+  .brand-name{animation:none;}
+  .brand-prayer{animation:none;}
+  .brand-prayer.prayer-flash{animation:none;}
+  .sparkle{animation:none;}
+  .logo-wrap::after{animation:none;}
   body::before{animation:none;}
 }
 </style>
 </head>
 
 <body>
-
-<button class="kiosk-btn" id="kioskBtn" type="button" aria-label="Toggle fullscreen">
-  <span class="kiosk-ic" aria-hidden="true"></span>
-  <span id="kioskLabel">FULL SCREEN</span>
-  <span class="kiosk-hint" id="kioskHint">Fullscreen</span>
-</button>
 
 <div class="statusbar">
   <div class="statusbar-inner">
@@ -524,6 +579,13 @@ body::before{
 
 <div class="hero">
   <div class="hero-inner">
+    <div class="sparkle-field" aria-hidden="true">
+      <span class="sparkle s1"></span>
+      <span class="sparkle s2"></span>
+      <span class="sparkle s3"></span>
+      <span class="sparkle s4"></span>
+      <span class="sparkle s5"></span>
+    </div>
     <div class="logo-wrap"><img src="logo.png" alt="Logo"></div>
     <div class="brand">
       <div class="brand-name">SHALUQ JEWELLERS</div>
@@ -715,6 +777,9 @@ setInterval(updateDubaiMarket, 30000);
 
 const prayerCache = {};
 const prayerNames = ["Fajr","Dhuhr","Asr","Maghrib","Isha"];
+let activePrayer=null;
+let activePrayerKey="";
+let prayerRefreshBusy=false;
 
 function dubaiDateKey(d){
   const y=d.getFullYear();
@@ -768,9 +833,45 @@ async function loadPrayerForDate(dubaiDate){
   prayerCache[key]=json.data.timings;
   return prayerCache[key];
 }
-async function refreshPrayerDisplay(){
+function formatPrayerCountdown(totalSeconds){
+  let diff=Math.max(0, Math.floor(totalSeconds));
+  const days=Math.floor(diff/86400); diff%=86400;
+  const hrs=Math.floor(diff/3600); diff%=3600;
+  const mins=Math.floor(diff/60);
+  const secs=diff%60;
+
+  if(days>0) return `${days}d ${hrs}h ${mins}m`;
+  if(hrs>0) return `${hrs}h ${mins}m`;
+  if(mins>0) return `${mins}m ${String(secs).padStart(2,"0")}s`;
+  return `${secs}s`;
+}
+function flashPrayerLine(){
   const line=document.getElementById("prayerLine");
   if(!line) return;
+  line.classList.remove("prayer-flash");
+  void line.offsetWidth;
+  line.classList.add("prayer-flash");
+  setTimeout(()=>line.classList.remove("prayer-flash"),1100);
+}
+function renderPrayerCountdown(){
+  const line=document.getElementById("prayerLine");
+  if(!line || !activePrayer) return;
+
+  const nowDubai=getDubaiDate();
+  const seconds=Math.floor((activePrayer.at.getTime()-nowDubai.getTime())/1000);
+
+  if(seconds<=0){
+    refreshPrayerDisplay();
+    return;
+  }
+
+  const dayText=activePrayer.tomorrow ? " Tomorrow" : "";
+  line.textContent=`Upcoming Prayer \u2022 ${activePrayer.name}${dayText} ${formatAMPM(activePrayer.at)} \u2022 in ${formatPrayerCountdown(seconds)}`;
+}
+async function refreshPrayerDisplay(){
+  const line=document.getElementById("prayerLine");
+  if(!line || prayerRefreshBusy) return;
+  prayerRefreshBusy=true;
 
   try{
     const nowDubai=getDubaiDate();
@@ -795,51 +896,23 @@ async function refreshPrayerDisplay(){
       };
     }
 
-    const dayText=nextPrayer.tomorrow ? " Tomorrow" : "";
-    line.textContent=`Upcoming Prayer \u2022 ${nextPrayer.name}${dayText} ${formatAMPM(nextPrayer.at)}`;
+    const nextKey=`${nextPrayer.name}-${nextPrayer.at.getTime()}`;
+    activePrayer=nextPrayer;
+    renderPrayerCountdown();
+
+    if(activePrayerKey!==nextKey){
+      activePrayerKey=nextKey;
+      flashPrayerLine();
+    }
   }catch(err){
     line.textContent="Upcoming Prayer \u2022 Updating...";
+  }finally{
+    prayerRefreshBusy=false;
   }
 }
 refreshPrayerDisplay();
 setInterval(refreshPrayerDisplay, 60000);
-
-const kioskBtn=document.getElementById("kioskBtn");
-const kioskLabel=document.getElementById("kioskLabel");
-const kioskHint=document.getElementById("kioskHint");
-function isFullscreen(){return !!(document.fullscreenElement||document.webkitFullscreenElement||document.msFullscreenElement);}
-async function enterFullscreen(){
-  const el=document.documentElement;
-  if (el.requestFullscreen) return el.requestFullscreen();
-  if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen();
-  if (el.msRequestFullscreen) return el.msRequestFullscreen();
-  throw new Error("Fullscreen not supported");
-}
-async function exitFullscreen(){
-  if (document.exitFullscreen) return document.exitFullscreen();
-  if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
-  if (document.msExitFullscreen) return document.msFullscreenElement ? document.msExitFullscreen() : null;
-}
-async function toggleKiosk(){
-  try{
-    if (!isFullscreen()){
-      await enterFullscreen();
-      kioskHint.textContent="Tap EXIT to close";
-      setTimeout(()=> kioskHint.textContent="Fullscreen", 1500);
-    } else {
-      await exitFullscreen();
-    }
-    kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN";
-  }catch(err){
-    kioskHint.textContent="Blocked";
-    setTimeout(()=> kioskHint.textContent=isFullscreen()?"Exit":"Fullscreen", 1500);
-  }
-}
-kioskBtn.addEventListener("click", toggleKiosk);
-["fullscreenchange","webkitfullscreenchange","msfullscreenchange"].forEach(ev=>{
-  document.addEventListener(ev, ()=> kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN");
-});
-kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN";
+setInterval(renderPrayerCountdown, 1000);
 </script>
 
 </body>
