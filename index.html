@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SHALUQ JEWELLERS – Live Gold & Silver</title>
+<title>SHALUQ JEWELLERS &ndash; Live Gold & Silver</title>
 <link rel="icon" href="logo.png" />
 
 <style>
@@ -46,7 +46,6 @@ body{
   position:relative;
 }
 
-/* Premium UAE white-gold background pattern */
 body::after{
   content:"";
   position:fixed; inset:0;
@@ -61,7 +60,6 @@ body::after{
   background-position:0 0,0 17px,17px -17px,-17px 0px;
 }
 
-/* ambient glow */
 body::before{
   content:"";
   position:fixed; inset:-20%;
@@ -81,9 +79,6 @@ body::before{
 
 .hero,.divider,.rates,.ticker,.statusbar,.footerline{position:relative;z-index:1;}
 
-/* =========================
-   TOP STATUS BAR
-   ========================= */
 .statusbar{width:100%;display:flex;justify-content:center;padding:10px 12px 0;}
 .statusbar-inner{
   width:min(1520px, 96vw);
@@ -111,7 +106,7 @@ body::before{
 }
 .statusbar-inner > *{position:relative;z-index:1;}
 
-.sb-left{display:flex;align-items:center;gap:12px;min-width:0;}
+.sb-left{display:flex;align-items:center;gap:12px;min-width:0;flex:1 1 auto;}
 .dot{
   width:14px;height:14px;border-radius:50%;
   background:var(--open);
@@ -128,6 +123,33 @@ body::before{
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
+  min-width:0;
+}
+
+.prayer-chip{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:0 0 auto;
+  padding:7px 11px;
+  border-radius:999px;
+  border:1px solid rgba(200,148,24,.26);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,250,240,.70)),
+    radial-gradient(180px 70px at 20% 0%, rgba(200,148,24,.12), transparent 68%);
+  color:#6c4800;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.35px;
+  white-space:nowrap;
+  box-shadow:0 8px 20px rgba(27,36,48,.07), inset 0 1px 0 rgba(255,255,255,.85);
+}
+.prayer-chip::before{
+  content:"";
+  width:7px;height:7px;border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 12px rgba(200,148,24,.42);
+  flex:0 0 auto;
 }
 
 .sb-clock{
@@ -138,7 +160,6 @@ body::before{
   flex:0 0 auto;
 }
 
-/* MOBILE */
 @media (max-width:768px){
   .statusbar{padding-top:58px;}
   .statusbar-inner{
@@ -148,13 +169,17 @@ body::before{
     padding:10px 12px;
     gap:8px;
   }
-  .sb-left{justify-content:center;gap:10px;}
+  .sb-left{justify-content:center;gap:10px;flex-wrap:wrap;}
   .sb-title{
     text-align:center;
     white-space:normal;
     line-height:1.25;
     font-size:18px;
     letter-spacing:.15px;
+  }
+  .prayer-chip{
+    font-size:10px;
+    padding:6px 9px;
   }
   .sb-clock{
     text-align:center;
@@ -164,7 +189,6 @@ body::before{
   }
 }
 
-/* HEADER */
 .hero{padding:14px 14px 12px;border-bottom:1px solid rgba(200,148,24,.14);}
 .hero-inner{display:flex;justify-content:center;align-items:center;gap:18px;}
 .logo-wrap{
@@ -217,7 +241,6 @@ body::before{
   opacity:.92;
 }
 
-/* Mobile header sizing */
 @media (max-width:768px){
   .hero{padding:58px 10px 12px;position:relative;}
   .hero-inner{gap:12px;justify-content:center;flex-wrap:nowrap;padding:0 6px;}
@@ -229,7 +252,6 @@ body::before{
   .brand-sub{font-size:12px;margin-top:6px;letter-spacing:2.2px;}
 }
 
-/* CHART GRID */
 .rates{
   max-width:1700px;
   margin:14px auto 96px;
@@ -316,11 +338,6 @@ body::before{
   overflow:hidden;
 }
 
-/*
-   White background + compact TradingView layout.
-   Main page dimensions are kept from the first/original code.
-   The widget is limited by the card width so it will not cut on TV, PC, or mobile.
-*/
 #gold,#silver{
   position:absolute!important;
   width:min(640px, calc(100% - 22px))!important;
@@ -385,7 +402,6 @@ body::before{
   }
 }
 
-/* FOOTER */
 .footerline{
   width:100%;
   position:fixed;
@@ -413,7 +429,6 @@ body::before{
   .footerline-inner{font-size:11px;}
 }
 
-/* TICKER */
 .ticker{
   position:fixed;bottom:0;left:0;right:0;
   height:64px;
@@ -460,7 +475,6 @@ body::before{
   .badge{padding:5px 10px;border-radius:14px;}
 }
 
-/* FULLSCREEN button (mobile only) */
 .kiosk-btn{
   position:fixed;top:14px;right:14px;z-index:9999;
   display:flex;align-items:center;gap:10px;
@@ -496,214 +510,10 @@ body::before{
   .dot{animation:none;}
   body::before{animation:none;}
 }
-
-/* =========================
-   RAMADAN POPUP
-   ========================= */
-.ramadan-pop{
-  position:fixed;
-  inset:0;
-  z-index:10000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  background:
-    radial-gradient(900px 520px at 20% 20%, rgba(200,148,24,.14), transparent 65%),
-    radial-gradient(1000px 600px at 80% 30%, rgba(255,232,170,.28), transparent 70%),
-    rgba(255,255,255,.84);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  opacity:0;
-  visibility:hidden;
-  transition:opacity .35s ease, visibility .35s ease;
-}
-.ramadan-pop.show{
-  opacity:1;
-  visibility:visible;
-}
-.ramadan-card{
-  width:min(720px, 92vw);
-  border-radius:26px;
-  overflow:hidden;
-  position:relative;
-  border:1px solid rgba(200,148,24,.28);
-  background:
-    radial-gradient(900px 420px at 18% 18%, rgba(200,148,24,.12), transparent 58%),
-    linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,250,240,.96));
-  box-shadow:
-    0 0 0 1px rgba(200,148,24,.10),
-    0 28px 70px rgba(27,36,48,.18);
-  transform:translateY(10px) scale(.98);
-  transition:transform .35s ease;
-}
-.ramadan-pop.show .ramadan-card{
-  transform:translateY(0) scale(1);
-}
-.ramadan-topline{
-  height:2px;
-  background:linear-gradient(90deg, rgba(200,148,24,0) 0%, rgba(200,148,24,.32) 20%, rgba(200,148,24,.85) 50%, rgba(200,148,24,.32) 80%, rgba(200,148,24,0) 100%);
-  opacity:.95;
-}
-.ramadan-inner{
-  padding:22px 22px 20px;
-  text-align:center;
-  position:relative;
-}
-.ramadan-exitwrap{
-  position:absolute;
-  top:14px;
-  right:14px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.ramadan-count{
-  font-family:"ClarityCity",Arial,sans-serif;
-  font-weight:900;
-  letter-spacing:.25px;
-  font-size:12px;
-  color:rgba(27,36,48,.78);
-  padding:9px 10px;
-  border-radius:999px;
-  border:1px solid rgba(200,148,24,.22);
-  background:rgba(255,255,255,.70);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow:0 10px 24px rgba(27,36,48,.10);
-}
-.ramadan-exit{
-  border:1px solid rgba(200,148,24,.28);
-  background:rgba(255,255,255,.76);
-  color:#1b2430;
-  font-family:"ClarityCity",Arial,sans-serif;
-  font-weight:900;
-  letter-spacing:.25px;
-  border-radius:999px;
-  padding:9px 12px;
-  cursor:pointer;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow:0 10px 24px rgba(27,36,48,.10);
-}
-.ramadan-exit:active{transform:translateY(1px);}
-.ramadan-mark{
-  width:86px;height:86px;
-  margin:4px auto 10px;
-  border-radius:22px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(180deg, rgba(255,255,255,.90), rgba(255,250,240,.76));
-  border:1px solid rgba(200,148,24,.22);
-  box-shadow: inset 0 0 18px rgba(255,255,255,.75);
-  position:relative;
-  overflow:hidden;
-}
-.ramadan-mark::after{
-  content:"";
-  position:absolute; inset:-70%;
-  background:linear-gradient(120deg, transparent 40%, rgba(255,221,130,.38) 50%, transparent 60%);
-  animation:ramadanShine 6.8s infinite;
-  opacity:.75;
-}
-@keyframes ramadanShine{
-  0%{transform:translateX(-120%);}
-  100%{transform:translateX(120%);}
-}
-.ramadan-moon{
-  width:46px;height:46px;
-  border-radius:50%;
-  box-shadow: -12px 0 0 0 rgba(200,148,24,.95);
-  filter: drop-shadow(0 0 18px rgba(200,148,24,.28));
-  position:relative;
-}
-.ramadan-moon::before{
-  content:"";
-  position:absolute;
-  right:-8px; top:10px;
-  width:6px;height:6px;border-radius:50%;
-  background:rgba(200,148,24,.80);
-  box-shadow:0 0 10px rgba(200,148,24,.30);
-  opacity:.9;
-}
-.ramadan-title{
-  font-size:44px;
-  font-weight:900;
-  letter-spacing:1.2px;
-  margin:6px 0 6px;
-  color:transparent;
-  background:linear-gradient(90deg,#6c4800,#c89418,#1b2430,#b77900,#6c4800);
-  background-size:320% 100%;
-  background-clip:text;
-  -webkit-background-clip:text;
-  text-shadow:0 8px 22px rgba(200,148,24,.15);
-  animation:ramadanFlow 10s linear infinite;
-}
-@keyframes ramadanFlow{
-  0%{background-position:0%;}
-  100%{background-position:320%;}
-}
-.ramadan-sub{
-  margin-top:4px;
-  font-size:14px;
-  font-weight:800;
-  letter-spacing:2.6px;
-  text-transform:uppercase;
-  color:rgba(94,102,117,.94);
-  opacity:.95;
-}
-.ramadan-note{
-  margin:14px auto 0;
-  width:min(520px, 92%);
-  font-size:13px;
-  font-weight:800;
-  letter-spacing:.25px;
-  color:rgba(27,36,48,.70);
-  line-height:1.45;
-}
-.ramadan-bottomglow{
-  height:48px;
-  background:radial-gradient(600px 48px at 50% 0%, rgba(200,148,24,.16), transparent 70%);
-  opacity:.8;
-}
-
-@media (max-width:768px){
-  .ramadan-card{border-radius:22px;}
-  .ramadan-inner{padding:18px 16px 16px;}
-  .ramadan-title{font-size:32px;letter-spacing:.8px;}
-  .ramadan-sub{font-size:12px;letter-spacing:2.2px;}
-  .ramadan-mark{width:76px;height:76px;border-radius:20px;}
-  .ramadan-moon{width:40px;height:40px;box-shadow:-10px 0 0 0 rgba(200,148,24,.95);}
-  .ramadan-exitwrap{top:12px;right:12px;gap:8px;}
-  .ramadan-count{padding:8px 9px;font-size:11px;}
-  .ramadan-exit{padding:8px 10px;}
-}
 </style>
 </head>
 
 <body>
-
-<!-- RAMADAN POPUP -->
-<div class="ramadan-pop" id="ramadanPop" role="dialog" aria-modal="true" aria-label="Ramadan Kareem">
-  <div class="ramadan-card" role="document">
-    <div class="ramadan-topline"></div>
-    <div class="ramadan-inner">
-      <div class="ramadan-exitwrap">
-        <span class="ramadan-count" id="ramadanCount">Closing in 5</span>
-        <button class="ramadan-exit" id="ramadanExit" type="button" aria-label="Close Ramadan popup">EXIT ✕</button>
-      </div>
-
-      <div class="ramadan-mark" aria-hidden="true">
-        <div class="ramadan-moon"></div>
-      </div>
-
-      <div class="ramadan-title">Ramadan Kareem</div>
-      <div class="ramadan-sub">Wishing you peace • prosperity • blessings</div>
-      <div class="ramadan-note">May this holy month bring harmony to your home and success to your business.</div>
-    </div>
-    <div class="ramadan-bottomglow"></div>
-  </div>
-</div>
 
 <button class="kiosk-btn" id="kioskBtn" type="button" aria-label="Toggle fullscreen">
   <span class="kiosk-ic" aria-hidden="true"></span>
@@ -716,6 +526,9 @@ body::before{
     <div class="sb-left">
       <span class="dot" id="statusDot"></span>
       <span class="sb-title" id="marketLine">--</span>
+      <span class="prayer-chip" id="prayerChip" aria-live="polite">
+        <span id="prayerLine">Upcoming Prayer &bull; Loading...</span>
+      </span>
     </div>
     <div class="sb-clock" id="clock">--</div>
   </div>
@@ -737,8 +550,8 @@ body::before{
   <div class="card" id="goldCard">
     <div class="card-title">
       <div>
-        <div class="ct-name">GOLD • XAUUSD</div>
-        <div class="ct-sub">USD/oz • OANDA</div>
+        <div class="ct-name">GOLD &bull; XAUUSD</div>
+        <div class="ct-sub">USD/oz &bull; OANDA</div>
       </div>
       <div class="ct-badge">UAE LIVE DISPLAY</div>
     </div>
@@ -750,8 +563,8 @@ body::before{
   <div class="card" id="silverCard">
     <div class="card-title">
       <div>
-        <div class="ct-name">SILVER • XAGUSD</div>
-        <div class="ct-sub">USD/oz • OANDA</div>
+        <div class="ct-name">SILVER &bull; XAGUSD</div>
+        <div class="ct-sub">USD/oz &bull; OANDA</div>
       </div>
       <div class="ct-badge">INTERNATIONAL SPOT</div>
     </div>
@@ -763,7 +576,7 @@ body::before{
 
 <div class="footerline" aria-hidden="true">
   <div class="footerline-inner">
-    <span>© SHALUQ JEWELLERS • Dubai • Fujairah</span>
+    <span>&copy; SHALUQ JEWELLERS &bull; Dubai &bull; Fujairah</span>
   </div>
 </div>
 
@@ -777,7 +590,7 @@ body::before{
         <div class="item"><span class="sep-dot"></span><span class="badge">FUJAIRAH</span> Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">FOR FUJAIRAH CALL</span> +971 92 439 539</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
-        <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative &bull; Confirm before invoice</div>
         <div class="item"><span class="sep-dot"></span><span class="badge uae">UAE</span> AED billing rate, making charge and VAT may apply as per invoice</div>
       </div>
 
@@ -788,7 +601,7 @@ body::before{
         <div class="item"><span class="sep-dot"></span><span class="badge">FUJAIRAH</span> Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">FOR FUJAIRAH CALL</span> +971 92 439 539</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
-        <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative &bull; Confirm before invoice</div>
         <div class="item"><span class="sep-dot"></span><span class="badge uae">UAE</span> AED billing rate, making charge and VAT may apply as per invoice</div>
       </div>
     </div>
@@ -796,7 +609,6 @@ body::before{
 </div>
 
 <script>
-/* TradingView widgets */
 function addTV(symbol,id){
   const s=document.createElement("script");
   s.src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js";
@@ -807,7 +619,6 @@ function addTV(symbol,id){
 addTV("OANDA:XAUUSD","gold");
 addTV("OANDA:XAGUSD","silver");
 
-/* Dubai time helpers */
 function getDubaiDate(){
   const now=new Date();
   const utc=now.getTime() + (now.getTimezoneOffset()*60000);
@@ -820,8 +631,6 @@ function formatAMPM(dateObj){
   h=h%12; if(h===0) h=12;
   return `${h}:${m} ${ampm}`;
 }
-
-/* SAFE timezone formatter */
 function formatTimeInTZ(timeZone){
   return new Intl.DateTimeFormat("en-US",{
     timeZone,
@@ -831,26 +640,23 @@ function formatTimeInTZ(timeZone){
   }).format(new Date());
 }
 
-/* World clock line */
 function tickClock(){
   const uae = formatAMPM(getDubaiDate());
   const usa = formatTimeInTZ("America/New_York");
   const ldn = formatTimeInTZ("Europe/London");
   const ind = formatTimeInTZ("Asia/Kolkata");
-  document.getElementById("clock").textContent = `${uae} UAE • ${usa} USA • ${ldn} LON • ${ind} INDIA`;
+  document.getElementById("clock").textContent = `${uae} UAE \u2022 ${usa} USA \u2022 ${ldn} LON \u2022 ${ind} INDIA`;
 }
 tickClock();
 setInterval(tickClock, 10000);
 
-/* Market open/close line (Dubai time) */
 let marketCountdownTimer=null;
 
 function updateDubaiMarket(){
   const d=getDubaiDate();
-  const day=d.getDay();     // 0 Sun ... 6 Sat
+  const day=d.getDay();
   const h=d.getHours();
 
-  // Existing logic kept:
   const dailyGapClosed=(h===2);
   const weekendClosed=(day===6 && (h>=2)) || (day===0 && (h<3));
   const isOpen=!(dailyGapClosed || weekendClosed);
@@ -890,7 +696,7 @@ function updateDubaiMarket(){
       const hrs=Math.floor(diff/3600); diff%=3600;
       const mins=Math.floor(diff/60); diff%=60;
       const secs=diff;
-      marketLine.textContent=`Market Open • Closes in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
+      marketLine.textContent=`Market Open \u2022 Closes in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
     };
     tick();
     marketCountdownTimer=setInterval(tick, 1000);
@@ -908,8 +714,8 @@ function updateDubaiMarket(){
       const secs=diff;
 
       marketLine.textContent = (days>0)
-        ? `Market Closed • Opens in ${days}d ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`
-        : `Market Closed • Opens in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
+        ? `Market Closed \u2022 Opens in ${days}d ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`
+        : `Market Closed \u2022 Opens in ${hrs}h ${mins}m ${String(secs).padStart(2,"0")}s`;
     };
     tick();
     marketCountdownTimer=setInterval(tick, 1000);
@@ -918,7 +724,97 @@ function updateDubaiMarket(){
 updateDubaiMarket();
 setInterval(updateDubaiMarket, 30000);
 
-/* Fullscreen (mobile) */
+const prayerCache = {};
+const prayerNames = ["Fajr","Dhuhr","Asr","Maghrib","Isha"];
+
+function dubaiDateKey(d){
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,"0");
+  const day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+}
+function apiDateDubai(d){
+  const day=String(d.getDate()).padStart(2,"0");
+  const m=String(d.getMonth()+1).padStart(2,"0");
+  const y=d.getFullYear();
+  return `${day}-${m}-${y}`;
+}
+function nextDubaiDate(d){
+  const n=new Date(d);
+  n.setDate(n.getDate()+1);
+  n.setHours(0,0,0,0);
+  return n;
+}
+function cleanPrayerTime(raw){
+  return String(raw || "").replace(/\s*\(.+\)\s*/,"").trim();
+}
+function prayerDateTime(baseDubaiDate, rawTime){
+  const clean=cleanPrayerTime(rawTime);
+  const parts=clean.split(":");
+  const h=Number(parts[0]);
+  const m=Number(parts[1]);
+  const d=new Date(baseDubaiDate);
+  d.setHours(h,m,0,0);
+  return d;
+}
+async function loadPrayerForDate(dubaiDate){
+  const key=dubaiDateKey(dubaiDate);
+  if (prayerCache[key]) return prayerCache[key];
+
+  const params=new URLSearchParams({
+    latitude:"25.2048",
+    longitude:"55.2708",
+    method:"8",
+    school:"0",
+    timezonestring:"Asia/Dubai"
+  });
+
+  const url=`https://api.aladhan.com/v1/timings/${apiDateDubai(dubaiDate)}?${params.toString()}`;
+  const res=await fetch(url,{cache:"no-store"});
+  if(!res.ok) throw new Error("Prayer timing fetch failed");
+
+  const json=await res.json();
+  if(!json || !json.data || !json.data.timings) throw new Error("Prayer timing data unavailable");
+
+  prayerCache[key]=json.data.timings;
+  return prayerCache[key];
+}
+async function refreshPrayerDisplay(){
+  const line=document.getElementById("prayerLine");
+  if(!line) return;
+
+  try{
+    const nowDubai=getDubaiDate();
+    const todayTimes=await loadPrayerForDate(nowDubai);
+    let nextPrayer=null;
+
+    for(const name of prayerNames){
+      const at=prayerDateTime(nowDubai,todayTimes[name]);
+      if(at.getTime() > nowDubai.getTime()){
+        nextPrayer={name,at,tomorrow:false};
+        break;
+      }
+    }
+
+    if(!nextPrayer){
+      const tomorrow=nextDubaiDate(nowDubai);
+      const tomorrowTimes=await loadPrayerForDate(tomorrow);
+      nextPrayer={
+        name:"Fajr",
+        at:prayerDateTime(tomorrow,tomorrowTimes.Fajr),
+        tomorrow:true
+      };
+    }
+
+    const dayText=nextPrayer.tomorrow ? " Tomorrow" : "";
+    line.textContent=`Upcoming Prayer \u2022 ${nextPrayer.name}${dayText} ${formatAMPM(nextPrayer.at)}`;
+  }catch(err){
+    line.textContent="Upcoming Prayer \u2022 Updating...";
+  }
+}
+refreshPrayerDisplay();
+setInterval(refreshPrayerDisplay, 60000);
+
 const kioskBtn=document.getElementById("kioskBtn");
 const kioskLabel=document.getElementById("kioskLabel");
 const kioskHint=document.getElementById("kioskHint");
@@ -955,73 +851,6 @@ kioskBtn.addEventListener("click", toggleKiosk);
   document.addEventListener(ev, ()=> kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN");
 });
 kioskLabel.textContent=isFullscreen()?"EXIT":"FULL SCREEN";
-
-/* =========================
-   RAMADAN POPUP
-   - shows every load/refresh until March 17, 2026
-   - auto closes after 5 seconds
-   - EXIT button closes instantly
-   ========================= */
-(function(){
-  const pop = document.getElementById("ramadanPop");
-  const exitBtn = document.getElementById("ramadanExit");
-  const countEl = document.getElementById("ramadanCount");
-
-  let autoTimer = null;
-  let countTimer = null;
-
-  function hidePop(){
-    if(!pop) return;
-    pop.classList.remove("show");
-    clearTimeout(autoTimer);
-    clearInterval(countTimer);
-    autoTimer = null;
-    countTimer = null;
-  }
-
-  function showPop(){
-    if(!pop) return;
-
-    pop.classList.add("show");
-
-    let left = 5;
-    if(countEl) countEl.textContent = `Closing in ${left}`;
-
-    clearInterval(countTimer);
-    countTimer = setInterval(()=>{
-      left = Math.max(0, left - 1);
-      if(countEl) countEl.textContent = `Closing in ${left}`;
-      if(left <= 0){
-        clearInterval(countTimer);
-        countTimer = null;
-      }
-    }, 1000);
-
-    clearTimeout(autoTimer);
-    autoTimer = setTimeout(hidePop, 5000);
-  }
-
-  if(exitBtn){
-    exitBtn.addEventListener("click", hidePop);
-  }
-
-  if(pop){
-    pop.addEventListener("click", (e)=>{
-      if(e.target === pop) hidePop();
-    });
-  }
-
-  const nowDubai = getDubaiDate();
-  const endDubai = new Date(nowDubai);
-  endDubai.setFullYear(2026, 2, 17);
-  endDubai.setHours(23, 59, 59, 999);
-
-  if(nowDubai.getTime() <= endDubai.getTime()){
-    showPop();
-  } else {
-    hidePop();
-  }
-})();
 </script>
 
 </body>
