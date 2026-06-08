@@ -238,27 +238,22 @@ body::before{
   text-transform:uppercase;
   color:transparent;
   background:
-    linear-gradient(110deg,
-      #3b2600 0%,
-      #5f3e00 12%,
-      #8c5f00 22%,
-      #c28a14 31%,
-      #ffe07a 37%,
-      #f4bd34 43%,
-      #9a6800 54%,
-      #4f3300 66%,
-      #7a5200 78%,
-      #d39a19 86%,
-      #6c4800 94%,
-      #3b2600 100%);
-  background-size:360% 100%;
+    linear-gradient(90deg,
+      #1b2430 0%,
+      #6c4800 17%,
+      #c89418 32%,
+      #1b2430 49%,
+      #b77900 66%,
+      #6c4800 82%,
+      #1b2430 100%);
+  background-size:320% 100%;
   background-clip:text;
   -webkit-background-clip:text;
   text-shadow:
-    0 1px 0 rgba(255,246,210,.38),
-    0 2px 2px rgba(68,42,0,.18),
-    0 0 10px rgba(200,148,24,.34),
-    0 8px 22px rgba(108,72,0,.28);
+    0 1px 0 rgba(255,246,210,.26),
+    0 2px 2px rgba(27,36,48,.18),
+    0 0 8px rgba(200,148,24,.22),
+    0 8px 22px rgba(27,36,48,.22);
   white-space:normal;
   position:relative;
   display:inline-flex;
@@ -278,8 +273,8 @@ body::before{
   height:2px;
   margin:0 15px 7px;
   border-radius:999px;
-  background:linear-gradient(90deg, transparent, rgba(108,72,0,.45), rgba(255,203,76,.92), rgba(108,72,0,.50), transparent);
-  box-shadow:0 0 12px rgba(200,148,24,.34), 0 0 24px rgba(108,72,0,.12);
+  background:linear-gradient(90deg, transparent, rgba(27,36,48,.22), rgba(200,148,24,.78), rgba(27,36,48,.24), transparent);
+  box-shadow:0 0 10px rgba(200,148,24,.24), 0 0 20px rgba(27,36,48,.10);
 }
 .brand-prayer.prayer-flash{
   animation:prayerGloss 4.8s ease-in-out infinite, prayerGlow 2.9s ease-in-out infinite, prayerFlash .95s ease-out;
@@ -288,16 +283,16 @@ body::before{
   0%{background-position:0% 50%;transform:translateZ(0) scale(1);}
   38%{background-position:145% 50%;transform:translateZ(0) scale(1.012);}
   74%{background-position:280% 50%;transform:translateZ(0) scale(1);}
-  100%{background-position:360% 50%;transform:translateZ(0) scale(1);}
+  100%{background-position:320% 50%;transform:translateZ(0) scale(1);}
 }
 @keyframes prayerGlow{
-  0%,100%{filter:drop-shadow(0 0 4px rgba(108,72,0,.28)) drop-shadow(0 8px 14px rgba(68,42,0,.16));}
-  50%{filter:drop-shadow(0 0 12px rgba(200,148,24,.58)) drop-shadow(0 10px 22px rgba(108,72,0,.26));}
+  0%,100%{filter:drop-shadow(0 0 3px rgba(27,36,48,.22)) drop-shadow(0 8px 14px rgba(27,36,48,.14));}
+  50%{filter:drop-shadow(0 0 10px rgba(200,148,24,.42)) drop-shadow(0 10px 20px rgba(27,36,48,.22));}
 }
 @keyframes prayerFlash{
-  0%{transform:scale(1);text-shadow:0 0 10px rgba(255,215,106,.26);}
-  42%{transform:scale(1.04);text-shadow:0 0 24px rgba(255,214,94,.72), 0 0 42px rgba(108,72,0,.38);}
-  100%{transform:scale(1);text-shadow:0 1px 0 rgba(255,246,210,.38), 0 2px 2px rgba(68,42,0,.18), 0 0 10px rgba(200,148,24,.34), 0 8px 22px rgba(108,72,0,.28);}
+  0%{transform:scale(1);text-shadow:0 0 8px rgba(200,148,24,.20);}
+  42%{transform:scale(1.04);text-shadow:0 0 18px rgba(200,148,24,.58), 0 0 34px rgba(27,36,48,.26);}
+  100%{transform:scale(1);text-shadow:0 1px 0 rgba(255,246,210,.26), 0 2px 2px rgba(27,36,48,.18), 0 0 8px rgba(200,148,24,.22), 0 8px 22px rgba(27,36,48,.22);}
 }
 
 .divider{
