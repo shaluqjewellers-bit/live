@@ -106,7 +106,7 @@ body::before{
 }
 .statusbar-inner > *{position:relative;z-index:1;}
 
-.sb-left{display:flex;align-items:center;gap:12px;min-width:0;flex:1 1 auto;}
+.sb-left{display:flex;align-items:center;gap:12px;min-width:0;}
 .dot{
   width:14px;height:14px;border-radius:50%;
   background:var(--open);
@@ -123,33 +123,6 @@ body::before{
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
-  min-width:0;
-}
-
-.prayer-chip{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex:0 0 auto;
-  padding:7px 11px;
-  border-radius:999px;
-  border:1px solid rgba(200,148,24,.26);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,250,240,.70)),
-    radial-gradient(180px 70px at 20% 0%, rgba(200,148,24,.12), transparent 68%);
-  color:#6c4800;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.35px;
-  white-space:nowrap;
-  box-shadow:0 8px 20px rgba(27,36,48,.07), inset 0 1px 0 rgba(255,255,255,.85);
-}
-.prayer-chip::before{
-  content:"";
-  width:7px;height:7px;border-radius:50%;
-  background:var(--gold);
-  box-shadow:0 0 12px rgba(200,148,24,.42);
-  flex:0 0 auto;
 }
 
 .sb-clock{
@@ -169,17 +142,13 @@ body::before{
     padding:10px 12px;
     gap:8px;
   }
-  .sb-left{justify-content:center;gap:10px;flex-wrap:wrap;}
+  .sb-left{justify-content:center;gap:10px;}
   .sb-title{
     text-align:center;
     white-space:normal;
     line-height:1.25;
     font-size:18px;
     letter-spacing:.15px;
-  }
-  .prayer-chip{
-    font-size:10px;
-    padding:6px 9px;
   }
   .sb-clock{
     text-align:center;
@@ -232,6 +201,25 @@ body::before{
   margin-top:10px;font-size:14px;color:#5e6675;opacity:.96;
   letter-spacing:2.8px;text-transform:uppercase;
 }
+.brand-prayer{
+  margin-top:8px;
+  font-size:15px;
+  font-weight:900;
+  letter-spacing:1.15px;
+  text-transform:uppercase;
+  color:#7a5200;
+  text-shadow:0 7px 20px rgba(200,148,24,.18);
+  white-space:nowrap;
+}
+.brand-prayer::before,
+.brand-prayer::after{
+  content:"";
+  display:inline-block;
+  width:34px;
+  height:1px;
+  margin:0 11px 4px;
+  background:linear-gradient(90deg, transparent, rgba(200,148,24,.72), transparent);
+}
 
 .divider{
   height:2px;width:min(1320px, 92vw);
@@ -250,6 +238,9 @@ body::before{
   .brand{max-width:78vw;}
   .brand-name{font-size:30px;letter-spacing:3px;line-height:1.05;white-space:normal;word-break:break-word;}
   .brand-sub{font-size:12px;margin-top:6px;letter-spacing:2.2px;}
+  .brand-prayer{font-size:11px;margin-top:7px;letter-spacing:.55px;}
+  .brand-prayer::before,
+  .brand-prayer::after{width:18px;margin:0 7px 3px;}
 }
 
 .rates{
@@ -526,9 +517,6 @@ body::before{
     <div class="sb-left">
       <span class="dot" id="statusDot"></span>
       <span class="sb-title" id="marketLine">--</span>
-      <span class="prayer-chip" id="prayerChip" aria-live="polite">
-        <span id="prayerLine">Upcoming Prayer &bull; Loading...</span>
-      </span>
     </div>
     <div class="sb-clock" id="clock">--</div>
   </div>
@@ -540,6 +528,7 @@ body::before{
     <div class="brand">
       <div class="brand-name">SHALUQ JEWELLERS</div>
       <div class="brand-sub">Live Gold &amp; Silver Prices</div>
+      <div class="brand-prayer" id="prayerLine" aria-live="polite">Upcoming Prayer &bull; Loading...</div>
     </div>
   </div>
 </div>
