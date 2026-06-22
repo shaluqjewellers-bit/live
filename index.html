@@ -433,6 +433,7 @@ body::before{
     width:min(590px, calc(100% - 22px))!important;
     height:455px!important;
   }
+  .uae-rate-panel{top:342px;}
 }
 
 @media(max-width:1100px){ .rates{grid-template-columns:1fr} }
@@ -472,6 +473,7 @@ body::before{
     width:min(360px, calc(100% - 10px))!important;
     height:315px!important;
   }
+  .uae-rate-panel{top:244px;}
 }
 
 .footerline{
@@ -547,6 +549,120 @@ body::before{
   .badge{padding:5px 10px;border-radius:14px;}
 }
 
+
+
+/* UAE 24K AED PER GRAM OVERLAY - ADDED ONLY, EXISTING LAYOUT UNCHANGED */
+.uae-rate-panel{
+  position:absolute;
+  left:22px;
+  right:22px;
+  top:368px;
+  z-index:4;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  padding:14px 16px;
+  border-radius:20px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,250,240,.92)),
+    radial-gradient(420px 110px at 12% 0%, rgba(200,148,24,.18), transparent 66%);
+  border:1px solid rgba(200,148,24,.38);
+  box-shadow:0 18px 40px rgba(27,36,48,.14), inset 0 1px 0 rgba(255,255,255,.88);
+  backdrop-filter: blur(14px);
+  pointer-events:none;
+  overflow:hidden;
+}
+.uae-rate-panel::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg, transparent 0%, rgba(255,244,207,.54) 50%, transparent 100%);
+  opacity:.62;
+  pointer-events:none;
+}
+.uae-rate-panel > *{position:relative;z-index:1;}
+.uae-rate-left{min-width:0;}
+.uae-rate-label{
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+  color:#7a5200;
+  white-space:nowrap;
+}
+.uae-rate-sub{
+  margin-top:5px;
+  font-size:11px;
+  font-weight:800;
+  color:rgba(94,102,117,.92);
+  letter-spacing:.25px;
+  white-space:nowrap;
+}
+.uae-rate-value{
+  text-align:right;
+  flex:0 0 auto;
+  font-size:28px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.3px;
+  color:transparent;
+  background:linear-gradient(90deg,#6c4800,#c89418,#1b2430,#b77900);
+  background-clip:text;
+  -webkit-background-clip:text;
+  text-shadow:0 8px 18px rgba(200,148,24,.14);
+  white-space:nowrap;
+}
+.uae-rate-unit{
+  display:block;
+  margin-top:5px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.45px;
+  color:rgba(27,36,48,.62);
+  text-align:right;
+  white-space:nowrap;
+}
+.uae-rate-panel.rate-updated{
+  animation:ratePulse .72s ease-out;
+}
+@keyframes ratePulse{
+  0%{transform:translateY(0) scale(1);box-shadow:0 18px 40px rgba(27,36,48,.14), inset 0 1px 0 rgba(255,255,255,.88);}
+  45%{transform:translateY(-1px) scale(1.012);box-shadow:0 20px 46px rgba(200,148,24,.22), inset 0 1px 0 rgba(255,255,255,.92);}
+  100%{transform:translateY(0) scale(1);box-shadow:0 18px 40px rgba(27,36,48,.14), inset 0 1px 0 rgba(255,255,255,.88);}
+}
+
+@media (max-width:768px){
+  .uae-rate-panel{
+    left:14px;
+    right:14px;
+    top:278px;
+    padding:11px 12px;
+    border-radius:17px;
+    gap:8px;
+  }
+  .uae-rate-label{font-size:10px;letter-spacing:.85px;}
+  .uae-rate-sub{font-size:10px;margin-top:4px;}
+  .uae-rate-value{font-size:21px;}
+  .uae-rate-unit{font-size:10px;margin-top:4px;}
+}
+@media (max-width:420px){
+  .uae-rate-panel{
+    left:10px;
+    right:10px;
+    top:268px;
+    padding:10px 11px;
+  }
+  .uae-rate-value{font-size:19px;}
+  .uae-rate-sub{display:none;}
+}
+@media (min-width:1200px) and (max-width:1500px){
+  .uae-rate-panel{top:342px;}
+}
+@media (max-width:360px){
+  .uae-rate-panel{top:244px;}
+}
+
 @media (prefers-reduced-motion: reduce){
   .belt{animation:none;}
   .dot{animation:none;}
@@ -556,6 +672,7 @@ body::before{
   .sparkle{animation:none;}
   .logo-wrap::after{animation:none;}
   body::before{animation:none;}
+  .uae-rate-panel.rate-updated{animation:none;}
 }
 </style>
 </head>
@@ -603,6 +720,16 @@ body::before{
     </div>
     <div class="tv-box">
       <div class="tv-inner"><div id="gold"></div></div>
+      <div class="uae-rate-panel" id="goldAedPanel" aria-live="polite">
+        <div class="uae-rate-left">
+          <div class="uae-rate-label">UAE 24K Gold Rate</div>
+          <div class="uae-rate-sub" id="goldOunceLine">Connecting live USD/oz...</div>
+        </div>
+        <div>
+          <div class="uae-rate-value" id="goldGramRate">AED --</div>
+          <span class="uae-rate-unit" id="goldUpdateLine">per gram</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -616,6 +743,16 @@ body::before{
     </div>
     <div class="tv-box">
       <div class="tv-inner"><div id="silver"></div></div>
+      <div class="uae-rate-panel" id="silverAedPanel" aria-live="polite">
+        <div class="uae-rate-left">
+          <div class="uae-rate-label">UAE Silver Rate</div>
+          <div class="uae-rate-sub" id="silverOunceLine">Connecting live USD/oz...</div>
+        </div>
+        <div>
+          <div class="uae-rate-value" id="silverGramRate">AED --</div>
+          <span class="uae-rate-unit" id="silverUpdateLine">per gram</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -664,6 +801,131 @@ function addTV(symbol,id){
 }
 addTV("OANDA:XAUUSD","gold");
 addTV("OANDA:XAGUSD","silver");
+
+
+const TROY_OUNCE_GRAMS = 31.1035;
+const USD_TO_AED = 3.674;
+const UAE_RATE_REFRESH_MS = 60000;
+const METAL_PRICE_API = {
+  gold: [
+    "https://api.gold-api.com/price/XAU",
+    "https://forex-data-feed.swissquote.com/public-quotes/bboquotes/instrument/XAU/USD"
+  ],
+  silver: [
+    "https://api.gold-api.com/price/XAG",
+    "https://forex-data-feed.swissquote.com/public-quotes/bboquotes/instrument/XAG/USD"
+  ]
+};
+
+function formatMoneyAED(value){
+  if(!Number.isFinite(value)) return "AED --";
+  return "AED " + value.toLocaleString("en-US",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
+}
+function formatUsdOunce(value){
+  if(!Number.isFinite(value)) return "USD/oz --";
+  return "USD/oz " + value.toLocaleString("en-US",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
+}
+function safeNumber(value){
+  if(typeof value === "number") return value;
+  if(typeof value === "string"){
+    const n=Number(value.replace(/[^0-9.-]/g,""));
+    return Number.isFinite(n) ? n : NaN;
+  }
+  return NaN;
+}
+function extractOuncePrice(payload){
+  if(payload == null) return NaN;
+  if(typeof payload === "number" || typeof payload === "string") return safeNumber(payload);
+
+  if(Array.isArray(payload)){
+    for(const item of payload){
+      const n=extractOuncePrice(item);
+      if(Number.isFinite(n) && n>0) return n;
+    }
+    return NaN;
+  }
+
+  const preferredKeys=["price","ask","bid","last","close","value","rate"];
+  for(const key of preferredKeys){
+    if(Object.prototype.hasOwnProperty.call(payload,key)){
+      const n=safeNumber(payload[key]);
+      if(Number.isFinite(n) && n>0) return n;
+    }
+  }
+
+  const nestedKeys=["data","result","quote","quotes","prices","spreadProfilePrices"];
+  for(const key of nestedKeys){
+    if(Object.prototype.hasOwnProperty.call(payload,key)){
+      const n=extractOuncePrice(payload[key]);
+      if(Number.isFinite(n) && n>0) return n;
+    }
+  }
+
+  return NaN;
+}
+function pulsePanel(panelId){
+  const panel=document.getElementById(panelId);
+  if(!panel) return;
+  panel.classList.remove("rate-updated");
+  void panel.offsetWidth;
+  panel.classList.add("rate-updated");
+  setTimeout(()=>panel.classList.remove("rate-updated"),800);
+}
+function fetchWithTimeout(url,timeoutMs){
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),timeoutMs);
+  return fetch(url,{cache:"no-store",mode:"cors",signal:controller.signal})
+    .finally(()=>clearTimeout(timer));
+}
+async function fetchMetalUsdPerOunce(urls){
+  let lastError=null;
+  for(const url of urls){
+    try{
+      const res=await fetchWithTimeout(url,8500);
+      if(!res.ok) throw new Error("Metal price fetch failed");
+      const payload=await res.json();
+      const ouncePrice=extractOuncePrice(payload);
+      if(Number.isFinite(ouncePrice) && ouncePrice>0) return ouncePrice;
+      throw new Error("Metal price unavailable");
+    }catch(err){
+      lastError=err;
+    }
+  }
+  throw lastError || new Error("Metal price unavailable");
+}
+async function updateUaeMetalRate(metal){
+  const isGold=metal==="gold";
+  const endpoints=isGold ? METAL_PRICE_API.gold : METAL_PRICE_API.silver;
+  const rateId=isGold ? "goldGramRate" : "silverGramRate";
+  const ounceId=isGold ? "goldOunceLine" : "silverOunceLine";
+  const updateId=isGold ? "goldUpdateLine" : "silverUpdateLine";
+  const panelId=isGold ? "goldAedPanel" : "silverAedPanel";
+
+  try{
+    const usdPerOunce=await fetchMetalUsdPerOunce(endpoints);
+    const aedPerGram=(usdPerOunce / TROY_OUNCE_GRAMS) * USD_TO_AED;
+
+    document.getElementById(rateId).textContent=formatMoneyAED(aedPerGram);
+    document.getElementById(ounceId).textContent=formatUsdOunce(usdPerOunce);
+    document.getElementById(updateId).textContent="per gram • " + formatAMPM(getDubaiDate()) + " UAE";
+    pulsePanel(panelId);
+  }catch(err){
+    document.getElementById(ounceId).textContent="Live rate not connected";
+    document.getElementById(updateId).textContent="per gram • auto retry";
+  }
+}
+function updateUaeMetalRates(){
+  updateUaeMetalRate("gold");
+  updateUaeMetalRate("silver");
+}
+updateUaeMetalRates();
+setInterval(updateUaeMetalRates, UAE_RATE_REFRESH_MS);
 
 function getDubaiDate(){
   const now=new Date();
