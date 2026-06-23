@@ -632,13 +632,37 @@ body::before{
 }
 
 @media (max-width:768px){
+  /* MOBILE ONLY FIX: keep the UAE gram-rate panel away from the chart.
+     Desktop / TV rules above are unchanged. */
+  .tv-box{
+    height:430px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding:10px 10px 12px;
+    box-sizing:border-box;
+  }
+  .tv-inner{
+    position:relative;
+    inset:auto;
+    flex:1 1 auto;
+    min-height:330px;
+    border-radius:16px;
+    overflow:hidden;
+    background:#ffffff;
+  }
   .uae-rate-panel{
-    top:12px;
-    right:14px;
-    width:min(335px, calc(100% - 28px));
+    position:relative;
+    top:auto;
+    right:auto;
+    left:auto;
+    width:100%;
+    box-sizing:border-box;
+    order:-1;
     padding:10px 11px;
     border-radius:17px;
     gap:9px;
+    flex:0 0 auto;
   }
   .uae-rate-label{font-size:10px;letter-spacing:.85px;}
   .uae-rate-sub{font-size:10px;margin-top:3px;}
@@ -646,10 +670,14 @@ body::before{
   .uae-rate-unit{font-size:10px;margin-top:3px;}
 }
 @media (max-width:420px){
+  .tv-box{
+    height:410px;
+    padding:9px 8px 11px;
+    gap:9px;
+  }
+  .tv-inner{min-height:320px;}
   .uae-rate-panel{
-    top:10px;
-    right:10px;
-    width:min(275px, calc(100% - 20px));
+    width:100%;
     padding:8px 9px;
   }
   .uae-rate-value{font-size:18px;}
