@@ -757,15 +757,11 @@ body::before{
 }
 
 
+/* Hide the QR download card on mobile only. Desktop and tablet layouts remain unchanged. */
 @media (max-width:768px){
   .app-download-card{
-    width:132px;
-    padding:9px 9px 10px;
-    border-radius:17px;
-    margin:2px auto 0;
+    display:none !important;
   }
-  .app-download-card img{width:92px;height:92px;}
-  .app-download-text{font-size:10px;}
 }
 
 @media (prefers-reduced-motion: reduce){
