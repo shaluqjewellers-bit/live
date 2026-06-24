@@ -299,10 +299,10 @@ body::before{
 /* ANDROID APP QR DOWNLOAD PANEL */
 .app-download-card{
   position:absolute;
-  /* Desktop placement: fully below the status/time bar, in the clear area to the right of the brand. */
-  top:0;
+  /* Wide-screen placement: directly below the India time, in the clear area to the right of the brand. */
+  top:50%;
   right:clamp(170px, 10.5vw, 205px);
-  transform:none;
+  transform:translateY(-50%);
   width:136px;
   box-sizing:border-box;
   padding:10px 10px 11px;
@@ -354,12 +354,7 @@ body::before{
 }
 
 @media (min-width:1101px){
-  /* Reserve vertical space so the QR card stays below the live-time bar. */
-  .hero{
-    min-height:190px;
-    padding-bottom:34px;
-    box-sizing:border-box;
-  }
+  .hero{min-height:136px;box-sizing:border-box;}
 }
 @media (max-width:1100px){
   .hero-inner{flex-wrap:wrap;}
