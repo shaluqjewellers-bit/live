@@ -1139,11 +1139,12 @@ function updateDubaiMarket(){
 updateDubaiMarket();
 setInterval(updateDubaiMarket, 30000);
 
-const prayerCache = {};
 const prayerNames = ["Fajr","Dhuhr","Asr","Maghrib","Isha"];
-let activePrayer=null;
-let activePrayerKey="";
-let prayerRefreshBusy=false;
+let prayerTimesData = null;
+let prayerTimesPromise = null;
+let activePrayer = null;
+let activePrayerKey = "";
+let prayerRefreshBusy = false;
 
 function dubaiDateKey(d){
   const y=d.getFullYear();
@@ -1151,51 +1152,45 @@ function dubaiDateKey(d){
   const day=String(d.getDate()).padStart(2,"0");
   return `${y}-${m}-${day}`;
 }
-function apiDateDubai(d){
-  const day=String(d.getDate()).padStart(2,"0");
-  const m=String(d.getMonth()+1).padStart(2,"0");
-  const y=d.getFullYear();
-  return `${day}-${m}-${y}`;
-}
 function nextDubaiDate(d){
   const n=new Date(d);
   n.setDate(n.getDate()+1);
   n.setHours(0,0,0,0);
   return n;
 }
-function cleanPrayerTime(raw){
-  return String(raw || "").replace(/\s*\(.+\)\s*/,"").trim();
-}
 function prayerDateTime(baseDubaiDate, rawTime){
-  const clean=cleanPrayerTime(rawTime);
+  const clean=String(rawTime || "").trim();
   const parts=clean.split(":");
   const h=Number(parts[0]);
   const m=Number(parts[1]);
+  if(!Number.isInteger(h) || !Number.isInteger(m)) throw new Error("Invalid prayer time");
   const d=new Date(baseDubaiDate);
   d.setHours(h,m,0,0);
   return d;
 }
-async function loadPrayerForDate(dubaiDate){
+async function loadPrayerTimes(){
+  if(prayerTimesData) return prayerTimesData;
+  if(!prayerTimesPromise){
+    prayerTimesPromise = fetch("prayer-times.json", {cache:"no-store"})
+      .then(res => {
+        if(!res.ok) throw new Error("prayer-times.json was not found");
+        return res.json();
+      })
+      .then(json => {
+        if(!json || typeof json !== "object" || !json.times || typeof json.times !== "object"){
+          throw new Error("Invalid prayer-times.json format");
+        }
+        prayerTimesData = json;
+        return json;
+      });
+  }
+  return prayerTimesPromise;
+}
+function getPrayerTimesForDate(data, dubaiDate){
   const key=dubaiDateKey(dubaiDate);
-  if (prayerCache[key]) return prayerCache[key];
-
-  const params=new URLSearchParams({
-    latitude:"25.2048",
-    longitude:"55.2708",
-    method:"8",
-    school:"0",
-    timezonestring:"Asia/Dubai"
-  });
-
-  const url=`https://api.aladhan.com/v1/timings/${apiDateDubai(dubaiDate)}?${params.toString()}`;
-  const res=await fetch(url,{cache:"no-store"});
-  if(!res.ok) throw new Error("Prayer timing fetch failed");
-
-  const json=await res.json();
-  if(!json || !json.data || !json.data.timings) throw new Error("Prayer timing data unavailable");
-
-  prayerCache[key]=json.data.timings;
-  return prayerCache[key];
+  const dayTimes=data.times[key];
+  if(!dayTimes) throw new Error(`No Khaleej Times prayer timings added for ${key}`);
+  return dayTimes;
 }
 function formatPrayerCountdown(totalSeconds){
   let diff=Math.max(0, Math.floor(totalSeconds));
@@ -1230,7 +1225,7 @@ function renderPrayerCountdown(){
   }
 
   const dayText=activePrayer.tomorrow ? " Tomorrow" : "";
-  line.textContent=`Upcoming Prayer \u2022 ${activePrayer.name}${dayText} ${formatAMPM(activePrayer.at)} \u2022 in ${formatPrayerCountdown(seconds)}`;
+  line.textContent=`Upcoming Prayer • ${activePrayer.name}${dayText} ${formatAMPM(activePrayer.at)} • in ${formatPrayerCountdown(seconds)}`;
 }
 async function refreshPrayerDisplay(){
   const line=document.getElementById("prayerLine");
@@ -1239,7 +1234,8 @@ async function refreshPrayerDisplay(){
 
   try{
     const nowDubai=getDubaiDate();
-    const todayTimes=await loadPrayerForDate(nowDubai);
+    const data=await loadPrayerTimes();
+    const todayTimes=getPrayerTimesForDate(data, nowDubai);
     let nextPrayer=null;
 
     for(const name of prayerNames){
@@ -1252,7 +1248,7 @@ async function refreshPrayerDisplay(){
 
     if(!nextPrayer){
       const tomorrow=nextDubaiDate(nowDubai);
-      const tomorrowTimes=await loadPrayerForDate(tomorrow);
+      const tomorrowTimes=getPrayerTimesForDate(data, tomorrow);
       nextPrayer={
         name:"Fajr",
         at:prayerDateTime(tomorrow,tomorrowTimes.Fajr),
@@ -1269,7 +1265,8 @@ async function refreshPrayerDisplay(){
       flashPrayerLine();
     }
   }catch(err){
-    line.textContent="Upcoming Prayer \u2022 Updating...";
+    console.error("Prayer timing error:", err);
+    line.textContent="Upcoming Prayer • Monthly timings need updating";
   }finally{
     prayerRefreshBusy=false;
   }
