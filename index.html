@@ -670,13 +670,30 @@ body::before{
   letter-spacing:.22px;
   white-space:nowrap;
 }
-.uae-rate-value{
-  text-align:right;
+.uae-rate-values{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:end;
+  gap:5px 12px;
   flex:0 0 auto;
-  font-size:30px;
+  min-width:0;
+}
+.rate-currency-label{
+  font-size:9px;
   line-height:1;
   font-weight:900;
-  letter-spacing:.25px;
+  letter-spacing:.55px;
+  color:rgba(94,102,117,.78);
+  text-align:right;
+  white-space:nowrap;
+}
+.uae-rate-value,
+.usd-rate-value{
+  margin-top:3px;
+  text-align:right;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.15px;
   color:transparent;
   background:linear-gradient(90deg,#6c4800,#c89418,#1b2430,#b77900);
   background-clip:text;
@@ -684,12 +701,15 @@ body::before{
   text-shadow:0 8px 18px rgba(200,148,24,.12);
   white-space:nowrap;
 }
+.uae-rate-value{font-size:24px;}
+.usd-rate-value{font-size:22px;}
 .uae-rate-unit{
+  grid-column:1 / -1;
   display:block;
-  margin-top:5px;
-  font-size:11px;
+  margin-top:1px;
+  font-size:10px;
   font-weight:900;
-  letter-spacing:.35px;
+  letter-spacing:.25px;
   color:rgba(27,36,48,.62);
   text-align:right;
   white-space:nowrap;
@@ -738,8 +758,11 @@ body::before{
   }
   .uae-rate-label{font-size:10px;letter-spacing:.85px;}
   .uae-rate-sub{font-size:10px;margin-top:3px;}
-  .uae-rate-value{font-size:21px;}
-  .uae-rate-unit{font-size:10px;margin-top:3px;}
+  .uae-rate-values{gap:4px 8px;}
+  .rate-currency-label{font-size:8px;letter-spacing:.42px;}
+  .uae-rate-value{font-size:18px;}
+  .usd-rate-value{font-size:17px;}
+  .uae-rate-unit{font-size:9px;margin-top:2px;}
 }
 @media (max-width:420px){
   .tv-box{
@@ -752,7 +775,10 @@ body::before{
     width:100%;
     padding:8px 9px;
   }
-  .uae-rate-value{font-size:18px;}
+  .uae-rate-values{gap:3px 6px;}
+  .rate-currency-label{font-size:7px;}
+  .uae-rate-value{font-size:16px;}
+  .usd-rate-value{font-size:15px;}
   .uae-rate-sub{display:none;}
 }
 
@@ -803,7 +829,7 @@ body::before{
     <div class="brand">
       <div class="brand-name">SHALUQ JEWELLERS</div>
       <div class="brand-sub">Live Gold &amp; Silver Prices</div>
-      <div class="brand-prayer" id="prayerLine" aria-live="polite">Upcoming Prayer &bull; Loading...</div>
+      <div class="brand-prayer" id="prayerLine" aria-live="polite">Upcoming Prayer Dubai &bull; Loading...</div>
     </div>
 
     <div class="app-download-card" aria-label="Download the Shaluq Jewellers Android app">
@@ -829,12 +855,19 @@ body::before{
       <div class="tv-inner"><div id="gold"></div></div>
       <div class="uae-rate-panel" id="goldAedPanel" aria-live="polite">
         <div class="uae-rate-left">
-          <div class="uae-rate-label">UAE 24K Gold Rate</div>
+          <div class="uae-rate-label">UAE Gold Rate</div>
           <div class="uae-rate-sub" id="goldOunceLine">Connecting live USD/oz...</div>
         </div>
-        <div>
-          <div class="uae-rate-value" id="goldGramRate">AED --</div>
-          <span class="uae-rate-unit" id="goldUpdateLine">per gram</span>
+        <div class="uae-rate-values">
+          <div>
+            <div class="rate-currency-label">USD PER GRAM</div>
+            <div class="usd-rate-value" id="goldUsdGramRate">USD --</div>
+          </div>
+          <div>
+            <div class="rate-currency-label">AED PER GRAM</div>
+            <div class="uae-rate-value" id="goldGramRate">AED --</div>
+          </div>
+          <span class="uae-rate-unit" id="goldUpdateLine">Live rate</span>
         </div>
       </div>
     </div>
@@ -855,9 +888,16 @@ body::before{
           <div class="uae-rate-label">UAE Silver Rate</div>
           <div class="uae-rate-sub" id="silverOunceLine">Connecting live USD/oz...</div>
         </div>
-        <div>
-          <div class="uae-rate-value" id="silverGramRate">AED --</div>
-          <span class="uae-rate-unit" id="silverUpdateLine">per gram</span>
+        <div class="uae-rate-values">
+          <div>
+            <div class="rate-currency-label">USD PER GRAM</div>
+            <div class="usd-rate-value" id="silverUsdGramRate">USD --</div>
+          </div>
+          <div>
+            <div class="rate-currency-label">AED PER GRAM</div>
+            <div class="uae-rate-value" id="silverGramRate">AED --</div>
+          </div>
+          <span class="uae-rate-unit" id="silverUpdateLine">Live rate</span>
         </div>
       </div>
     </div>
@@ -927,6 +967,13 @@ const METAL_PRICE_API = {
 function formatMoneyAED(value){
   if(!Number.isFinite(value)) return "AED --";
   return "AED " + value.toLocaleString("en-US",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
+}
+function formatMoneyUSD(value){
+  if(!Number.isFinite(value)) return "USD --";
+  return "USD " + value.toLocaleString("en-US",{
     minimumFractionDigits:2,
     maximumFractionDigits:2
   });
@@ -1010,21 +1057,26 @@ async function updateUaeMetalRate(metal){
   const isGold=metal==="gold";
   const endpoints=isGold ? METAL_PRICE_API.gold : METAL_PRICE_API.silver;
   const rateId=isGold ? "goldGramRate" : "silverGramRate";
+  const usdRateId=isGold ? "goldUsdGramRate" : "silverUsdGramRate";
   const ounceId=isGold ? "goldOunceLine" : "silverOunceLine";
   const updateId=isGold ? "goldUpdateLine" : "silverUpdateLine";
   const panelId=isGold ? "goldAedPanel" : "silverAedPanel";
 
   try{
     const usdPerOunce=await fetchMetalUsdPerOunce(endpoints);
-    const aedPerGram=(usdPerOunce / TROY_OUNCE_GRAMS) * USD_TO_AED;
+    const usdPerGram=usdPerOunce / TROY_OUNCE_GRAMS;
+    const aedPerGram=usdPerGram * USD_TO_AED;
 
+    document.getElementById(usdRateId).textContent=formatMoneyUSD(usdPerGram);
     document.getElementById(rateId).textContent=formatMoneyAED(aedPerGram);
     document.getElementById(ounceId).textContent=formatUsdOunce(usdPerOunce);
-    document.getElementById(updateId).textContent="per gram • " + formatAMPM(getDubaiDate()) + " UAE";
+    document.getElementById(updateId).textContent="Live rate • " + formatAMPM(getDubaiDate()) + " UAE";
     pulsePanel(panelId);
   }catch(err){
+    document.getElementById(usdRateId).textContent="USD --";
+    document.getElementById(rateId).textContent="AED --";
     document.getElementById(ounceId).textContent="Live rate not connected";
-    document.getElementById(updateId).textContent="per gram • auto retry";
+    document.getElementById(updateId).textContent="Auto retry";
   }
 }
 function updateUaeMetalRates(){
@@ -1139,6 +1191,8 @@ function updateDubaiMarket(){
 updateDubaiMarket();
 setInterval(updateDubaiMarket, 30000);
 
+// Update prayer-times.json monthly using Dubai timings from:
+ // https://www.khaleejtimes.com/prayer-time-uae
 const prayerNames = ["Fajr","Dhuhr","Asr","Maghrib","Isha"];
 let prayerTimesData = null;
 let prayerTimesPromise = null;
@@ -1189,7 +1243,7 @@ async function loadPrayerTimes(){
 function getPrayerTimesForDate(data, dubaiDate){
   const key=dubaiDateKey(dubaiDate);
   const dayTimes=data.times[key];
-  if(!dayTimes) throw new Error(`No Khaleej Times prayer timings added for ${key}`);
+  if(!dayTimes) throw new Error(`No Khaleej Times Dubai prayer timings added for ${key}`);
   return dayTimes;
 }
 function formatPrayerCountdown(totalSeconds){
@@ -1225,7 +1279,7 @@ function renderPrayerCountdown(){
   }
 
   const dayText=activePrayer.tomorrow ? " Tomorrow" : "";
-  line.textContent=`Upcoming Prayer • ${activePrayer.name}${dayText} ${formatAMPM(activePrayer.at)} • in ${formatPrayerCountdown(seconds)}`;
+  line.textContent=`Upcoming Prayer Dubai • ${activePrayer.name}${dayText} ${formatAMPM(activePrayer.at)} • in ${formatPrayerCountdown(seconds)}`;
 }
 async function refreshPrayerDisplay(){
   const line=document.getElementById("prayerLine");
@@ -1266,7 +1320,7 @@ async function refreshPrayerDisplay(){
     }
   }catch(err){
     console.error("Prayer timing error:", err);
-    line.textContent="Upcoming Prayer • Monthly timings need updating";
+    line.textContent="Upcoming Prayer Dubai • Monthly timings need updating";
   }finally{
     prayerRefreshBusy=false;
   }
