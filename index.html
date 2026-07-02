@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SHALUQ JEWELLERS – Live Gold &amp; Silver</title>
-<link rel="icon" href="logo.png">
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SHALUQ JEWELLERS &ndash; Live Gold & Silver</title>
+<link rel="icon" href="logo.png" />
 
 <style>
 @font-face{font-family:"ClarityCity";src:url("ClarityCity-Regular.ttf") format("truetype");font-weight:400}
@@ -30,12 +31,6 @@ html,body{width:100%;height:100%;margin:0;padding:0;}
   --shadow:0 18px 45px rgba(27,36,48,.12);
   --shadow2:0 0 0 1px rgba(200,148,24,.18), 0 16px 38px rgba(27,36,48,.10);
   --luxuryShadow:0 24px 70px rgba(27,36,48,.13), 0 0 0 1px rgba(200,148,24,.16);
-
-  /* BID / ASK BOARD - EASY MANUAL POSITION CONTROLS
-     Smaller TOP value = board moves UP. Larger TOP value = board moves DOWN. */
-  --bid-ask-top-desktop:255px;
-  --bid-ask-top-mobile:220px;
-  --bid-ask-width:500px;
 }
 
 body{
@@ -626,191 +621,167 @@ body::before{
 
 
 
-/* LIVE BID / ASK OVERLAY
-   ASK = live board rate. BID = live board rate minus USD 0.35 per troy ounce. */
-.bid-ask-panel{
+/* UAE 24K AED PER GRAM OVERLAY - ADDED ONLY, EXISTING LAYOUT UNCHANGED */
+.uae-rate-panel{
   position:absolute;
-  top:var(--bid-ask-top-desktop);
-  right:0;
-  bottom:auto;
-  left:0;
-  margin-inline:auto;
-  width:min(var(--bid-ask-width), calc(100% - 48px));
+  top:18px;
+  right:24px;
+  left:auto;
+  width:min(420px, calc(100% - 48px));
   z-index:4;
-  padding:13px 14px 12px;
-  border-radius:28px;
-  color:#fff9f7;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  padding:14px 16px;
+  border-radius:20px;
   background:
-    radial-gradient(310px 170px at 10% 0%, rgba(255,183,191,.20), transparent 68%),
-    radial-gradient(280px 155px at 100% 100%, rgba(199,82,105,.18), transparent 70%),
-    linear-gradient(135deg, #2b0710 0%, #5a1425 50%, #25060d 100%);
-  border:1px solid rgba(255,224,216,.26);
-  box-shadow:0 16px 34px rgba(41,4,13,.28), inset 0 1px 0 rgba(255,255,255,.16);
-  backdrop-filter:blur(12px);
+    linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,250,240,.92)),
+    radial-gradient(320px 90px at 12% 0%, rgba(200,148,24,.18), transparent 66%);
+  border:1px solid rgba(200,148,24,.36);
+  box-shadow:0 12px 28px rgba(27,36,48,.10), inset 0 1px 0 rgba(255,255,255,.88);
+  backdrop-filter: blur(12px);
   pointer-events:none;
   overflow:hidden;
 }
-.bid-ask-panel::before{
+.uae-rate-panel::before{
   content:"";
   position:absolute;
   inset:0;
+  background:linear-gradient(90deg, transparent 0%, rgba(255,244,207,.50) 50%, transparent 100%);
+  opacity:.58;
   pointer-events:none;
-  opacity:.82;
-  background:
-    linear-gradient(110deg, transparent 19%, rgba(255,255,255,.08) 47%, transparent 66%),
-    linear-gradient(180deg, rgba(255,255,255,.07), transparent 42%);
 }
-.bid-ask-panel > *{position:relative;z-index:1;}
-.bid-ask-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:0 5px 10px;
-}
-.bid-ask-metal{
-  font-size:11px;
+.uae-rate-panel > *{position:relative;z-index:1;}
+.uae-rate-left{min-width:0;}
+.uae-rate-label{
+  font-size:13px;
   font-weight:900;
-  letter-spacing:1.25px;
+  letter-spacing:1.10px;
   text-transform:uppercase;
-  color:rgba(255,245,242,.90);
+  color:#7a5200;
+  white-space:nowrap;
 }
-.bid-ask-status{
-  margin-top:3px;
-  font-size:10px;
+.uae-rate-sub{
+  margin-top:5px;
+  font-size:11px;
   font-weight:800;
-  letter-spacing:.25px;
-  color:rgba(255,237,233,.68);
+  color:rgba(94,102,117,.92);
+  letter-spacing:.22px;
   white-space:nowrap;
 }
-.bid-ask-live{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  padding:5px 8px;
-  border:1px solid rgba(255,211,203,.24);
-  border-radius:999px;
-  background:rgba(255,255,255,.06);
-  color:rgba(255,245,242,.88);
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:.8px;
-  white-space:nowrap;
-}
-.bid-ask-live::before{
-  content:"";
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:#ff646c;
-  box-shadow:0 0 12px rgba(255,100,108,.95);
-}
-.bid-ask-grid{
+.uae-rate-values{
   display:grid;
   grid-template-columns:1fr 1fr;
-  align-items:stretch;
-}
-.bid-ask-side{
+  align-items:end;
+  gap:5px 12px;
+  flex:0 0 auto;
   min-width:0;
-  padding:2px 16px 4px;
-  text-align:center;
 }
-.bid-ask-side + .bid-ask-side{
-  border-left:1px solid rgba(255,237,232,.27);
-}
-.bid-ask-label{
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:34px;
-  line-height:1;
-  font-weight:700;
-  letter-spacing:.25px;
-  color:#fffdfb;
-  text-shadow:0 2px 10px rgba(0,0,0,.24);
-}
-.bid-ask-unit{
-  margin-top:7px;
+.rate-currency-label{
   font-size:9px;
+  line-height:1;
   font-weight:900;
-  letter-spacing:1.05px;
-  color:rgba(255,232,228,.63);
-}
-.bid-ask-price{
-  margin-top:3px;
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:clamp(28px, 3vw, 42px);
-  line-height:1.02;
-  font-weight:700;
-  letter-spacing:.2px;
-  color:#ff5963;
-  text-shadow:0 3px 13px rgba(255,67,82,.24);
+  letter-spacing:.55px;
+  color:rgba(94,102,117,.78);
+  text-align:right;
   white-space:nowrap;
 }
-.bid-ask-gram{
-  margin-top:7px;
+.uae-rate-value,
+.usd-rate-value{
+  margin-top:3px;
+  text-align:right;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.15px;
+  color:transparent;
+  background:linear-gradient(90deg,#6c4800,#c89418,#1b2430,#b77900);
+  background-clip:text;
+  -webkit-background-clip:text;
+  text-shadow:0 8px 18px rgba(200,148,24,.12);
+  white-space:nowrap;
+}
+.uae-rate-value{font-size:24px;}
+.usd-rate-value{font-size:22px;}
+.uae-rate-unit{
+  grid-column:1 / -1;
+  display:block;
+  margin-top:1px;
   font-size:10px;
-  line-height:1.2;
   font-weight:900;
   letter-spacing:.25px;
-  color:rgba(255,242,239,.78);
+  color:rgba(27,36,48,.62);
+  text-align:right;
   white-space:nowrap;
 }
-.bid-ask-panel.rate-updated{animation:bidAskPulse .72s ease-out;}
-@keyframes bidAskPulse{
-  0%{transform:translateY(0) scale(1);box-shadow:0 16px 34px rgba(41,4,13,.28), inset 0 1px 0 rgba(255,255,255,.16);}
-  45%{transform:translateY(-1px) scale(1.012);box-shadow:0 20px 42px rgba(143,20,44,.38), inset 0 1px 0 rgba(255,255,255,.22);}
-  100%{transform:translateY(0) scale(1);box-shadow:0 16px 34px rgba(41,4,13,.28), inset 0 1px 0 rgba(255,255,255,.16);}
+.uae-rate-panel.rate-updated{
+  animation:ratePulse .72s ease-out;
+}
+@keyframes ratePulse{
+  0%{transform:translateY(0) scale(1);box-shadow:0 12px 28px rgba(27,36,48,.10), inset 0 1px 0 rgba(255,255,255,.88);}
+  45%{transform:translateY(-1px) scale(1.012);box-shadow:0 16px 34px rgba(200,148,24,.20), inset 0 1px 0 rgba(255,255,255,.92);}
+  100%{transform:translateY(0) scale(1);box-shadow:0 12px 28px rgba(27,36,48,.10), inset 0 1px 0 rgba(255,255,255,.88);}
 }
 
 @media (max-width:768px){
-  /* Keep the BID / ASK board in the lower unused area of the widget. */
+  /* MOBILE ONLY FIX: keep the UAE gram-rate panel away from the chart.
+     Desktop / TV rules above are unchanged. */
   .tv-box{
     height:430px;
-    display:block;
-    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding:10px 10px 12px;
     box-sizing:border-box;
   }
   .tv-inner{
-    position:absolute;
-    inset:0;
-    min-height:0;
-    border-radius:0;
+    position:relative;
+    inset:auto;
+    flex:1 1 auto;
+    min-height:330px;
+    border-radius:16px;
     overflow:hidden;
     background:#ffffff;
   }
-  .bid-ask-panel{
-    position:absolute;
-    top:var(--bid-ask-top-mobile);
-    right:10px;
-    bottom:auto;
-    left:10px;
-    width:auto;
+  .uae-rate-panel{
+    position:relative;
+    top:auto;
+    right:auto;
+    left:auto;
+    width:100%;
     box-sizing:border-box;
-    padding:11px 10px 10px;
-    border-radius:22px;
+    order:-1;
+    padding:10px 11px;
+    border-radius:17px;
+    gap:9px;
+    flex:0 0 auto;
   }
-  .bid-ask-head{padding:0 4px 8px;}
-  .bid-ask-metal{font-size:10px;letter-spacing:1px;}
-  .bid-ask-status{font-size:9px;}
-  .bid-ask-live{font-size:8px;padding:4px 7px;}
-  .bid-ask-side{padding:1px 9px 3px;}
-  .bid-ask-label{font-size:28px;}
-  .bid-ask-unit{margin-top:6px;font-size:8px;letter-spacing:.8px;}
-  .bid-ask-price{font-size:30px;}
-  .bid-ask-gram{margin-top:6px;font-size:9px;}
+  .uae-rate-label{font-size:10px;letter-spacing:.85px;}
+  .uae-rate-sub{font-size:10px;margin-top:3px;}
+  .uae-rate-values{gap:4px 8px;}
+  .rate-currency-label{font-size:8px;letter-spacing:.42px;}
+  .uae-rate-value{font-size:18px;}
+  .usd-rate-value{font-size:17px;}
+  .uae-rate-unit{font-size:9px;margin-top:2px;}
 }
 @media (max-width:420px){
   .tv-box{
     height:410px;
-    padding:0;
+    padding:9px 8px 11px;
+    gap:9px;
   }
-  .bid-ask-panel{top:calc(var(--bid-ask-top-mobile) - 10px);right:8px;bottom:auto;left:8px;padding:9px 7px 9px;border-radius:20px;}
-  .bid-ask-head{padding:0 3px 7px;}
-  .bid-ask-status{display:none;}
-  .bid-ask-side{padding:1px 6px 2px;}
-  .bid-ask-label{font-size:26px;}
-  .bid-ask-price{font-size:27px;}
-  .bid-ask-gram{font-size:8px;}
+  .tv-inner{min-height:320px;}
+  .uae-rate-panel{
+    width:100%;
+    padding:8px 9px;
+  }
+  .uae-rate-values{gap:3px 6px;}
+  .rate-currency-label{font-size:7px;}
+  .uae-rate-value{font-size:16px;}
+  .usd-rate-value{font-size:15px;}
+  .uae-rate-sub{display:none;}
 }
+
 
 /* Hide the QR download card on mobile only. Desktop and tablet layouts remain unchanged. */
 @media (max-width:768px){
@@ -819,15 +790,23 @@ body::before{
   }
 }
 
-/* Tablet: keep the board panel inside the card with comfortable side margins. */
+
+/* TABLET-ONLY FIX: preserve the desktop/TV overlay style while preventing
+   the USD/oz line from collapsing behind the two gram-rate columns. */
 @media (min-width:769px) and (max-width:1100px){
-  .bid-ask-panel{
-    top:var(--bid-ask-top-desktop);
-    right:0;
-    bottom:auto;
-    left:0;
-    margin-inline:auto;
+  .uae-rate-panel{
+    top:14px;
+    right:16px;
     width:calc(100% - 32px);
+    gap:14px;
+  }
+  .uae-rate-left{
+    flex:1 1 auto;
+    min-width:170px;
+  }
+  .uae-rate-sub{
+    overflow:visible;
+    text-overflow:clip;
   }
 }
 
@@ -840,144 +819,20 @@ body::before{
   .sparkle{animation:none;}
   .logo-wrap::after{animation:none;}
   body::before{animation:none;}
-  .bid-ask-panel.rate-updated{animation:none;}
+  .uae-rate-panel.rate-updated{animation:none;}
 }
-
-
-/* ============================================================
-   VISUAL BID / ASK DRAG EDITOR
-   Use the "Adjust Bid / Ask" button on the live page.
-   Saved positions stay in this browser/device via localStorage.
-   ============================================================ */
-#bidAskDragToggle{
-  position:fixed;
-  left:16px;
-  bottom:82px;
-  z-index:1000;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:11px 14px;
-  border:1px solid rgba(200,148,24,.48);
-  border-radius:999px;
-  background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(255,248,231,.96));
-  color:#6c4800;
-  font:900 13px/1 "ClarityCity",Arial,sans-serif;
-  letter-spacing:.2px;
-  box-shadow:0 12px 28px rgba(27,36,48,.16),inset 0 1px 0 rgba(255,255,255,.9);
-  cursor:pointer;
-}
-#bidAskDragToggle::before{
-  content:"↕";
-  font-size:17px;
-  line-height:1;
-}
-#bidAskDragToggle:hover{transform:translateY(-1px);}
-#bidAskEditor{
-  position:fixed;
-  left:50%;
-  bottom:80px;
-  z-index:1001;
-  display:none;
-  width:min(620px,calc(100vw - 32px));
-  transform:translateX(-50%);
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:11px 12px;
-  box-sizing:border-box;
-  border:1px solid rgba(200,148,24,.42);
-  border-radius:18px;
-  background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(255,248,231,.96));
-  box-shadow:0 16px 36px rgba(27,36,48,.18),inset 0 1px 0 rgba(255,255,255,.88);
-  backdrop-filter:blur(14px);
-}
-body.bid-ask-edit-mode #bidAskEditor{display:flex;}
-body.bid-ask-edit-mode #bidAskDragToggle{display:none;}
-.bid-ask-editor-copy{
-  min-width:0;
-  color:#1b2430;
-  font:800 12px/1.35 "ClarityCity",Arial,sans-serif;
-}
-.bid-ask-editor-copy strong{display:block;color:#6c4800;font-size:13px;letter-spacing:.2px;}
-.bid-ask-editor-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto;}
-.bid-ask-editor-actions button{
-  border:1px solid rgba(200,148,24,.36);
-  border-radius:10px;
-  padding:8px 10px;
-  background:#fff;
-  color:#6c4800;
-  font:900 11px/1 "ClarityCity",Arial,sans-serif;
-  cursor:pointer;
-}
-.bid-ask-editor-actions button:hover{background:#fff4cf;}
-.bid-ask-editor-actions .bid-ask-save-btn{background:#6c4800;color:#fffdf8;border-color:#6c4800;}
-#bidAskEditorMessage{
-  position:absolute;
-  left:0;
-  right:0;
-  top:calc(100% + 7px);
-  text-align:center;
-  color:#6c4800;
-  font:900 11px/1.2 "ClarityCity",Arial,sans-serif;
-  text-shadow:0 1px 0 rgba(255,255,255,.9);
-  pointer-events:none;
-}
-body.bid-ask-edit-mode .bid-ask-panel{
-  pointer-events:auto !important;
-  cursor:grab;
-  user-select:none;
-  -webkit-user-select:none;
-  touch-action:none;
-  outline:2px dashed rgba(255,214,105,.95);
-  outline-offset:4px;
-}
-body.bid-ask-edit-mode .bid-ask-panel.is-dragging{cursor:grabbing;}
-body.bid-ask-edit-mode .bid-ask-panel::after{
-  content:"DRAG TO POSITION";
-  position:absolute;
-  top:-10px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:5;
-  padding:3px 8px;
-  border-radius:999px;
-  background:#fff4cf;
-  color:#6c4800;
-  border:1px solid rgba(200,148,24,.54);
-  font:900 9px/1 "ClarityCity",Arial,sans-serif;
-  letter-spacing:.8px;
-  white-space:nowrap;
-  pointer-events:none;
-  box-shadow:0 6px 12px rgba(27,36,48,.14);
-}
-body.bid-ask-edit-mode .bid-ask-panel.rate-updated{animation:none !important;}
-@media (max-width:768px){
-  #bidAskDragToggle{left:10px;bottom:68px;padding:10px 12px;font-size:12px;}
-  #bidAskEditor{bottom:64px;align-items:flex-start;flex-direction:column;gap:9px;padding:10px;}
-  .bid-ask-editor-actions{width:100%;justify-content:space-between;}
-  .bid-ask-editor-actions button{flex:1;padding:9px 7px;}
-  .bid-ask-editor-copy{font-size:11px;}
-}
-
 </style>
-<style id="bidAskPermanentPositions">
-/* Permanent Bid / Ask placement exported from visual drag mode. */
-#bidAskDragToggle,#bidAskEditor{display:none !important;}
-@media (min-width:769px){#goldBidAskPanel{left:100px !important;top:288px !important;right:auto !important;bottom:auto !important;margin:0 !important;width:710px !important;}
-#silverBidAskPanel{left:110px !important;top:284px !important;right:auto !important;bottom:auto !important;margin:0 !important;width:710px !important;}}
+</head>
 
-</style></head>
-
-<body class="bid-ask-edit-mode">
+<body>
 
 <div class="statusbar">
   <div class="statusbar-inner">
     <div class="sb-left">
-      <span class="dot" id="statusDot" style="background: var(--open); box-shadow: 0 0 16px var(--open);"></span>
-      <span class="sb-title" id="marketLine">Market Open • Closes in 10h 27m 39s</span>
+      <span class="dot" id="statusDot"></span>
+      <span class="sb-title" id="marketLine">--</span>
     </div>
-    <div class="sb-clock" id="clock">3:32 PM UAE • 7:32 AM USA • 12:32 PM LON • 5:02 PM INDIA</div>
+    <div class="sb-clock" id="clock">--</div>
   </div>
 </div>
 
@@ -994,7 +849,7 @@ body.bid-ask-edit-mode .bid-ask-panel.rate-updated{animation:none !important;}
     <div class="brand">
       <div class="brand-name">SHALUQ JEWELLERS</div>
       <div class="brand-sub">Live Gold &amp; Silver Prices</div>
-      <div class="brand-prayer" id="prayerLine" aria-live="polite">Upcoming Prayer Dubai • Monthly timings need updating</div>
+      <div class="brand-prayer" id="prayerLine" aria-live="polite">Upcoming Prayer Dubai &bull; Loading...</div>
     </div>
 
     <div class="app-download-card" aria-label="Download the Shaluq Jewellers Android app">
@@ -1003,7 +858,7 @@ body.bid-ask-edit-mode .bid-ask-panel.rate-updated{animation:none !important;}
     </div>
     </div>
   </div>
-
+</div>
 
 <div class="divider"></div>
 
@@ -1011,69 +866,28 @@ body.bid-ask-edit-mode .bid-ask-panel.rate-updated{animation:none !important;}
   <div class="card" id="goldCard">
     <div class="card-title">
       <div>
-        <div class="ct-name">GOLD • XAUUSD</div>
-        <div class="ct-sub">USD/oz • OANDA</div>
+        <div class="ct-name">GOLD &bull; XAUUSD</div>
+        <div class="ct-sub">USD/oz &bull; OANDA</div>
       </div>
-      <div class="ct-badge">LIVE BID / ASK</div>
+      <div class="ct-badge">UAE LIVE DISPLAY</div>
     </div>
     <div class="tv-box">
-      <div class="tv-inner"><div id="gold"><div style="height: 236px;"><style>
-	.tradingview-widget-copyright {
-		font-size: 13px !important;
-		line-height: 32px !important;
-		text-align: center !important;
-		vertical-align: middle !important;
-		/* @mixin sf-pro-display-font; */
-		font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif !important;
-		color: #B2B5BE !important;
-	}
-
-	.tradingview-widget-copyright .blue-text {
-		color: #2962FF !important;
-	}
-
-	.tradingview-widget-copyright a {
-		text-decoration: none !important;
-		color: #B2B5BE !important;
-	}
-
-	.tradingview-widget-copyright a:visited {
-		color: #B2B5BE !important;
-	}
-
-	.tradingview-widget-copyright a:hover .blue-text {
-		color: #1E53E5 !important;
-	}
-
-	.tradingview-widget-copyright a:active .blue-text {
-		color: #1848CC !important;
-	}
-
-	.tradingview-widget-copyright a:visited .blue-text {
-		color: #2962FF !important;
-	}
-	</style><iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://www.tradingview-widget.com/embed-widget/symbol-info/?locale=en&amp;symbol=OANDA%3AXAUUSD#%7B%22symbol%22%3A%22OANDA%3AXAUUSD%22%2C%22colorTheme%22%3A%22light%22%2C%22isTransparent%22%3Atrue%2C%22height%22%3A203%2C%22utm_source%22%3A%22%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22symbol-info%22%2C%22page-uri%22%3A%22__NHTTP__%22%7D" title="symbol info TradingView widget" lang="en" style="user-select: none; box-sizing: border-box; display: block; height: 236px; width: 100%;"></iframe></div></div></div>
-      <div class="bid-ask-panel" id="goldBidAskPanel" aria-live="polite">
-        <div class="bid-ask-head">
-          <div>
-            <div class="bid-ask-metal">Gold Live Bid &amp; Ask</div>
-            <div class="bid-ask-status" id="goldBidAskStatus">Board rate • Bid − USD 0.35 • 3 sec check • 3:32:19 PM UAE</div>
-          </div>
-          <div class="bid-ask-live">LIVE</div>
+      <div class="tv-inner"><div id="gold"></div></div>
+      <div class="uae-rate-panel" id="goldAedPanel" aria-live="polite">
+        <div class="uae-rate-left">
+          <div class="uae-rate-label">Gold Rate</div>
+          <div class="uae-rate-sub" id="goldOunceLine">Connecting live USD/oz...</div>
         </div>
-        <div class="bid-ask-grid">
-          <div class="bid-ask-side">
-            <div class="bid-ask-label">Bid</div>
-            <div class="bid-ask-unit">USD PER OUNCE</div>
-            <div class="bid-ask-price" id="goldBidOunce">4,067.05</div>
-            <div class="bid-ask-gram" id="goldBidGram">AED 480.41 / GRAM</div>
+        <div class="uae-rate-values">
+          <div>
+            <div class="rate-currency-label">USD PER GRAM</div>
+            <div class="usd-rate-value" id="goldUsdGramRate">USD --</div>
           </div>
-          <div class="bid-ask-side">
-            <div class="bid-ask-label">Ask</div>
-            <div class="bid-ask-unit">USD PER OUNCE</div>
-            <div class="bid-ask-price" id="goldAskOunce">4,067.40</div>
-            <div class="bid-ask-gram" id="goldAskGram">AED 480.45 / GRAM</div>
+          <div>
+            <div class="rate-currency-label">AED PER GRAM</div>
+            <div class="uae-rate-value" id="goldGramRate">AED --</div>
           </div>
+          <span class="uae-rate-unit" id="goldUpdateLine">Live rate</span>
         </div>
       </div>
     </div>
@@ -1082,69 +896,28 @@ body.bid-ask-edit-mode .bid-ask-panel.rate-updated{animation:none !important;}
   <div class="card" id="silverCard">
     <div class="card-title">
       <div>
-        <div class="ct-name">SILVER • XAGUSD</div>
-        <div class="ct-sub">USD/oz • OANDA</div>
+        <div class="ct-name">SILVER &bull; XAGUSD</div>
+        <div class="ct-sub">USD/oz &bull; OANDA</div>
       </div>
-      <div class="ct-badge">LIVE BID / ASK</div>
+      <div class="ct-badge">INTERNATIONAL SPOT</div>
     </div>
     <div class="tv-box">
-      <div class="tv-inner"><div id="silver"><div style="height: 236px;"><style>
-	.tradingview-widget-copyright {
-		font-size: 13px !important;
-		line-height: 32px !important;
-		text-align: center !important;
-		vertical-align: middle !important;
-		/* @mixin sf-pro-display-font; */
-		font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif !important;
-		color: #B2B5BE !important;
-	}
-
-	.tradingview-widget-copyright .blue-text {
-		color: #2962FF !important;
-	}
-
-	.tradingview-widget-copyright a {
-		text-decoration: none !important;
-		color: #B2B5BE !important;
-	}
-
-	.tradingview-widget-copyright a:visited {
-		color: #B2B5BE !important;
-	}
-
-	.tradingview-widget-copyright a:hover .blue-text {
-		color: #1E53E5 !important;
-	}
-
-	.tradingview-widget-copyright a:active .blue-text {
-		color: #1848CC !important;
-	}
-
-	.tradingview-widget-copyright a:visited .blue-text {
-		color: #2962FF !important;
-	}
-	</style><iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://www.tradingview-widget.com/embed-widget/symbol-info/?locale=en&amp;symbol=OANDA%3AXAGUSD#%7B%22symbol%22%3A%22OANDA%3AXAGUSD%22%2C%22colorTheme%22%3A%22light%22%2C%22isTransparent%22%3Atrue%2C%22height%22%3A203%2C%22utm_source%22%3A%22%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22symbol-info%22%2C%22page-uri%22%3A%22__NHTTP__%22%7D" title="symbol info TradingView widget" lang="en" style="user-select: none; box-sizing: border-box; display: block; height: 236px; width: 100%;"></iframe></div></div></div>
-      <div class="bid-ask-panel" id="silverBidAskPanel" aria-live="polite">
-        <div class="bid-ask-head">
-          <div>
-            <div class="bid-ask-metal">Silver Live Bid &amp; Ask</div>
-            <div class="bid-ask-status" id="silverBidAskStatus">Board rate • Bid − USD 0.35 • 3 sec check • 3:32:19 PM UAE</div>
-          </div>
-          <div class="bid-ask-live">LIVE</div>
+      <div class="tv-inner"><div id="silver"></div></div>
+      <div class="uae-rate-panel" id="silverAedPanel" aria-live="polite">
+        <div class="uae-rate-left">
+          <div class="uae-rate-label">Silver Rate</div>
+          <div class="uae-rate-sub" id="silverOunceLine">Connecting live USD/oz...</div>
         </div>
-        <div class="bid-ask-grid">
-          <div class="bid-ask-side">
-            <div class="bid-ask-label">Bid</div>
-            <div class="bid-ask-unit">USD PER OUNCE</div>
-            <div class="bid-ask-price" id="silverBidOunce">59.67</div>
-            <div class="bid-ask-gram" id="silverBidGram">AED 7.05 / GRAM</div>
+        <div class="uae-rate-values">
+          <div>
+            <div class="rate-currency-label">USD PER GRAM</div>
+            <div class="usd-rate-value" id="silverUsdGramRate">USD --</div>
           </div>
-          <div class="bid-ask-side">
-            <div class="bid-ask-label">Ask</div>
-            <div class="bid-ask-unit">USD PER OUNCE</div>
-            <div class="bid-ask-price" id="silverAskOunce">60.02</div>
-            <div class="bid-ask-gram" id="silverAskGram">AED 7.09 / GRAM</div>
+          <div>
+            <div class="rate-currency-label">AED PER GRAM</div>
+            <div class="uae-rate-value" id="silverGramRate">AED --</div>
           </div>
+          <span class="uae-rate-unit" id="silverUpdateLine">Live rate</span>
         </div>
       </div>
     </div>
@@ -1153,7 +926,7 @@ body.bid-ask-edit-mode .bid-ask-panel.rate-updated{animation:none !important;}
 
 <div class="footerline" aria-hidden="true">
   <div class="footerline-inner">
-    <span>© SHALUQ JEWELLERS • Dubai • Fujairah</span>
+    <span>&copy; SHALUQ JEWELLERS &bull; Dubai &bull; Fujairah</span>
   </div>
 </div>
 
@@ -1167,7 +940,7 @@ body.bid-ask-edit-mode .bid-ask-panel.rate-updated{animation:none !important;}
         <div class="item"><span class="sep-dot"></span><span class="badge">FUJAIRAH</span> Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">FOR FUJAIRAH CALL</span> +971 92 439 539</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
-        <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative &bull; Confirm before invoice</div>
         <div class="item"><span class="sep-dot"></span><span class="badge uae">UAE</span> AED billing rate, making charge and VAT may apply as per invoice</div>
       </div>
 
@@ -1178,7 +951,7 @@ body.bid-ask-edit-mode .bid-ask-panel.rate-updated{animation:none !important;}
         <div class="item"><span class="sep-dot"></span><span class="badge">FUJAIRAH</span> Hamad Bin Abdulla Rd, Merashid, Opposite ADCB Bank Fujairah UAE</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">FOR FUJAIRAH CALL</span> +971 92 439 539</div>
         <div class="item"><span class="sep-dot"></span><span class="badge">SHALUQ JEWELLERS</span> Where Luxury Meets Affection</div>
-        <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative • Confirm before invoice</div>
+        <div class="item"><span class="sep-dot"></span><span class="badge note">NOTE</span> Prices are indicative &bull; Confirm before invoice</div>
         <div class="item"><span class="sep-dot"></span><span class="badge uae">UAE</span> AED billing rate, making charge and VAT may apply as per invoice</div>
       </div>
     </div>
@@ -1199,7 +972,7 @@ addTV("OANDA:XAGUSD","silver");
 
 const TROY_OUNCE_GRAMS = 31.1035;
 const USD_TO_AED = 3.674;
-const LIVE_RATE_POLL_MS = 3000;
+const UAE_RATE_REFRESH_MS = 60000;
 const METAL_PRICE_API = {
   gold: [
     "https://api.gold-api.com/price/XAU",
@@ -1211,22 +984,26 @@ const METAL_PRICE_API = {
   ]
 };
 
-// Custom shop spread: the ASK is the live board rate; the BID is USD 0.35 below it per troy ounce.
-const BID_DISCOUNT_USD_PER_OUNCE = 0.35;
-
-function formatOunceNumber(value){
-  if(!Number.isFinite(value)) return "--";
-  return value.toLocaleString("en-US",{
+function formatMoneyAED(value){
+  if(!Number.isFinite(value)) return "AED --";
+  return "AED " + value.toLocaleString("en-US",{
     minimumFractionDigits:2,
     maximumFractionDigits:2
   });
 }
-function formatAedPerGram(value){
-  if(!Number.isFinite(value)) return "AED -- / GRAM";
-  return "AED " + value.toLocaleString("en-US",{
+function formatMoneyUSD(value){
+  if(!Number.isFinite(value)) return "USD --";
+  return "USD " + value.toLocaleString("en-US",{
     minimumFractionDigits:2,
     maximumFractionDigits:2
-  }) + " / GRAM";
+  });
+}
+function formatUsdOunce(value){
+  if(!Number.isFinite(value)) return "USD/oz --";
+  return "USD/oz " + value.toLocaleString("en-US",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
 }
 function safeNumber(value){
   if(typeof value === "number") return value;
@@ -1248,8 +1025,6 @@ function extractOuncePrice(payload){
     return NaN;
   }
 
-  // The first source returns a board price. The Swissquote fallback returns an ask/bid quote;
-  // in that fallback, ask is used as the board price so the custom BID calculation stays consistent.
   const preferredKeys=["price","ask","bid","last","close","value","rate"];
   for(const key of preferredKeys){
     if(Object.prototype.hasOwnProperty.call(payload,key)){
@@ -1286,7 +1061,7 @@ async function fetchMetalUsdPerOunce(urls){
   let lastError=null;
   for(const url of urls){
     try{
-      const res=await fetchWithTimeout(url,2500);
+      const res=await fetchWithTimeout(url,8500);
       if(!res.ok) throw new Error("Metal price fetch failed");
       const payload=await res.json();
       const ouncePrice=extractOuncePrice(payload);
@@ -1298,69 +1073,38 @@ async function fetchMetalUsdPerOunce(urls){
   }
   throw lastError || new Error("Metal price unavailable");
 }
-const requestInFlight={gold:false,silver:false};
-const lastBoardRate={gold:null,silver:null};
-
-function formatTimeWithSeconds(dateObj){
-  let h=dateObj.getHours();
-  const m=String(dateObj.getMinutes()).padStart(2,"0");
-  const s=String(dateObj.getSeconds()).padStart(2,"0");
-  const ampm=h>=12?"PM":"AM";
-  h=h%12; if(h===0) h=12;
-  return `${h}:${m}:${s} ${ampm}`;
-}
-
-async function updateBidAskRate(metal){
-  if(requestInFlight[metal]) return;
-  requestInFlight[metal]=true;
-
+async function updateUaeMetalRate(metal){
   const isGold=metal==="gold";
   const endpoints=isGold ? METAL_PRICE_API.gold : METAL_PRICE_API.silver;
-  const bidOunceId=isGold ? "goldBidOunce" : "silverBidOunce";
-  const askOunceId=isGold ? "goldAskOunce" : "silverAskOunce";
-  const bidGramId=isGold ? "goldBidGram" : "silverBidGram";
-  const askGramId=isGold ? "goldAskGram" : "silverAskGram";
-  const statusId=isGold ? "goldBidAskStatus" : "silverBidAskStatus";
-  const panelId=isGold ? "goldBidAskPanel" : "silverBidAskPanel";
+  const rateId=isGold ? "goldGramRate" : "silverGramRate";
+  const usdRateId=isGold ? "goldUsdGramRate" : "silverUsdGramRate";
+  const ounceId=isGold ? "goldOunceLine" : "silverOunceLine";
+  const updateId=isGold ? "goldUpdateLine" : "silverUpdateLine";
+  const panelId=isGold ? "goldAedPanel" : "silverAedPanel";
 
   try{
-    const askUsdPerOunce=await fetchMetalUsdPerOunce(endpoints);
-    const bidUsdPerOunce=askUsdPerOunce - BID_DISCOUNT_USD_PER_OUNCE;
-    const bidAedPerGram=(bidUsdPerOunce / TROY_OUNCE_GRAMS) * USD_TO_AED;
-    const askAedPerGram=(askUsdPerOunce / TROY_OUNCE_GRAMS) * USD_TO_AED;
-    const priceChanged=lastBoardRate[metal]===null || Math.abs(lastBoardRate[metal]-askUsdPerOunce)>0.000001;
+    const usdPerOunce=await fetchMetalUsdPerOunce(endpoints);
+    const usdPerGram=usdPerOunce / TROY_OUNCE_GRAMS;
+    const aedPerGram=usdPerGram * USD_TO_AED;
 
-    document.getElementById(bidOunceId).textContent=formatOunceNumber(bidUsdPerOunce);
-    document.getElementById(askOunceId).textContent=formatOunceNumber(askUsdPerOunce);
-    document.getElementById(bidGramId).textContent=formatAedPerGram(bidAedPerGram);
-    document.getElementById(askGramId).textContent=formatAedPerGram(askAedPerGram);
-    document.getElementById(statusId).textContent="Board rate • Bid − USD 0.35 • 3 sec check • " + formatTimeWithSeconds(getDubaiDate()) + " UAE";
-
-    if(priceChanged){
-      lastBoardRate[metal]=askUsdPerOunce;
-      pulsePanel(panelId);
-    }
+    document.getElementById(usdRateId).textContent=formatMoneyUSD(usdPerGram);
+    document.getElementById(rateId).textContent=formatMoneyAED(aedPerGram);
+    document.getElementById(ounceId).textContent=formatUsdOunce(usdPerOunce);
+    document.getElementById(updateId).textContent="Live rate • " + formatAMPM(getDubaiDate()) + " UAE";
+    pulsePanel(panelId);
   }catch(err){
-    const status=document.getElementById(statusId);
-    if(lastBoardRate[metal]===null){
-      document.getElementById(bidOunceId).textContent="--";
-      document.getElementById(askOunceId).textContent="--";
-      document.getElementById(bidGramId).textContent="AED -- / GRAM";
-      document.getElementById(askGramId).textContent="AED -- / GRAM";
-      status.textContent="Live rate not connected • Retrying";
-    }else{
-      status.textContent="Latest board rate shown • Feed retrying";
-    }
-  }finally{
-    requestInFlight[metal]=false;
+    document.getElementById(usdRateId).textContent="USD --";
+    document.getElementById(rateId).textContent="AED --";
+    document.getElementById(ounceId).textContent="Live rate not connected";
+    document.getElementById(updateId).textContent="Auto retry";
   }
 }
-function updateBidAskRates(){
-  updateBidAskRate("gold");
-  updateBidAskRate("silver");
+function updateUaeMetalRates(){
+  updateUaeMetalRate("gold");
+  updateUaeMetalRate("silver");
 }
-updateBidAskRates();
-setInterval(updateBidAskRates, LIVE_RATE_POLL_MS);
+updateUaeMetalRates();
+setInterval(updateUaeMetalRates, UAE_RATE_REFRESH_MS);
 
 function getDubaiDate(){
   const now=new Date();
@@ -1606,12 +1350,5 @@ setInterval(refreshPrayerDisplay, 60000);
 setInterval(renderPrayerCountdown, 1000);
 </script>
 
-
-
-<!-- Visual drag controls: only used while you are arranging the Bid / Ask boards. -->
-
-
-
-
-
-</body></html>
+</body>
+</html>
